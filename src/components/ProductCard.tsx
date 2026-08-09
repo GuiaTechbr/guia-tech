@@ -69,15 +69,12 @@ export default function ProductCard({ produto }: Props) {
       </div>
 
 
-    <a
-  href={produto.linkAfiliado || "#"}
-  target="_blank"
-  rel="noopener noreferrer"
+   <a
+  href={`/produtos/${produto.id}`}
   className="mt-5 block w-full rounded-xl bg-black px-4 py-3 text-center font-semibold text-white transition hover:bg-zinc-800"
 >
   Ver oferta
 </a>
-
 
     </div>
   );
