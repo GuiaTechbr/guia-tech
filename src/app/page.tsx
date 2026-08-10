@@ -1,5 +1,6 @@
 import ProductCard from "@/components/ProductCard";
 import Header from "@/components/Header";
+import Categories from "@/components/Categories";
 import prisma from "@/lib/prisma";
 
 export default async function Home() {
@@ -22,7 +23,6 @@ export default async function Home() {
     <>
       <Header />
 
-
       <main className="min-h-screen bg-zinc-100">
 
 
@@ -39,9 +39,10 @@ export default async function Home() {
         </section>
 
 
+        <Categories />
+
 
         <section className="px-8 py-10">
-
 
           <h2 className="mb-6 text-3xl font-bold">
             🔥 Smartphones
@@ -59,14 +60,11 @@ export default async function Home() {
 
           </div>
 
-
         </section>
 
 
 
-
         <section className="px-8 py-10">
-
 
           <h2 className="mb-6 text-3xl font-bold">
             💻 Notebooks
@@ -84,9 +82,7 @@ export default async function Home() {
 
           </div>
 
-
         </section>
-
 
 
       </main>
