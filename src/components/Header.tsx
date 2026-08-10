@@ -78,14 +78,14 @@ export default function Header() {
 
             <li>
 
-              <Link
-                href="#ofertas"
-                className="rounded-lg bg-black px-4 py-2 text-white transition hover:bg-zinc-800"
-              >
-                🔥 Ofertas
-              </Link>
+  <Link
+    href="/ofertas"
+    className="rounded-lg bg-black px-4 py-2 text-white transition hover:bg-zinc-800"
+  >
+    🔥 Ofertas
+  </Link>
 
-            </li>
+</li>
 
 
           </ul>
