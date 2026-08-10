@@ -1,5 +1,6 @@
 import Image from "next/image";
 import prisma from "@/lib/prisma";
+import Header from "@/components/Header";
 
 type Props = {
   params: Promise<{
@@ -27,7 +28,10 @@ export default async function ProdutoPage({ params }: Props) {
   }
 
   return (
-    <main className="min-h-screen bg-zinc-100 p-8">
+    <>
+      <Header />
+
+      <main className="min-h-screen bg-zinc-100 p-8">
       <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-8">
 
         <div className="grid md:grid-cols-2 gap-8">
@@ -75,7 +79,8 @@ export default async function ProdutoPage({ params }: Props) {
 
         </div>
 
-      </div>
+           </div>
     </main>
+    </>
   );
 }

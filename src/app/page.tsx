@@ -1,45 +1,95 @@
-
 import ProductCard from "@/components/ProductCard";
 import Header from "@/components/Header";
 import prisma from "@/lib/prisma";
 
 export default async function Home() {
-  const produtos = await prisma.produto.findMany({
-    orderBy: {
-      criadoEm: "desc",
+
+  const smartphones = await prisma.produto.findMany({
+    where: {
+      categoria: "Smartphone",
     },
   });
+
+
+  const notebooks = await prisma.produto.findMany({
+    where: {
+      categoria: "Notebook",
+    },
+  });
+
 
   return (
     <>
       <Header />
 
-      <main className="min-h-screen bg-zinc-100 p-8">
-      <header className="mb-10">
-        <h1 className="text-4xl font-bold text-zinc-900">
-          Guia Tech
-        </h1>
 
-        <p className="mt-2 text-zinc-600">
-          Tecnologia, ofertas e os melhores produtos em um só lugar.
-        </p>
-      </header>
+      <main className="min-h-screen bg-zinc-100">
 
-      <section>
-        <h2 className="mb-6 text-2xl font-semibold text-zinc-800">
-          Produtos em destaque
-        </h2>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {produtos.map((produto) => (
-  <ProductCard
-    key={produto.id}
-    produto={produto}
-  />
-))}
-</div>
-</section>
-</main>
+        <section className="bg-white px-8 py-16 text-center">
+
+          <h1 className="text-5xl font-bold text-zinc-900">
+            Guia Tech
+          </h1>
+
+          <p className="mt-4 text-lg text-zinc-600">
+            Tecnologia, ofertas e análises dos melhores produtos.
+          </p>
+
+        </section>
+
+
+
+        <section className="px-8 py-10">
+
+
+          <h2 className="mb-6 text-3xl font-bold">
+            🔥 Smartphones
+          </h2>
+
+
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+
+            {smartphones.map((produto)=>(
+              <ProductCard
+                key={produto.id}
+                produto={produto}
+              />
+            ))}
+
+          </div>
+
+
+        </section>
+
+
+
+
+        <section className="px-8 py-10">
+
+
+          <h2 className="mb-6 text-3xl font-bold">
+            💻 Notebooks
+          </h2>
+
+
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+
+            {notebooks.map((produto)=>(
+              <ProductCard
+                key={produto.id}
+                produto={produto}
+              />
+            ))}
+
+          </div>
+
+
+        </section>
+
+
+
+      </main>
     </>
   );
 }
