@@ -71,7 +71,7 @@ export default async function CategoriaPage({ params }: Props) {
 
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
 
-            {produtos.map((produto) => (
+            {produtos.map((produto: (typeof produtos)[number]) => (
 
               <ProductCard
                 key={produto.id}
