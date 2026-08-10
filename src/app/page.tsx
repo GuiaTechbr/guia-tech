@@ -12,11 +12,17 @@ export default async function Home() {
   });
 
 
-  const notebooks = await prisma.produto.findMany({
+    const notebooks = await prisma.produto.findMany({
     where: {
       categoria: "Notebook",
     },
   });
+
+
+  const ofertas = await prisma.produto.findMany({
+    take: 3,
+  });
+
 
 
   return (
@@ -26,17 +32,26 @@ export default async function Home() {
       <main className="min-h-screen bg-zinc-100">
 
 
-        <section className="bg-white px-8 py-16 text-center">
+        <section className="bg-white px-8 py-20 text-center">
 
-          <h1 className="text-5xl font-bold text-zinc-900">
-            Guia Tech
-          </h1>
+  <h1 className="text-5xl font-bold text-zinc-900">
+    🚀 Guia Tech
+  </h1>
 
-          <p className="mt-4 text-lg text-zinc-600">
-            Tecnologia, ofertas e análises dos melhores produtos.
-          </p>
+  <p className="mx-auto mt-5 max-w-2xl text-lg text-zinc-600">
+    Tecnologia inteligente para suas melhores escolhas.
+    Encontre smartphones, notebooks e produtos de tecnologia
+    com análises e ofertas selecionadas.
+  </p>
 
-        </section>
+  <a
+    href="#ofertas"
+    className="mt-8 inline-block rounded-lg bg-black px-8 py-3 font-semibold text-white hover:bg-zinc-800"
+  >
+    Ver ofertas
+  </a>
+
+</section>
 
 
         <Categories />
@@ -84,7 +99,31 @@ export default async function Home() {
 
         </section>
 
+        <section
+  id="ofertas"
+  className="bg-white px-8 py-14"
+>
+          <h2 className="text-center text-3xl font-bold text-zinc-900">
+  ⭐ Ofertas em destaque
+</h2>
 
+<p className="mb-8 mt-3 text-center text-zinc-600">
+  Produtos selecionados com grandes oportunidades de compra.
+</p>
+
+
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+
+            {ofertas.map((produto) => (
+              <ProductCard
+                key={produto.id}
+                produto={produto}
+              />
+            ))}
+
+          </div>
+
+        </section>
       </main>
     </>
   );
