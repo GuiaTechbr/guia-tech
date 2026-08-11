@@ -1,4 +1,5 @@
 import ProductCard from "@/components/ProductCard";
+import type { Produto } from "@prisma/client";
 import Header from "@/components/Header";
 import Categories from "@/components/Categories";
 import FeaturedProducts from "@/components/FeaturedProducts";
@@ -68,7 +69,7 @@ export default async function Home() {
 
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
 
-            {smartphones.map((produto)=>(
+            {smartphones.map((produto: Produto) => (
               <ProductCard
                 key={produto.id}
                 produto={produto}
@@ -90,7 +91,7 @@ export default async function Home() {
 
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
 
-            {notebooks.map((produto)=>(
+            {notebooks.map((produto: Produto) => (
               <ProductCard
                 key={produto.id}
                 produto={produto}
@@ -116,7 +117,7 @@ export default async function Home() {
 
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
 
-            {ofertas.map((produto) => (
+            {ofertas.map((produto: Produto) => (
               <ProductCard
                 key={produto.id}
                 produto={produto}
