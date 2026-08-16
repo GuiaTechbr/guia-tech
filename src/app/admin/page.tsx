@@ -1,4 +1,13 @@
-export default function AdminPage() {
+import { redirect } from "next/navigation";
+import { getAdminLogado } from "@/lib/admin-auth";
+
+export default async function AdminPage() {
+  const admin = await getAdminLogado();
+
+  if (!admin) {
+    redirect("/admin/login");
+  }
+
   return (
     <main className="min-h-screen bg-zinc-100 px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
