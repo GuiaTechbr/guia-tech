@@ -49,8 +49,8 @@ export default async function FeaturedProducts() {
               Em breve teremos novos produtos em destaque.
             </p>
           </div>
-        ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                ) : (
+          <div className="flex gap-3 overflow-x-auto pb-4 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible lg:grid-cols-3">
             {produtos.map((produto) => (
               <ProductCard
                 key={produto.id}

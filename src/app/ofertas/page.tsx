@@ -93,7 +93,7 @@ export default async function OfertasPage() {
                         </div>
                       </div>
 
-                      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                      <div className="flex gap-3 overflow-x-auto pb-4 snap-x snap-mandatory touch-pan-x sm:grid sm:grid-cols-2 sm:gap-8 sm:overflow-visible sm:pb-0 sm:snap-none lg:grid-cols-3">
                         {produtosCategoria.map((produto) => (
                           <ProductCard
                             key={produto.id}

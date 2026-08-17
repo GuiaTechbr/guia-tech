@@ -66,7 +66,7 @@ export default async function Home() {
           </h2>
 
 
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+         <div className="flex gap-3 overflow-x-auto pb-4 sm:grid sm:grid-cols-2 sm:gap-8 sm:overflow-visible lg:grid-cols-3">
 
             {smartphones.map((produto) => (
               <ProductCard
@@ -88,7 +88,7 @@ export default async function Home() {
           </h2>
 
 
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="flex gap-3 overflow-x-auto pb-4 sm:grid sm:grid-cols-2 sm:gap-8 sm:overflow-visible lg:grid-cols-3">
 
             {notebooks.map((produto) => (
               <ProductCard
@@ -114,7 +114,7 @@ export default async function Home() {
 </p>
 
 
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="flex gap-5 overflow-x-auto pb-4 sm:grid sm:grid-cols-2 sm:gap-8 sm:overflow-visible lg:grid-cols-3">
 
             {ofertas.map((produto) => (
               <ProductCard

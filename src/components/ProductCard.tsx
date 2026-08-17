@@ -18,9 +18,9 @@ interface Props {
 
 export default function ProductCard({ produto }: Props) {
   return (
-    <div className="group rounded-2xl bg-white p-5 shadow-md transition hover:-translate-y-1 hover:shadow-xl">
+    <div className="group w-[31vw] min-w-[120px] max-w-[180px] shrink-0 rounded-xl bg-white p-2 shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:w-auto sm:max-w-none sm:p-4">
 
-      <div className="relative mb-5 flex h-56 items-center justify-center rounded-xl bg-zinc-100 overflow-hidden">
+      <div className="relative mb-2 flex h-28 items-center justify-center overflow-hidden rounded-lg bg-zinc-100 sm:mb-4 sm:h-48">
 
         {produto.imagem ? (
           <Image
@@ -28,50 +28,37 @@ export default function ProductCard({ produto }: Props) {
             alt={produto.nome}
             width={350}
             height={350}
-            className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
+            className="h-full w-full object-contain p-2 transition duration-300 group-hover:scale-105"
           />
         ) : (
-          <span className="text-zinc-400">
+          <span className="text-xs text-zinc-400">
             Sem imagem
           </span>
         )}
 
       </div>
 
-      <span className="rounded-full bg-black px-3 py-1 text-xs text-white">
+      <span className="inline-block rounded-full bg-black px-2 py-0.5 text-[9px] text-white sm:px-3 sm:py-1 sm:text-xs">
         {produto.categoria}
       </span>
 
-
-      <h3 className="mt-4 text-xl font-bold text-zinc-900">
+      <h3 className="mt-2 line-clamp-2 text-xs font-bold leading-tight text-zinc-900 sm:mt-3 sm:text-lg">
         {produto.nome}
       </h3>
 
-
-      <p className="mt-2 text-sm text-zinc-500">
+      <p className="mt-1 truncate text-[10px] text-zinc-500 sm:text-sm">
         {produto.marca}
       </p>
 
-
-      {produto.descricao && (
-        <p className="mt-3 text-sm text-zinc-600">
-          {produto.descricao}
-        </p>
-      )}
-
-
-      <div className="mt-5 flex items-center justify-between">
-
-        <p className="text-2xl font-bold text-green-600">
+      <div className="mt-2 sm:mt-4">
+        <p className="text-sm font-bold text-green-600 sm:text-xl">
           R$ {produto.preco?.toLocaleString("pt-BR")}
         </p>
-
       </div>
-
 
       <a
         href={`/produtos/${produto.id}`}
-        className="mt-5 block w-full rounded-xl bg-black px-4 py-3 text-center font-semibold text-white transition hover:bg-zinc-800"
+        className="mt-2 block w-full rounded-lg bg-black px-2 py-2 text-center text-[10px] font-semibold text-white transition hover:bg-zinc-800 sm:mt-4 sm:px-4 sm:py-3 sm:text-sm"
       >
         Ver oferta
       </a>
