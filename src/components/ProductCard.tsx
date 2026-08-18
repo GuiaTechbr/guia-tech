@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 interface Produto {
   id: number;
@@ -18,10 +19,11 @@ interface Props {
 
 export default function ProductCard({ produto }: Props) {
   return (
-    <div className="group w-[31vw] min-w-[120px] max-w-[180px] shrink-0 rounded-xl bg-white p-2 shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:w-auto sm:max-w-none sm:p-4">
-
+    <Link
+      href={`/produtos/${produto.id}`}
+      className="group block w-[31vw] min-w-[120px] max-w-[180px] shrink-0 rounded-xl bg-white p-2 shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:w-auto sm:max-w-none sm:p-4"
+    >
       <div className="relative mb-2 flex h-28 items-center justify-center overflow-hidden rounded-lg bg-zinc-100 sm:mb-4 sm:h-48">
-
         {produto.imagem ? (
           <Image
             src={produto.imagem}
@@ -35,7 +37,6 @@ export default function ProductCard({ produto }: Props) {
             Sem imagem
           </span>
         )}
-
       </div>
 
       <span className="inline-block rounded-full bg-black px-2 py-0.5 text-[9px] text-white sm:px-3 sm:py-1 sm:text-xs">
@@ -56,13 +57,9 @@ export default function ProductCard({ produto }: Props) {
         </p>
       </div>
 
-      <a
-        href={`/produtos/${produto.id}`}
-        className="mt-2 block w-full rounded-lg bg-black px-2 py-2 text-center text-[10px] font-semibold text-white transition hover:bg-zinc-800 sm:mt-4 sm:px-4 sm:py-3 sm:text-sm"
-      >
+      <div className="mt-2 w-full rounded-lg bg-black px-2 py-2 text-center text-[10px] font-semibold text-white transition group-hover:bg-zinc-800 sm:mt-4 sm:px-4 sm:py-3 sm:text-sm">
         Ver oferta
-      </a>
-
-    </div>
+      </div>
+    </Link>
   );
 }
