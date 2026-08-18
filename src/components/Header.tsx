@@ -11,11 +11,12 @@ export default function Header() {
   };
 
   return (
-    <header className="border-b bg-white shadow-sm">
+    <header className="border-b border-blue-100 bg-white shadow-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
+
         {/* LOGO */}
         <Link href="/" className="group" onClick={fecharMenu}>
-          <h1 className="text-2xl font-bold text-zinc-900 transition group-hover:text-black sm:text-3xl">
+          <h1 className="text-2xl font-bold text-blue-700 transition group-hover:text-blue-800 sm:text-3xl">
             🚀 Guia Tech
           </h1>
 
@@ -28,7 +29,7 @@ export default function Header() {
         <button
           type="button"
           onClick={() => setMenuAberto(!menuAberto)}
-          className="rounded-lg border border-zinc-300 p-2 text-zinc-700 transition hover:bg-zinc-100 md:hidden"
+          className="rounded-lg border border-blue-200 bg-blue-50 p-2 text-blue-700 transition hover:bg-blue-100 md:hidden"
           aria-label={menuAberto ? "Fechar menu" : "Abrir menu"}
           aria-expanded={menuAberto}
         >
@@ -42,10 +43,11 @@ export default function Header() {
         {/* MENU DESKTOP */}
         <nav className="hidden md:block">
           <ul className="flex items-center gap-5 text-sm font-medium text-zinc-700 lg:gap-6">
+
             <li>
               <Link
                 href="/"
-                className="transition hover:text-black"
+                className="transition hover:text-blue-700"
               >
                 Início
               </Link>
@@ -54,7 +56,7 @@ export default function Header() {
             <li>
               <Link
                 href="/categoria/Smartphone"
-                className="transition hover:text-black"
+                className="transition hover:text-blue-700"
               >
                 Smartphones
               </Link>
@@ -63,7 +65,7 @@ export default function Header() {
             <li>
               <Link
                 href="/categoria/Notebook"
-                className="transition hover:text-black"
+                className="transition hover:text-blue-700"
               >
                 Notebooks
               </Link>
@@ -72,7 +74,7 @@ export default function Header() {
             <li>
               <Link
                 href="/categoria/Smart%20TV"
-                className="transition hover:text-black"
+                className="transition hover:text-blue-700"
               >
                 Smart TVs
               </Link>
@@ -81,7 +83,7 @@ export default function Header() {
             <li>
               <Link
                 href="/categoria/Games"
-                className="transition hover:text-black"
+                className="transition hover:text-blue-700"
               >
                 Games
               </Link>
@@ -90,24 +92,26 @@ export default function Header() {
             <li>
               <Link
                 href="/ofertas"
-                className="rounded-lg bg-black px-4 py-2 text-white transition hover:bg-zinc-800"
+                className="rounded-lg bg-red-600 px-4 py-2 font-semibold text-white shadow-sm transition hover:bg-red-700 hover:shadow-md"
               >
                 🔥 Ofertas
               </Link>
             </li>
+
           </ul>
         </nav>
       </div>
 
       {/* MENU MOBILE */}
       {menuAberto && (
-        <nav className="border-t bg-white md:hidden">
+        <nav className="border-t border-blue-100 bg-blue-50/60 md:hidden">
           <ul className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
+
             <li>
               <Link
                 href="/"
                 onClick={fecharMenu}
-                className="block border-b border-zinc-100 py-3 font-medium text-zinc-700 transition hover:text-black"
+                className="block border-b border-blue-100 py-3 font-medium text-zinc-700 transition hover:text-blue-700"
               >
                 Início
               </Link>
@@ -117,7 +121,7 @@ export default function Header() {
               <Link
                 href="/categoria/Smartphone"
                 onClick={fecharMenu}
-                className="block border-b border-zinc-100 py-3 font-medium text-zinc-700 transition hover:text-black"
+                className="block border-b border-blue-100 py-3 font-medium text-zinc-700 transition hover:text-blue-700"
               >
                 Smartphones
               </Link>
@@ -127,7 +131,7 @@ export default function Header() {
               <Link
                 href="/categoria/Notebook"
                 onClick={fecharMenu}
-                className="block border-b border-zinc-100 py-3 font-medium text-zinc-700 transition hover:text-black"
+                className="block border-b border-blue-100 py-3 font-medium text-zinc-700 transition hover:text-blue-700"
               >
                 Notebooks
               </Link>
@@ -137,7 +141,7 @@ export default function Header() {
               <Link
                 href="/categoria/Smart%20TV"
                 onClick={fecharMenu}
-                className="block border-b border-zinc-100 py-3 font-medium text-zinc-700 transition hover:text-black"
+                className="block border-b border-blue-100 py-3 font-medium text-zinc-700 transition hover:text-blue-700"
               >
                 Smart TVs
               </Link>
@@ -147,7 +151,7 @@ export default function Header() {
               <Link
                 href="/categoria/Games"
                 onClick={fecharMenu}
-                className="block border-b border-zinc-100 py-3 font-medium text-zinc-700 transition hover:text-black"
+                className="block border-b border-blue-100 py-3 font-medium text-zinc-700 transition hover:text-blue-700"
               >
                 Games
               </Link>
@@ -157,11 +161,12 @@ export default function Header() {
               <Link
                 href="/ofertas"
                 onClick={fecharMenu}
-                className="block rounded-lg bg-black px-4 py-3 text-center font-medium text-white transition hover:bg-zinc-800"
+                className="block rounded-lg bg-red-600 px-4 py-3 text-center font-semibold text-white shadow-sm transition hover:bg-red-700"
               >
                 🔥 Ofertas
               </Link>
             </li>
+
           </ul>
         </nav>
       )}
