@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import SearchBar from "@/components/SearchBar";
 
 export default function Header() {
   const [menuAberto, setMenuAberto] = useState(false);
@@ -24,6 +25,11 @@ export default function Header() {
             Tecnologia, ofertas e análises
           </p>
         </Link>
+
+         {/* BUSCA DESKTOP */}
+<div className="hidden flex-1 md:block md:max-w-xl">
+  <SearchBar />
+</div>
 
         {/* BOTÃO DO MENU MOBILE */}
         <button
@@ -101,6 +107,11 @@ export default function Header() {
           </ul>
         </nav>
       </div>
+
+{/* BUSCA MOBILE */}
+<div className="mt-4 md:hidden">
+  <SearchBar />
+</div>
 
       {/* MENU MOBILE */}
       {menuAberto && (
