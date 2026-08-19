@@ -37,7 +37,8 @@ export default async function Home() {
             </span>
 
             <h1 className="mt-5 text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl lg:text-6xl">
-              🚀 Guia Tech
+                                         
+              🚀 Guia Tech    
             </h1>
 
             <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-zinc-600 sm:text-lg">

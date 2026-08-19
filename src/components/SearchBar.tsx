@@ -22,7 +22,7 @@ export default function SearchBar() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mx-auto mt-8 w-full max-w-2xl"
+      className="w-full"
     >
       <div className="flex overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm transition focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-100">
 
@@ -37,7 +37,7 @@ export default function SearchBar() {
             onChange={(event) => setBusca(event.target.value)}
             placeholder="O que você está procurando?"
             aria-label="Buscar produtos"
-            className="min-w-0 flex-1 bg-transparent px-3 py-4 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 sm:text-base"
+            className="min-w-0 flex-1 bg-transparent px-3 py-2s text-sm text-zinc-900 outline-none placeholder:text-zinc-400 sm:text-base"
           />
         </div>
 

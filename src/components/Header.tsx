@@ -12,7 +12,10 @@ export default function Header() {
   };
 
   return (
-    <header className="border-b border-blue-100 bg-white shadow-sm">
+    <header
+  className="border-b border-blue-100 bg-cover bg-center shadow-sm"
+  style={{ backgroundImage: "url('/banner-tech.jpg')" }}
+>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
 
         {/* LOGO */}
@@ -22,12 +25,12 @@ export default function Header() {
           </h1>
 
           <p className="text-xs text-zinc-500 sm:text-sm">
-            Tecnologia, ofertas e análises
+            Tecnologia, ofertas e análisess
           </p>
         </Link>
 
          {/* BUSCA DESKTOP */}
-<div className="hidden flex-1 md:block md:max-w-xl">
+<div className="hidden w-full max-w-md px-1  md:block">
   <SearchBar />
 </div>
 
@@ -73,7 +76,7 @@ export default function Header() {
                 href="/categoria/Notebook"
                 className="transition hover:text-blue-700"
               >
-                Notebooks
+                Notebooks  
               </Link>
             </li>
 
