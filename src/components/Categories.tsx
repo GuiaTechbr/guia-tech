@@ -31,57 +31,61 @@ const categorias = [
 
 export default function Categories() {
   return (
-    <section className="px-4 py-12 sm:px-6 lg:px-8">
+    <section className="px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
       <div className="mx-auto max-w-7xl">
+        <div className="mb-7 flex items-end justify-between gap-4">
+          <div>
+            <span className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-600">
+              Explore
+            </span>
 
-        <div className="mb-7">
-          <h2 className="text-3xl font-bold tracking-tight text-zinc-900">
-            Categorias
-          </h2>
+            <h2 className="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+              Categorias
+            </h2>
 
-          <p className="mt-2 text-sm text-zinc-500">
-            Encontre tecnologia para todos os momentos.
-          </p>
+            <p className="mt-2 max-w-xl text-sm leading-6 text-slate-500 sm:text-base">
+              Encontre tecnologia para todos os momentos e necessidades.
+            </p>
+          </div>
         </div>
 
-        <div className="flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory touch-pan-x sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:pb-0 sm:snap-none lg:grid-cols-5">
-
+        <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory touch-pan-x sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:pb-0 sm:snap-none lg:grid-cols-5">
           {categorias.map((categoria) => (
             <Link
               key={categoria.nome}
               href={`/categoria/${encodeURIComponent(categoria.url)}`}
-              className="group flex min-h-[190px] w-[78vw] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-zinc-300 hover:shadow-xl sm:w-auto"
+              className="group flex min-h-[205px] w-[43vw] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_12px_30px_rgba(37,99,235,0.14)] sm:w-auto sm:p-4"
             >
-
-              <div className="flex flex-1 items-center justify-center rounded-xl bg-zinc-50 p-3 transition-colors duration-300 group-hover:bg-zinc-100">
-
+              <div className="relative flex flex-1 items-center justify-center overflow-hidden rounded-xl bg-slate-50 p-3">
                 <Image
                   src={categoria.imagem}
                   alt={categoria.nome}
-                  width={160}
-                  height={120}
-                  className="h-28 w-36 object-contain transition-transform duration-300 group-hover:scale-105"
+                  width={180}
+                  height={140}
+                  className="h-28 w-36 object-contain transition-transform duration-300 group-hover:scale-110 sm:h-32 sm:w-40"
                 />
 
+                <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-slate-200/70" />
               </div>
 
-              <div className="pt-4 text-center">
-
-                <h3 className="font-semibold text-zinc-900 transition-colors duration-300 group-hover:text-black">
+              <div className="px-1 pt-4">
+                <h3 className="font-semibold text-slate-900 transition-colors duration-300 group-hover:text-blue-700">
                   {categoria.nome}
                 </h3>
 
-                <p className="mt-1 text-xs text-zinc-400">
-                  Ver produtos →
-                </p>
+                <div className="mt-1 flex items-center justify-between">
+                  <span className="text-xs text-slate-400">
+                    Ver produtos
+                  </span>
 
+                  <span className="text-sm font-semibold text-blue-600 transition-transform duration-300 group-hover:translate-x-1">
+                    →
+                  </span>
+                </div>
               </div>
-
             </Link>
           ))}
-
         </div>
-
       </div>
     </section>
   );

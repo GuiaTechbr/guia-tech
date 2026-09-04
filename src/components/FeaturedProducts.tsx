@@ -16,15 +16,15 @@ export default async function FeaturedProducts() {
         <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
 
           <div>
-            <span className="text-sm font-semibold uppercase tracking-wider text-red-600">
+            <span className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-600">
               Ofertas selecionadas
             </span>
 
-            <h2 className="mt-1 text-3xl font-bold tracking-tight text-zinc-900">
-              🔥 Ofertas em destaque
+            <h2 className="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+              Ofertas em destaque
             </h2>
 
-            <p className="mt-2 max-w-2xl text-sm text-zinc-500">
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500 sm:text-base">
               Produtos selecionados para você encontrar boas oportunidades
               em tecnologia.
             </p>
@@ -32,7 +32,7 @@ export default async function FeaturedProducts() {
 
           <a
             href="/ofertas"
-            className="w-fit text-sm font-semibold text-zinc-700 transition hover:text-black"
+            className="w-fit text-sm font-semibold text-slate-600 transition-colors duration-300 hover:text-blue-600"
           >
             Ver todas as ofertas →
           </a>
@@ -40,16 +40,16 @@ export default async function FeaturedProducts() {
         </div>
 
         {produtos.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-zinc-300 bg-white p-10 text-center">
-            <p className="font-medium text-zinc-700">
+          <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center">
+            <p className="font-medium text-slate-700">
               Nenhuma oferta disponível no momento.
             </p>
 
-            <p className="mt-2 text-sm text-zinc-500">
+            <p className="mt-2 text-sm text-slate-500">
               Em breve teremos novos produtos em destaque.
             </p>
           </div>
-                ) : (
+        ) : (
           <div className="flex gap-3 overflow-x-auto pb-4 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible lg:grid-cols-3">
             {produtos.map((produto) => (
               <ProductCard
