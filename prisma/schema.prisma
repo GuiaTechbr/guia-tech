@@ -7,15 +7,21 @@ datasource db {
 }
 
 model Produto {
-  id          Int      @id @default(autoincrement())
-  nome        String
-  marca       String
-  categoria   String
-  descricao   String?
-  preco       Float?
-  imagem      String?
-  linkAfiliado String?
-  criadoEm    DateTime @default(now())
+  id              Int      @id @default(autoincrement())
+  nome            String
+  marca           String
+  categoria       String
+  descricao       String?
+  preco           Float?
+  imagem          String?
+  linkAfiliado    String?
+
+  destaques       String?
+  fichaTecnica    String?
+  pontosPositivos String?
+  pontosAtencao   String?
+
+  criadoEm        DateTime @default(now())
 }
 
 model Admin {

@@ -11,6 +11,10 @@ type Produto = {
   preco: number | null;
   imagem: string | null;
   linkAfiliado: string | null;
+  destaques: string | null;
+  fichaTecnica: string | null;
+  pontosPositivos: string | null;
+  pontosAtencao: string | null;
 };
 
 type Formulario = {
@@ -21,6 +25,10 @@ type Formulario = {
   preco: string;
   imagem: string;
   linkAfiliado: string;
+  destaques: string;
+  fichaTecnica: string;
+  pontosPositivos: string;
+  pontosAtencao: string;
 };
 
 const formularioInicial: Formulario = {
@@ -31,6 +39,10 @@ const formularioInicial: Formulario = {
   preco: "",
   imagem: "",
   linkAfiliado: "",
+  destaques: "",
+  fichaTecnica: "",
+  pontosPositivos: "",
+  pontosAtencao: "",
 };
 
 export default function AdminProdutosPage() {
@@ -92,6 +104,10 @@ export default function AdminProdutosPage() {
           : "",
       imagem: produto.imagem || "",
       linkAfiliado: produto.linkAfiliado || "",
+      destaques: produto.destaques || "",
+      fichaTecnica: produto.fichaTecnica || "",
+      pontosPositivos: produto.pontosPositivos || "",
+      pontosAtencao: produto.pontosAtencao || "",
     });
 
     window.scrollTo({
@@ -202,7 +218,6 @@ export default function AdminProdutosPage() {
   return (
     <main className="min-h-screen bg-zinc-100 px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-
         <div className="mb-8">
           <a
             href="/admin"
@@ -266,7 +281,7 @@ export default function AdminProdutosPage() {
                 onChange={(event) =>
                   alterarCampo("nome", event.target.value)
                 }
-                className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none focus:border-black"
+                className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none focus:border-blue-500"
                 placeholder="Samsung Galaxy S25 Ultra"
               />
             </div>
@@ -282,7 +297,7 @@ export default function AdminProdutosPage() {
                 onChange={(event) =>
                   alterarCampo("marca", event.target.value)
                 }
-                className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none focus:border-black"
+                className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none focus:border-blue-500"
                 placeholder="Samsung"
               />
             </div>
@@ -296,12 +311,9 @@ export default function AdminProdutosPage() {
                 required
                 value={formulario.categoria}
                 onChange={(event) =>
-                  alterarCampo(
-                    "categoria",
-                    event.target.value
-                  )
+                  alterarCampo("categoria", event.target.value)
                 }
-                className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none focus:border-black"
+                className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none focus:border-blue-500"
                 placeholder="Smartphone"
               />
             </div>
@@ -318,7 +330,7 @@ export default function AdminProdutosPage() {
                 onChange={(event) =>
                   alterarCampo("preco", event.target.value)
                 }
-                className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none focus:border-black"
+                className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none focus:border-blue-500"
                 placeholder="6999.90"
               />
             </div>
@@ -331,14 +343,75 @@ export default function AdminProdutosPage() {
               <textarea
                 value={formulario.descricao}
                 onChange={(event) =>
-                  alterarCampo(
-                    "descricao",
-                    event.target.value
-                  )
+                  alterarCampo("descricao", event.target.value)
+                }
+                rows={5}
+                className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none focus:border-blue-500"
+                placeholder="Descrição geral do produto..."
+              />
+            </div>
+
+            <div className="md:col-span-2">
+              <label className="mb-2 block text-sm font-semibold text-zinc-700">
+                Destaques
+              </label>
+
+              <textarea
+                value={formulario.destaques}
+                onChange={(event) =>
+                  alterarCampo("destaques", event.target.value)
                 }
                 rows={4}
-                className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none focus:border-black"
-                placeholder="Descrição do produto..."
+                className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none focus:border-blue-500"
+                placeholder={"Exemplo:\nTela de alta qualidade\nCâmeras avançadas\nExcelente desempenho"}
+              />
+            </div>
+
+            <div className="md:col-span-2">
+              <label className="mb-2 block text-sm font-semibold text-zinc-700">
+                Ficha técnica
+              </label>
+
+              <textarea
+                value={formulario.fichaTecnica}
+                onChange={(event) =>
+                  alterarCampo("fichaTecnica", event.target.value)
+                }
+                rows={6}
+                className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none focus:border-blue-500"
+                placeholder={"Exemplo:\nProcessador: ...\nMemória RAM: ...\nArmazenamento: ...\nTela: ..."}
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-semibold text-zinc-700">
+                Pontos positivos
+              </label>
+
+              <textarea
+                value={formulario.pontosPositivos}
+                onChange={(event) =>
+                  alterarCampo("pontosPositivos", event.target.value)
+                }
+                rows={6}
+                className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none focus:border-blue-500"
+                placeholder={"Exemplo:\nÓtimo desempenho\nBoa construção\nCâmeras versáteis"}
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-semibold text-zinc-700">
+                Pontos de atenção
+              </label>
+
+              <textarea
+                value={formulario.pontosAtencao}
+                onChange={(event) =>
+                  alterarCampo("pontosAtencao", event.target.value)
+                }
+                rows={6}
+                className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none focus:border-blue-500"
+                placeholder={"Exemplo:\nPreço elevado\nAcessórios vendidos separadamente"}
               />
             </div>
 
@@ -353,7 +426,7 @@ export default function AdminProdutosPage() {
                 onChange={(event) =>
                   alterarCampo("imagem", event.target.value)
                 }
-                className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none focus:border-black"
+                className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none focus:border-blue-500"
                 placeholder="https://..."
               />
             </div>
@@ -367,12 +440,9 @@ export default function AdminProdutosPage() {
                 type="text"
                 value={formulario.linkAfiliado}
                 onChange={(event) =>
-                  alterarCampo(
-                    "linkAfiliado",
-                    event.target.value
-                  )
+                  alterarCampo("linkAfiliado", event.target.value)
                 }
-                className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none focus:border-black"
+                className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none focus:border-blue-500"
                 placeholder="https://www.amazon.com.br/..."
               />
             </div>
@@ -381,7 +451,7 @@ export default function AdminProdutosPage() {
               <button
                 type="submit"
                 disabled={salvando}
-                className="w-full rounded-xl bg-black px-5 py-3 font-semibold text-white transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {salvando
                   ? "Salvando..."
@@ -415,8 +485,7 @@ export default function AdminProdutosPage() {
               </p>
 
               <p className="mt-2 text-sm text-zinc-500">
-                Use o formulário acima para cadastrar o
-                primeiro produto.
+                Use o formulário acima para cadastrar o primeiro produto.
               </p>
             </div>
           ) : (
@@ -441,7 +510,7 @@ export default function AdminProdutosPage() {
                   </div>
 
                   <div className="p-5">
-                    <span className="rounded-full bg-black px-3 py-1 text-xs text-white">
+                    <span className="rounded-full bg-blue-600 px-3 py-1 text-xs text-white">
                       {produto.categoria}
                     </span>
 

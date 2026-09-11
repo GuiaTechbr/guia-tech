@@ -1,4 +1,4 @@
- import prisma from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 export async function GET() {
   try {
@@ -29,12 +29,19 @@ export async function POST(request: Request) {
         marca: body.marca,
         categoria: body.categoria,
         descricao: body.descricao || null,
+
+        destaques: body.destaques || null,
+        fichaTecnica: body.fichaTecnica || null,
+        pontosPositivos: body.pontosPositivos || null,
+        pontosAtencao: body.pontosAtencao || null,
+
         preco:
           body.preco !== undefined &&
           body.preco !== null &&
           body.preco !== ""
             ? Number(body.preco)
             : null,
+
         imagem: body.imagem || null,
         linkAfiliado: body.linkAfiliado || null,
       },
@@ -71,12 +78,19 @@ export async function PUT(request: Request) {
         marca: body.marca,
         categoria: body.categoria,
         descricao: body.descricao || null,
+
+        destaques: body.destaques || null,
+        fichaTecnica: body.fichaTecnica || null,
+        pontosPositivos: body.pontosPositivos || null,
+        pontosAtencao: body.pontosAtencao || null,
+
         preco:
           body.preco !== undefined &&
           body.preco !== null &&
           body.preco !== ""
             ? Number(body.preco)
             : null,
+
         imagem: body.imagem || null,
         linkAfiliado: body.linkAfiliado || null,
       },
