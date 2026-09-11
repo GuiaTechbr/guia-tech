@@ -24,12 +24,25 @@ export default function SearchBar() {
       onSubmit={handleSubmit}
       className="w-full"
     >
-      <div className="flex overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm transition focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-100">
+      <div className="flex overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-300 focus-within:border-blue-300 focus-within:shadow-[0_8px_22px_rgba(37,99,235,0.10)] focus-within:ring-2 focus-within:ring-blue-100">
 
         <div className="flex flex-1 items-center">
-          <span className="pl-4 text-lg text-zinc-400">
-            🔎
-          </span>
+          <div className="pl-4 text-slate-400">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.35-4.35" />
+            </svg>
+          </div>
 
           <input
             type="search"
@@ -37,20 +50,20 @@ export default function SearchBar() {
             onChange={(event) => setBusca(event.target.value)}
             placeholder="O que você está procurando?"
             aria-label="Buscar produtos"
-            className="min-w-0 flex-1 bg-transparent px-3 py-2s text-sm text-zinc-900 outline-none placeholder:text-zinc-400 sm:text-base"
+            className="min-w-0 flex-1 bg-transparent px-3 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400 sm:text-base"
           />
         </div>
 
         <button
           type="submit"
-          className="bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 sm:px-7"
+          className="bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition-colors duration-300 hover:bg-blue-700 sm:px-7"
         >
           Buscar
         </button>
 
       </div>
 
-      <p className="mt-2 text-center text-xs text-zinc-500">
+      <p className="mt-2 text-center text-xs text-slate-400">
         Ex.: iPhone, Samsung, notebook, Smart TV...
       </p>
     </form>

@@ -18,10 +18,6 @@ export default async function Home() {
     },
   });
 
-  const ofertas = await prisma.produto.findMany({
-    take: 3,
-  });
-
   return (
     <>
       <Header />
@@ -52,7 +48,7 @@ export default async function Home() {
 
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
-                href="#ofertas"
+                href="/ofertas"
                 className="w-full rounded-xl bg-blue-600 px-7 py-3 font-semibold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-[0_10px_25px_rgba(37,99,235,0.20)] sm:w-auto"
               >
                 Ver ofertas
@@ -170,37 +166,6 @@ export default async function Home() {
 
             <div className="flex gap-3 overflow-x-auto pb-4 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible lg:grid-cols-3">
               {notebooks.map((produto) => (
-                <ProductCard
-                  key={produto.id}
-                  produto={produto}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* OFERTAS EM DESTAQUE */}
-        <section
-          id="ofertas"
-          className="border-t border-red-100 bg-gradient-to-b from-red-50/70 to-white px-4 py-12 sm:px-6 sm:py-14 lg:px-8"
-        >
-          <div className="mx-auto max-w-7xl">
-            <div className="mb-8 text-center">
-              <span className="inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-red-700">
-                Oportunidades
-              </span>
-
-              <h2 className="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-                Ofertas em destaque
-              </h2>
-
-              <p className="mx-auto mt-3 max-w-2xl text-sm text-zinc-600 sm:text-base">
-                Produtos selecionados com grandes oportunidades de compra.
-              </p>
-            </div>
-
-            <div className="flex gap-3 overflow-x-auto pb-4 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible lg:grid-cols-3">
-              {ofertas.map((produto) => (
                 <ProductCard
                   key={produto.id}
                   produto={produto}
