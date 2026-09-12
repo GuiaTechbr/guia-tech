@@ -6,22 +6,20 @@ interface Produto {
   nome: string;
   marca: string;
   categoria: string;
-  descricao: string | null;
   preco: number | null;
   imagem: string | null;
-  linkAfiliado: string | null;
-  criadoEm: Date;
 }
 
 interface Props {
   produto: Produto;
+  layout?: "carousel" | "grid";
 }
 
-export default function ProductCard({ produto }: Props) {
+export default function ProductCard({ produto, layout = "carousel" }: Props) {
   return (
     <Link
       href={`/produtos/${produto.id}`}
-      className="group block w-[31vw] min-w-[120px] max-w-[180px] shrink-0 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_12px_30px_rgba(37,99,235,0.14)] sm:w-auto sm:max-w-none sm:p-4"
+      className={`group flex flex-col ${layout === "grid" ? "w-full min-w-0" : "w-[31vw] min-w-[120px] max-w-[180px] shrink-0"} rounded-2xl border border-slate-200 bg-white p-2 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_12px_30px_rgba(37,99,235,0.14)] sm:w-auto sm:max-w-none sm:p-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600`}
     >
       <div className="relative mb-2 flex h-28 items-center justify-center overflow-hidden rounded-xl bg-slate-50 ring-1 ring-inset ring-slate-200/70 sm:mb-4 sm:h-48">
         {produto.imagem ? (
@@ -43,7 +41,7 @@ export default function ProductCard({ produto }: Props) {
         {produto.categoria}
       </span>
 
-      <h3 className="mt-2 line-clamp-2 text-xs font-bold leading-tight text-slate-900 sm:mt-3 sm:text-lg">
+      <h3 className={`mt-2 line-clamp-2 break-words font-bold leading-tight text-slate-900 sm:mt-3 sm:text-lg ${layout === "grid" ? "text-sm" : "text-xs"}`}>
         {produto.nome}
       </h3>
 
@@ -51,14 +49,14 @@ export default function ProductCard({ produto }: Props) {
         {produto.marca}
       </p>
 
-      <div className="mt-2 sm:mt-4">
+      <div className="mt-auto pt-3 sm:pt-4">
         <p className="text-sm font-bold text-green-600 sm:text-xl">
-          R$ {produto.preco?.toLocaleString("pt-BR")}
+          {produto.preco !== null ? produto.preco.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : "Consulte na loja"}
         </p>
       </div>
 
       <div className="mt-2 w-full rounded-lg bg-blue-600 px-2 py-2 text-center text-[10px] font-semibold text-white transition-colors duration-300 group-hover:bg-blue-700 sm:mt-4 sm:px-4 sm:py-3 sm:text-sm">
-        Ver oferta
+        Conhecer produto
       </div>
     </Link>
   );

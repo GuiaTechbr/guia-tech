@@ -121,6 +121,22 @@ export default async function ProdutoPage({
     );
   }
 
+  const produtosRelacionados = await prisma.produto.findMany({
+    where: {
+      categoria: produto.categoria,
+      id: { not: produto.id },
+    },
+    orderBy: [{ criadoEm: "desc" }, { id: "desc" }],
+    take: 3,
+    select: {
+      id: true,
+      nome: true,
+      marca: true,
+      imagem: true,
+      preco: true,
+    },
+  });
+
   const destaques = transformarEmLista(produto.destaques);
   const fichaTecnica = transformarEmLista(
     produto.fichaTecnica
@@ -139,7 +155,7 @@ export default async function ProdutoPage({
     pontosAtencao.length > 0;
 
   return (
-    <>
+    <div className={produto.linkAfiliado ? "pb-36 lg:pb-0" : ""}>
       <Header />
 
       <main className="min-h-screen bg-slate-50">
@@ -156,15 +172,16 @@ export default async function ProdutoPage({
 
           <section className="mt-6 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
             <div className="grid lg:grid-cols-2">
-              <div className="flex min-h-[340px] items-center justify-center border-b border-slate-200 bg-slate-50 p-6 sm:min-h-[500px] sm:p-10 lg:border-b-0 lg:border-r">
+              <div className="flex min-h-[280px] items-center justify-center border-b border-slate-200 bg-slate-50 p-6 sm:min-h-[420px] sm:p-10 lg:border-b-0 lg:border-r">
                 {produto.imagem ? (
                   <Image
                     src={produto.imagem}
                     alt={produto.nome}
                     width={650}
                     height={650}
-                    className="max-h-[440px] w-full object-contain transition-transform duration-300 hover:scale-[1.02]"
-                    priority
+                    className="max-h-[280px] w-full sm:max-h-[440px] object-contain transition-transform duration-300 hover:scale-[1.02]"
+                    sizes="(min-width: 1280px) 550px, (min-width: 1024px) 45vw, 90vw"
+                    preload
                   />
                 ) : (
                   <span className="text-sm text-slate-400">
@@ -184,11 +201,11 @@ export default async function ProdutoPage({
                   </span>
                 </div>
 
-                <h1 className="mt-5 text-3xl font-bold leading-tight tracking-tight text-slate-950 sm:text-4xl">
+                <h1 className="mt-5 break-words text-2xl font-bold leading-tight tracking-tight text-slate-950 sm:text-4xl">
                   {produto.nome}
                 </h1>
 
-                <div className="mt-7 border-y border-slate-100 py-6">
+                <div id="oferta" className="mt-7 scroll-mt-6 border-y border-slate-100 py-6">
                   <p className="text-sm font-medium text-slate-500">
                     Preço encontrado
                   </p>
@@ -215,25 +232,13 @@ export default async function ProdutoPage({
                   </p>
                 </div>
 
-                {produto.descricao && (
-                  <div className="mt-7">
-                    <h2 className="text-lg font-bold text-slate-900">
-                      Sobre este produto
-                    </h2>
-
-                    <p className="mt-3 whitespace-pre-line leading-7 text-slate-600">
-                      {produto.descricao}
-                    </p>
-                  </div>
-                )}
-
                 <div className="mt-8">
                   {produto.linkAfiliado ? (
                     <a
                       href={produto.linkAfiliado}
                       target="_blank"
                       rel="noopener noreferrer sponsored"
-                      className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-4 text-center text-base font-bold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-[0_10px_25px_rgba(37,99,235,0.18)] sm:text-lg"
+                      className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-4 text-center text-base font-bold text-white shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-[0_10px_25px_rgba(37,99,235,0.18)] sm:text-lg"
                     >
                       Ver oferta na Amazon
                       <span aria-hidden="true">→</span>
@@ -324,6 +329,33 @@ export default async function ProdutoPage({
             </div>
           </section>
 
+          {(produto.descricao || possuiConteudoExtra) && (
+            <nav aria-label="Informações do produto" className="mt-6 flex flex-wrap gap-2">
+              {[
+                { id: "sobre-produto", nome: "Sobre o produto", mostrar: Boolean(produto.descricao) },
+                { id: "destaques", nome: "Destaques", mostrar: destaques.length > 0 },
+                { id: "ficha-tecnica", nome: "Ficha técnica", mostrar: fichaTecnica.length > 0 },
+                { id: "pontos-positivos", nome: "Pontos positivos", mostrar: pontosPositivos.length > 0 },
+                { id: "pontos-atencao", nome: "Pontos de atenção", mostrar: pontosAtencao.length > 0 },
+              ].filter((secao) => secao.mostrar).map((secao) => (
+                <a key={secao.id} href={`#${secao.id}`} className="rounded-full border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-600 transition hover:border-blue-300 hover:text-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                  {secao.nome}
+                </a>
+              ))}
+            </nav>
+          )}
+
+          {produto.descricao && (
+            <section aria-labelledby="sobre-produto" className="mt-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              <h2 id="sobre-produto" className="scroll-mt-6 text-2xl font-bold text-slate-950">Sobre este produto</h2>
+              <div className="mt-5 max-w-4xl space-y-4 break-words leading-7 text-slate-600">
+                {produto.descricao.split(/\n\s*\n/).filter((paragrafo) => paragrafo.trim()).map((paragrafo, index) => (
+                  <p key={index} className="whitespace-pre-line">{paragrafo}</p>
+                ))}
+              </div>
+            </section>
+          )}
+
           {possuiConteudoExtra && (
             <section className="mt-8 space-y-6">
               {destaques.length > 0 && (
@@ -333,7 +365,7 @@ export default async function ProdutoPage({
                       Visão rápida
                     </p>
 
-                    <h2 className="mt-2 text-2xl font-bold text-slate-950">
+                    <h2 id="destaques" className="scroll-mt-6 mt-2 text-2xl font-bold text-slate-950">
                       Destaques
                     </h2>
                   </div>
@@ -378,7 +410,7 @@ export default async function ProdutoPage({
                       Especificações
                     </p>
 
-                    <h2 className="mt-2 text-2xl font-bold text-slate-950">
+                    <h2 id="ficha-tecnica" className="scroll-mt-6 mt-2 text-2xl font-bold text-slate-950">
                       Ficha técnica
                     </h2>
                   </div>
@@ -403,7 +435,7 @@ export default async function ProdutoPage({
                         return (
                           <div
                             key={index}
-                            className="grid gap-1 border-b border-slate-100 px-4 py-4 last:border-b-0 sm:grid-cols-[220px_1fr] sm:gap-6 sm:px-6"
+                            className="grid gap-1 break-words border-b border-slate-100 px-4 py-4 last:border-b-0 sm:grid-cols-[220px_1fr] sm:gap-6 sm:px-6"
                           >
                             {titulo && (
                               <span className="text-sm font-semibold text-slate-900">
@@ -432,7 +464,7 @@ export default async function ProdutoPage({
                         O que se destaca
                       </p>
 
-                      <h2 className="mt-2 text-2xl font-bold text-slate-950">
+                      <h2 id="pontos-positivos" className="scroll-mt-6 mt-2 text-2xl font-bold text-slate-950">
                         Pontos positivos
                       </h2>
 
@@ -476,7 +508,7 @@ export default async function ProdutoPage({
                         Antes de comprar
                       </p>
 
-                      <h2 className="mt-2 text-2xl font-bold text-slate-950">
+                      <h2 id="pontos-atencao" className="scroll-mt-6 mt-2 text-2xl font-bold text-slate-950">
                         Pontos de atenção
                       </h2>
 
@@ -518,10 +550,67 @@ export default async function ProdutoPage({
               )}
             </section>
           )}
+          {produtosRelacionados.length > 0 && (
+            <section aria-labelledby="produtos-relacionados" className="mt-12 border-t border-slate-200 pt-8">
+              <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-widest text-blue-600">Continue explorando</p>
+                  <h2 id="produtos-relacionados" className="mt-2 text-2xl font-bold text-slate-950">Mais produtos desta categoria</h2>
+                  <p className="mt-2 text-sm text-slate-500">Conheça outras opções em {produto.categoria}.</p>
+                </div>
+                <Link href={`/categoria/${encodeURIComponent(produto.categoria)}`} className="rounded-lg px-3 py-3 text-sm font-semibold text-blue-700 transition hover:bg-blue-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                  Ver toda a categoria <span aria-hidden="true">→</span>
+                </Link>
+              </div>
+
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {produtosRelacionados.map((relacionado) => (
+                  <Link key={relacionado.id} href={`/produtos/${relacionado.id}`} className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:border-blue-300 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                    <div className="flex h-52 items-center justify-center bg-slate-100 p-5">
+                      {relacionado.imagem ? (
+                        <Image src={relacionado.imagem} alt={relacionado.nome} width={320} height={220} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw" className="h-full w-full object-contain" />
+                      ) : (
+                        <span className="text-sm text-slate-500">Sem imagem disponível</span>
+                      )}
+                    </div>
+                    <div className="flex flex-1 flex-col p-5">
+                      <p className="text-xs font-semibold text-slate-500">{relacionado.marca}</p>
+                      <h3 className="mt-2 break-words text-lg font-bold leading-6 text-slate-900 group-hover:text-blue-700">{relacionado.nome}</h3>
+                      <div className="mt-auto pt-5">
+                        <p className="text-xs text-slate-500">{relacionado.preco !== null ? "Preço encontrado" : "Preço"}</p>
+                        <p className="mt-1 text-xl font-bold text-slate-900">
+                          {relacionado.preco !== null ? relacionado.preco.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : "Consulte na loja"}
+                        </p>
+                        <span className="mt-4 flex items-center justify-center gap-2 rounded-lg bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-700 transition group-hover:bg-blue-100">Conhecer produto <span aria-hidden="true">→</span></span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
         </div>
       </main>
 
       <Footer />
-    </>
+
+      {produto.linkAfiliado && (
+        <aside aria-label="Acesso rápido à oferta" className="fixed inset-x-0 bottom-0 z-40 border-t border-blue-100 bg-white px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-4px_20px_rgba(15,23,42,0.08)] lg:hidden">
+          <div className="mx-auto flex max-w-3xl items-center justify-between gap-3">
+            <div className="min-w-0">
+              <p className="text-xs text-slate-500">Preço encontrado</p>
+              <p className="text-base font-bold text-slate-900 sm:text-xl">
+                {produto.preco !== null ? produto.preco.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : "Consulte na loja"}
+              </p>
+            </div>
+            <a href={produto.linkAfiliado} target="_blank" rel="noopener noreferrer sponsored" className="shrink-0 rounded-xl bg-blue-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+              Ver oferta <span aria-hidden="true">↗</span>
+              <span className="sr-only"> na Amazon (abre em nova aba)</span>
+            </a>
+          </div>
+          <p className="mx-auto mt-2 max-w-3xl text-xs text-slate-500">Preço sujeito a alteração. Link de afiliado.</p>
+        </aside>
+      )}
+    </div>
   );
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
-import ProductCard from "@/components/ProductCard";
+import CatalogProducts from "@/components/CatalogProducts";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -131,14 +131,7 @@ export default async function CategoriaPage({ params }: Props) {
               </Link>
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-              {produtos.map((produto) => (
-                <ProductCard
-                  key={produto.id}
-                  produto={produto}
-                />
-              ))}
-            </div>
+            <CatalogProducts key={categoria} produtos={produtos.map(({ id, nome, marca, categoria, preco, imagem }) => ({ id, nome, marca, categoria, preco, imagem }))} />
           )}
         </section>
       </main>

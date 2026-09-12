@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ProductCard from "@/components/ProductCard";
+import CatalogProducts from "@/components/CatalogProducts";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import prisma from "@/lib/prisma";
@@ -88,14 +88,7 @@ export default async function BuscaPage({ searchParams }: Props) {
 
         <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
           {produtos.length > 0 ? (
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-              {produtos.map((produto) => (
-                <ProductCard
-                  key={produto.id}
-                  produto={produto}
-                />
-              ))}
-            </div>
+            <CatalogProducts key={termo} produtos={produtos.map(({ id, nome, marca, categoria, preco, imagem }) => ({ id, nome, marca, categoria, preco, imagem }))} />
           ) : (
             <div className="mx-auto max-w-2xl rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm sm:p-12">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-blue-50 text-blue-600">
