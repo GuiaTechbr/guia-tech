@@ -1,6 +1,11 @@
+import ComparisonBar from "@/components/ComparisonBar";
 import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+} from "next/font/google";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,10 +20,13 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+
   title: {
-    default: "Guia Tech | Tecnologia, Ofertas e Análises",
+    default:
+      "Guia Tech | Tecnologia, Ofertas e Análises",
     template: "%s | Guia Tech",
   },
+
   description:
     "Encontre ofertas, análises, comparativos e recomendações de smartphones, notebooks, Smart TVs, games e tecnologia.",
 };
@@ -35,6 +43,8 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col font-sans">
         {children}
+
+        <ComparisonBar />
       </body>
     </html>
   );
