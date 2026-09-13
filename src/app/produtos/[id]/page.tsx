@@ -214,6 +214,7 @@ export default async function ProdutoPage({
                 <div className="mt-4 max-w-md">
                   <FavoriteButton id={produto.id} nome={produto.nome} />
                   <ShareProduct key={produto.id} id={produto.id} nome={produto.nome} />
+                  <Link href={`/comparar?ids=${produto.id}`} className="mt-2 inline-flex py-2 text-sm font-semibold text-blue-700 hover:underline">Comparar com outros produtos →</Link>
                 </div>
 
                 <div id="oferta" className="mt-7 scroll-mt-6 border-y border-slate-100 py-6">

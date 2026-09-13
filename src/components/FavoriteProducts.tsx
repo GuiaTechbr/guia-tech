@@ -11,6 +11,7 @@ export default function FavoriteProducts({ produtos }: { produtos: Produto[] }) 
   if (!ready) return <p role="status" className="text-slate-600">Carregando seus favoritos…</p>;
   return (
     <>
+      <Link href={"/comparar?ids=" + salvos.slice(0, 3).map((produto) => produto.id).join(",")} className="mb-6 inline-flex rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700">Comparar produtos →</Link>
       {ids.some((id) => !produtos.some((produto) => produto.id === id)) && <p className="mb-5 text-sm text-slate-600">Alguns produtos salvos não estão mais disponíveis no catálogo.</p>}
       {salvos.length > 0 ? <CatalogProducts produtos={salvos} filtrarCategoria /> : (
         <div className="rounded-2xl border border-slate-200 bg-white px-6 py-12 text-center">
