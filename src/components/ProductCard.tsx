@@ -1,3 +1,4 @@
+import FavoriteButton from "@/components/FavoriteButton";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -17,10 +18,10 @@ interface Props {
 
 export default function ProductCard({ produto, layout = "carousel" }: Props) {
   return (
-    <Link
-      href={`/produtos/${produto.id}`}
+    <article
       className={`group flex flex-col ${layout === "grid" ? "w-full min-w-0" : "w-[31vw] min-w-[120px] max-w-[180px] shrink-0"} rounded-2xl border border-slate-200 bg-white p-2 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_12px_30px_rgba(37,99,235,0.14)] sm:w-auto sm:max-w-none sm:p-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600`}
     >
+      <Link href={`/produtos/${produto.id}`} className="flex flex-1 flex-col rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
       <div className="relative mb-2 flex h-28 items-center justify-center overflow-hidden rounded-xl bg-slate-50 ring-1 ring-inset ring-slate-200/70 sm:mb-4 sm:h-48">
         {produto.imagem ? (
           <Image
@@ -58,6 +59,8 @@ export default function ProductCard({ produto, layout = "carousel" }: Props) {
       <div className="mt-2 w-full rounded-lg bg-blue-600 px-2 py-2 text-center text-[10px] font-semibold text-white transition-colors duration-300 group-hover:bg-blue-700 sm:mt-4 sm:px-4 sm:py-3 sm:text-sm">
         Conhecer produto
       </div>
-    </Link>
+      </Link>
+      <FavoriteButton id={produto.id} nome={produto.nome} />
+    </article>
   );
 }

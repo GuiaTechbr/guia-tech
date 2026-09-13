@@ -1,3 +1,4 @@
+import FavoriteButton from "@/components/FavoriteButton";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -204,6 +205,8 @@ export default async function ProdutoPage({
                 <h1 className="mt-5 break-words text-2xl font-bold leading-tight tracking-tight text-slate-950 sm:text-4xl">
                   {produto.nome}
                 </h1>
+
+                <div className="mt-4 max-w-xs"><FavoriteButton id={produto.id} nome={produto.nome} /></div>
 
                 <div id="oferta" className="mt-7 scroll-mt-6 border-y border-slate-100 py-6">
                   <p className="text-sm font-medium text-slate-500">

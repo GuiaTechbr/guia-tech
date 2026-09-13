@@ -16,26 +16,26 @@ export default function Header() {
       className="border-b border-blue-100 bg-cover bg-center shadow-sm"
       style={{ backgroundImage: "url('/banner-tech.jpg')" }}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 sm:gap-4 px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
 
         {/* LOGO */}
         <Link href="/" className="shrink-0 group" onClick={fecharMenu}>
-          <h1 className="text-2xl font-bold tracking-tight text-blue-700 transition-colors duration-300 group-hover:text-blue-800 sm:text-3xl">
+          <p className="text-2xl font-bold tracking-tight text-blue-700 transition-colors duration-300 group-hover:text-blue-800 sm:text-3xl">
             Guia Tech
-          </h1>
+          </p>
 
-          <p className="mt-0.5 text-xs text-slate-500 sm:text-sm">
+          <p className="mt-0.5 hidden text-xs text-slate-500 sm:block sm:text-sm">
             Tecnologia, ofertas e análises
           </p>
         </Link>
 
         {/* BUSCA DESKTOP */}
-        <div className="hidden w-full max-w-md md:block">
+        <div className="hidden w-full max-w-md xl:block">
           <SearchBar />
         </div>
 
         {/* MENU DESKTOP */}
-        <nav className="hidden md:block">
+        <nav className="hidden xl:block">
           <ul className="flex items-center gap-4 text-sm font-medium text-slate-700 lg:gap-5">
 
             <li>
@@ -95,11 +95,13 @@ export default function Header() {
           </ul>
         </nav>
 
+        <Link href="/favoritos" className="shrink-0 rounded-lg border border-blue-200 bg-white/90 px-3 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50">Favoritos</Link>
+
         {/* BOTÃO MENU MOBILE */}
         <button
           type="button"
           onClick={() => setMenuAberto(!menuAberto)}
-          className="rounded-lg border border-blue-200 bg-white/80 p-2 text-blue-700 shadow-sm transition hover:bg-blue-50 md:hidden"
+          className="rounded-lg border border-blue-200 bg-white/80 p-2 text-blue-700 shadow-sm transition hover:bg-blue-50 xl:hidden"
           aria-label={menuAberto ? "Fechar menu" : "Abrir menu"}
           aria-expanded={menuAberto}
         >
@@ -111,13 +113,13 @@ export default function Header() {
       </div>
 
       {/* BUSCA MOBILE */}
-      <div className="px-4 pb-4 md:hidden">
+      <div className="px-4 pb-4 xl:hidden">
         <SearchBar />
       </div>
 
       {/* MENU MOBILE */}
       {menuAberto && (
-        <nav className="border-t border-blue-100 bg-white/95 backdrop-blur md:hidden">
+        <nav className="border-t border-blue-100 bg-white/95 backdrop-blur xl:hidden">
           <ul className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
 
             <li>
