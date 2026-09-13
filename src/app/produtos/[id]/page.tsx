@@ -1,3 +1,4 @@
+import ShareProduct from "@/components/ShareProduct";
 import FavoriteButton from "@/components/FavoriteButton";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -47,9 +48,13 @@ export async function generateMetadata({
     `Confira ${produto.nome} no Guia Tech, com informações, preço e oferta disponível.`;
 
   return {
+    alternates: { canonical: `/produtos/${produto.id}` },
     title: produto.nome,
     description: descricao,
     openGraph: {
+      url: `/produtos/${produto.id}`,
+      siteName: "Guia Tech",
+      locale: "pt_BR",
       title: produto.nome,
       description: descricao,
       type: "website",
@@ -206,7 +211,10 @@ export default async function ProdutoPage({
                   {produto.nome}
                 </h1>
 
-                <div className="mt-4 max-w-xs"><FavoriteButton id={produto.id} nome={produto.nome} /></div>
+                <div className="mt-4 max-w-md">
+                  <FavoriteButton id={produto.id} nome={produto.nome} />
+                  <ShareProduct key={produto.id} id={produto.id} nome={produto.nome} />
+                </div>
 
                 <div id="oferta" className="mt-7 scroll-mt-6 border-y border-slate-100 py-6">
                   <p className="text-sm font-medium text-slate-500">
