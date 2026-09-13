@@ -1,3 +1,4 @@
+import Link from "next/link";
 import prisma from "@/lib/prisma";
 import ProductCard from "@/components/ProductCard";
 
@@ -10,32 +11,31 @@ export default async function FeaturedProducts() {
   });
 
   return (
-    <section className="bg-zinc-50 px-4 py-14 sm:px-6 lg:px-8">
+    <section id="destaques" className="scroll-mt-6 border-t border-slate-200 bg-slate-50 px-4 py-10 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
 
         <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
 
           <div>
             <span className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-600">
-              Ofertas selecionadas
+              Explore o catálogo
             </span>
 
             <h2 className="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-              Ofertas em destaque
+              Novidades no Guia Tech
             </h2>
 
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500 sm:text-base">
-              Produtos selecionados para você encontrar boas oportunidades
-              em tecnologia.
+              Os produtos mais recentes do catálogo, com detalhes para ajudar na sua escolha.
             </p>
           </div>
 
-          <a
+          <Link
             href="/ofertas"
             className="w-fit text-sm font-semibold text-slate-600 transition-colors duration-300 hover:text-blue-600"
           >
             Ver todas as ofertas →
-          </a>
+          </Link>
 
         </div>
 
@@ -50,11 +50,12 @@ export default async function FeaturedProducts() {
             </p>
           </div>
         ) : (
-          <div className="flex gap-3 overflow-x-auto pb-4 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible lg:grid-cols-3">
+          <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3">
             {produtos.map((produto) => (
               <ProductCard
                 key={produto.id}
                 produto={produto}
+                layout="grid"
               />
             ))}
           </div>

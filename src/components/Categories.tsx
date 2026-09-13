@@ -29,9 +29,9 @@ const categorias = [
   },
 ];
 
-export default function Categories() {
+export default function Categories({ quantidades = {} }: { quantidades?: Record<string, number> }) {
   return (
-    <section className="px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
+    <section id="categorias" className="scroll-mt-6 px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-7 flex items-end justify-between gap-4">
           <div>
@@ -44,17 +44,17 @@ export default function Categories() {
             </h2>
 
             <p className="mt-2 max-w-xl text-sm leading-6 text-slate-500 sm:text-base">
-              Encontre tecnologia para todos os momentos e necessidades.
+              Escolha uma categoria para ver os produtos disponíveis.
             </p>
           </div>
         </div>
 
-        <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory touch-pan-x sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:pb-0 sm:snap-none lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-5">
           {categorias.map((categoria) => (
             <Link
               key={categoria.nome}
               href={`/categoria/${encodeURIComponent(categoria.url)}`}
-              className="group flex min-h-[205px] w-[43vw] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_12px_30px_rgba(37,99,235,0.14)] sm:w-auto sm:p-4"
+              className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_12px_30px_rgba(37,99,235,0.14)] sm:w-auto sm:p-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
             >
               <div className="relative flex flex-1 items-center justify-center overflow-hidden rounded-xl bg-slate-50 p-3">
                 <Image
@@ -62,7 +62,7 @@ export default function Categories() {
                   alt={categoria.nome}
                   width={180}
                   height={140}
-                  className="h-28 w-36 object-contain transition-transform duration-300 group-hover:scale-110 sm:h-32 sm:w-40"
+                  className="h-24 w-full object-contain transition-transform duration-300 group-hover:scale-110 sm:h-32 sm:w-40"
                 />
 
                 <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-slate-200/70" />
@@ -74,8 +74,8 @@ export default function Categories() {
                 </h3>
 
                 <div className="mt-1 flex items-center justify-between">
-                  <span className="text-xs text-slate-400">
-                    Ver produtos
+                  <span className="text-xs text-slate-500">
+                    {quantidades[categoria.url] ? `${quantidades[categoria.url]} produto${quantidades[categoria.url] === 1 ? "" : "s"}` : "Em breve"}
                   </span>
 
                   <span className="text-sm font-semibold text-blue-600 transition-transform duration-300 group-hover:translate-x-1">
