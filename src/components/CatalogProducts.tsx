@@ -12,11 +12,13 @@ type ProdutoCatalogo = {
   imagem: string | null;
 };
 
-export default function CatalogProducts({ produtos }: { produtos: ProdutoCatalogo[] }) {
+export default function CatalogProducts({ produtos, filtrarCategoria = false }: { produtos: ProdutoCatalogo[]; filtrarCategoria?: boolean }) {
+  const [categoria, setCategoria] = useState("");
+  const categorias = Array.from(new Set(produtos.map((produto) => produto.categoria))).filter(Boolean).sort((a, b) => a.localeCompare(b, "pt-BR"));
   const [marca, setMarca] = useState("");
   const [ordem, setOrdem] = useState("recentes");
   const marcas = Array.from(new Set(produtos.map((produto) => produto.marca))).sort((a, b) => a.localeCompare(b, "pt-BR"));
-  const visiveis = produtos.filter((produto) => !marca || produto.marca === marca);
+  const visiveis = produtos.filter((produto) => (!marca || produto.marca === marca) && (!filtrarCategoria || !categoria || produto.categoria === categoria));
 
   if (ordem === "nome") {
     visiveis.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR") || a.id - b.id);
@@ -31,13 +33,23 @@ export default function CatalogProducts({ produtos }: { produtos: ProdutoCatalog
   }
 
   function limparFiltros() {
+    setCategoria("");
     setMarca("");
     setOrdem("recentes");
   }
 
   return (
     <div>
-      <div className="mb-6 grid gap-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 md:grid-cols-[1fr_1fr_auto] md:items-end">
+      <div className="mb-6 grid gap-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 md:grid-cols-2 md:items-end">
+        {filtrarCategoria && (
+          <div>
+            <label htmlFor="catalogo-categoria" className="mb-2 block text-sm font-semibold text-slate-700">Categoria</label>
+            <select id="catalogo-categoria" value={categoria} onChange={(event) => setCategoria(event.target.value)} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-3 text-sm text-slate-700 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+              <option value="">Todas as categorias</option>
+              {categorias.map((item) => <option key={item} value={item}>{item}</option>)}
+            </select>
+          </div>
+        )}
         <div>
           <label htmlFor="catalogo-marca" className="mb-2 block text-sm font-semibold text-slate-700">Marca</label>
           <select id="catalogo-marca" value={marca} onChange={(event) => setMarca(event.target.value)} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-3 text-sm text-slate-700 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
@@ -54,7 +66,7 @@ export default function CatalogProducts({ produtos }: { produtos: ProdutoCatalog
             <option value="nome">Nome (A–Z)</option>
           </select>
         </div>
-        <button type="button" onClick={limparFiltros} disabled={!marca && ordem === "recentes"} className="rounded-lg bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-700 hover:bg-blue-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:opacity-50">Limpar filtros</button>
+        <button type="button" onClick={limparFiltros} disabled={!categoria && !marca && ordem === "recentes"} className="rounded-lg bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-700 hover:bg-blue-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:opacity-50">Limpar filtros</button>
       </div>
 
       <p role="status" aria-live="polite" className="mb-5 text-sm text-slate-500">Exibindo {visiveis.length} de {produtos.length} produto(s).</p>
@@ -64,7 +76,7 @@ export default function CatalogProducts({ produtos }: { produtos: ProdutoCatalog
         </div>
       ) : (
         <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center">
-          <p className="font-semibold text-slate-900">Nenhum produto encontrado para esta marca.</p>
+          <p className="font-semibold text-slate-900">Nenhum produto encontrado com estes filtros.</p>
           <button type="button" onClick={limparFiltros} className="mt-4 rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-700">Mostrar todos os produtos</button>
         </div>
       )}
