@@ -1,3 +1,6 @@
+import { cache } from "react";
+import { notFound } from "next/navigation";
+import { parseProductId } from "@/lib/product-id";
 import ShareProduct from "@/components/ShareProduct";
 import FavoriteButton from "@/components/FavoriteButton";
 import type { Metadata } from "next";
@@ -12,6 +15,14 @@ type Props = {
     id: string;
   }>;
 };
+
+const carregarProduto = cache(async (codigo: string) => {
+  const id = parseProductId(codigo);
+  if (id === null) notFound();
+  const produto = await prisma.produto.findUnique({ where: { id } });
+  if (!produto) notFound();
+  return produto;
+});
 
 function transformarEmLista(texto: string | null) {
   if (!texto) {
@@ -29,19 +40,7 @@ export async function generateMetadata({
 }: Props): Promise<Metadata> {
   const { id } = await params;
 
-  const produto = await prisma.produto.findUnique({
-    where: {
-      id: Number(id),
-    },
-  });
-
-  if (!produto) {
-    return {
-      title: "Produto não encontrado",
-      description:
-        "O produto solicitado não foi encontrado no Guia Tech.",
-    };
-  }
+  const produto = await carregarProduto(id);
 
   const descricao =
     produto.descricao?.slice(0, 155) ||
@@ -75,57 +74,7 @@ export default async function ProdutoPage({
 }: Props) {
   const { id } = await params;
 
-  const produto = await prisma.produto.findUnique({
-    where: {
-      id: Number(id),
-    },
-  });
-
-  if (!produto) {
-    return (
-      <>
-        <Header />
-
-        <main className="min-h-screen bg-slate-50 px-4 py-16 sm:px-6">
-          <div className="mx-auto max-w-2xl rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm sm:p-12">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-blue-50 text-blue-600">
-              <svg
-                width="26"
-                height="26"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <path d="m21 21-4.35-4.35" />
-              </svg>
-            </div>
-
-            <h1 className="mt-5 text-2xl font-bold text-slate-900 sm:text-3xl">
-              Produto não encontrado
-            </h1>
-
-            <p className="mt-3 text-slate-600">
-              Este produto pode ter sido removido ou não estar mais disponível.
-            </p>
-
-            <Link
-              href="/"
-              className="mt-7 inline-flex rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
-            >
-              Voltar para o Guia Tech
-            </Link>
-          </div>
-        </main>
-
-        <Footer />
-      </>
-    );
-  }
+  const produto = await carregarProduto(id);
 
   const produtosRelacionados = await prisma.produto.findMany({
     where: {
