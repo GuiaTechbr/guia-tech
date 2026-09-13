@@ -1,3 +1,4 @@
+import { getAdminLogado } from "@/lib/admin-auth";
 import prisma from "@/lib/prisma";
 
 export async function GET() {
@@ -21,6 +22,10 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    if (!(await getAdminLogado())) {
+      return Response.json({ erro: "Faça login para alterar produtos" }, { status: 401 });
+    }
+
     const body = await request.json();
 
     const produto = await prisma.produto.create({
@@ -60,6 +65,10 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   try {
+    if (!(await getAdminLogado())) {
+      return Response.json({ erro: "Faça login para alterar produtos" }, { status: 401 });
+    }
+
     const body = await request.json();
 
     if (!body.id) {
@@ -109,6 +118,10 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    if (!(await getAdminLogado())) {
+      return Response.json({ erro: "Faça login para alterar produtos" }, { status: 401 });
+    }
+
     const body = await request.json();
 
     if (!body.id) {
