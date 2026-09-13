@@ -30,16 +30,35 @@ function lista(texto: string | null) {
 
 export default function ProductComparison({ produtos, initialIds }: { produtos: ProdutoComparacao[]; initialIds: number[] }) {
   const [ids, setIds] = useState<(number | null)[]>([initialIds[0] ?? null, initialIds[1] ?? null, initialIds[2] ?? null]);
+  const [apenasDiferencas, setApenasDiferencas] = useState(false);
+  function atualizarSelecao(novosIds: (number | null)[]) {
+    setIds(novosIds);
+    const url = new URL(window.location.href);
+    const selecionados = novosIds.filter((id) => id !== null);
+    if (selecionados.length) url.searchParams.set("ids", selecionados.join(","));
+    else url.searchParams.delete("ids");
+    window.history.replaceState(null, "", url.pathname + url.search + url.hash);
+  }
   const selecionados = ids.flatMap((id) => produtos.filter((produto) => produto.id === id));
   const fichas = selecionados.map((produto) => especificacoes(produto.fichaTecnica));
   const campos = new Map<string, string>();
   fichas.forEach((ficha) => ficha.forEach((campo, chave) => campos.set(chave, campo.titulo)));
-  function linha(titulo: string, valores: ReactNode[]) {
+  function linha(titulo: string, valores: ReactNode[], comparaveis = valores.map(String)) {
+    const normalizados = comparaveis.map((valor) => valor.trim().replace(/\s+/g, " ").toLocaleLowerCase("pt-BR"));
+    if (apenasDiferencas && normalizados.length > 1 && new Set(normalizados).size === 1) return null;
     return <tr key={titulo} className="border-t border-slate-200">
       <th scope="row" className="w-40 bg-slate-50 p-4 text-left align-top font-semibold text-slate-700">{titulo}</th>
       {valores.map((valor, index) => <td key={selecionados[index].id} className="p-4 align-top text-slate-600">{valor}</td>)}
     </tr>;
   }
+  const linhasTabela = [
+    linha("Marca", selecionados.map((produto) => produto.marca)),
+    linha("Categoria", selecionados.map((produto) => produto.categoria)),
+    linha("Preço encontrado", selecionados.map((produto) => produto.preco === null ? "Consulte na loja" : produto.preco.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }))),
+    ...Array.from(campos).map(([chave, titulo]) => linha("Ficha técnica · " + titulo, fichas.map((ficha) => ficha.get(chave)?.valor || "Não informado"))),
+    linha("Pontos positivos", selecionados.map((produto) => lista(produto.pontosPositivos)), selecionados.map((produto) => linhas(produto.pontosPositivos).join("\n"))),
+    linha("Pontos de atenção", selecionados.map((produto) => lista(produto.pontosAtencao)), selecionados.map((produto) => linhas(produto.pontosAtencao).join("\n"))),
+  ];
   return (
     <>
       <div className="grid gap-4 rounded-2xl border border-slate-200 bg-white p-5 md:grid-cols-3">
@@ -47,16 +66,19 @@ export default function ProductComparison({ produtos, initialIds }: { produtos: 
           <label htmlFor={"comparar-" + index} className="mb-2 block text-sm font-semibold text-slate-700">Produto {index + 1}{index === 2 ? " (opcional)" : ""}</label>
           <select id={"comparar-" + index} value={id ?? ""} onChange={(event) => {
             const novoId = event.target.value ? Number(event.target.value) : null;
-            setIds((atuais) => atuais.map((atual, posicao) => posicao === index ? novoId : atual));
+            atualizarSelecao(ids.map((atual, posicao) => posicao === index ? novoId : atual));
           }} className="w-full min-w-0 rounded-lg border border-slate-300 bg-white px-3 py-3 text-sm text-slate-700 focus:outline-blue-600">
             <option value="">Escolha um produto</option>
             {produtos.filter((produto) => produto.id === id || !ids.includes(produto.id)).map((produto) => <option key={produto.id} value={produto.id}>{produto.nome}</option>)}
           </select>
         </div>)}
-        <button type="button" disabled={selecionados.length === 0} onClick={() => setIds([null, null, null])} className="w-fit rounded-lg bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-100 disabled:opacity-50">Limpar comparação</button>
+        <button type="button" disabled={selecionados.length === 0} onClick={() => { atualizarSelecao([null, null, null]); setApenasDiferencas(false); }} className="w-fit rounded-lg bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-100 disabled:opacity-50">Limpar comparação</button>
       </div>
       <p role="status" className="my-5 text-sm text-slate-600">{selecionados.length} de 3 produtos selecionados. {selecionados.length < 2 ? "Escolha pelo menos dois para comparar." : "No celular, deslize a tabela para ver todas as colunas."}</p>
       {selecionados.length >= 2 && <>
+        <label className="mb-5 flex cursor-pointer items-center gap-3 rounded-xl border border-blue-200 bg-blue-50 p-4 text-sm font-semibold text-blue-800">
+          <input type="checkbox" checked={apenasDiferencas} onChange={(event) => setApenasDiferencas(event.target.checked)} className="h-5 w-5 accent-blue-600" />Mostrar apenas diferenças
+        </label>
         {new Set(selecionados.map((produto) => produto.categoria)).size > 1 && <p className="mb-5 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">Você selecionou categorias diferentes. Alguns recursos podem não ser equivalentes.</p>}
         <div role="region" aria-label="Tabela de comparação de produtos" tabIndex={0} className="overflow-x-auto rounded-2xl border border-slate-200 bg-white focus:outline-blue-600">
           <table className="w-full min-w-[640px] table-fixed text-sm">
@@ -69,12 +91,8 @@ export default function ProductComparison({ produtos, initialIds }: { produtos: 
               </th>)}
             </tr></thead>
             <tbody>
-              {linha("Marca", selecionados.map((produto) => produto.marca))}
-              {linha("Categoria", selecionados.map((produto) => produto.categoria))}
-              {linha("Preço encontrado", selecionados.map((produto) => produto.preco === null ? "Consulte na loja" : produto.preco.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })))}
-              {Array.from(campos).map(([chave, titulo]) => linha("Ficha técnica · " + titulo, fichas.map((ficha) => ficha.get(chave)?.valor || "Não informado")))}
-              {linha("Pontos positivos", selecionados.map((produto) => lista(produto.pontosPositivos)))}
-              {linha("Pontos de atenção", selecionados.map((produto) => lista(produto.pontosAtencao)))}
+              {linhasTabela}
+              {linhasTabela.every((linha) => linha === null) && <tr><td colSpan={selecionados.length + 1} className="p-6 text-center text-slate-600">Nenhuma diferença nos campos cadastrados. Desmarque a opção para ver todas as informações.</td></tr>}
             </tbody>
           </table>
         </div>
