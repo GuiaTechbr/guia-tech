@@ -13,12 +13,19 @@ type ProdutoCatalogo = {
 };
 
 export default function CatalogProducts({ produtos, filtrarCategoria = false }: { produtos: ProdutoCatalogo[]; filtrarCategoria?: boolean }) {
+  const [orcamento, setOrcamento] = useState("");
+  const valorNormalizado = orcamento.trim().replace(/\s/g, "");
+  const formatoValido = /^(?:\d+(?:[.,]\d{1,2})?|\d{1,3}(?:\.\d{3})+(?:,\d{1,2})?)$/.test(valorNormalizado);
+  const valorNumerico = Number(valorNormalizado.includes(",") || /^\d{1,3}(?:\.\d{3})+$/.test(valorNormalizado)
+    ? valorNormalizado.replace(/\./g, "").replace(",", ".") : valorNormalizado);
+  const orcamentoInvalido = valorNormalizado !== "" && (!formatoValido || !Number.isFinite(valorNumerico));
+  const limite = valorNormalizado !== "" && !orcamentoInvalido ? valorNumerico : null;
   const [categoria, setCategoria] = useState("");
   const categorias = Array.from(new Set(produtos.map((produto) => produto.categoria))).filter(Boolean).sort((a, b) => a.localeCompare(b, "pt-BR"));
   const [marca, setMarca] = useState("");
   const [ordem, setOrdem] = useState("recentes");
   const marcas = Array.from(new Set(produtos.map((produto) => produto.marca))).sort((a, b) => a.localeCompare(b, "pt-BR"));
-  const visiveis = produtos.filter((produto) => (!marca || produto.marca === marca) && (!filtrarCategoria || !categoria || produto.categoria === categoria));
+  const visiveis = produtos.filter((produto) => (!marca || produto.marca === marca) && (!filtrarCategoria || !categoria || produto.categoria === categoria) && (limite === null || (produto.preco !== null && produto.preco <= limite)));
 
   if (ordem === "nome") {
     visiveis.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR") || a.id - b.id);
@@ -33,6 +40,7 @@ export default function CatalogProducts({ produtos, filtrarCategoria = false }: 
   }
 
   function limparFiltros() {
+    setOrcamento("");
     setCategoria("");
     setMarca("");
     setOrdem("recentes");
@@ -66,7 +74,14 @@ export default function CatalogProducts({ produtos, filtrarCategoria = false }: 
             <option value="nome">Nome (A–Z)</option>
           </select>
         </div>
-        <button type="button" onClick={limparFiltros} disabled={!categoria && !marca && ordem === "recentes"} className="rounded-lg bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-700 hover:bg-blue-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:opacity-50">Limpar filtros</button>
+        <div>
+          <label htmlFor="catalogo-orcamento" className="mb-2 block text-sm font-semibold text-slate-700">Preço máximo (R$)</label>
+          <input id="catalogo-orcamento" type="text" inputMode="decimal" value={orcamento} onChange={(event) => setOrcamento(event.target.value)} placeholder="Sem limite" aria-invalid={orcamentoInvalido} aria-describedby="catalogo-orcamento-ajuda" className="w-full rounded-lg border border-slate-300 bg-white px-3 py-3 text-sm text-slate-700 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" />
+          <p id="catalogo-orcamento-ajuda" className={orcamentoInvalido ? "mt-2 text-xs text-red-700" : "mt-2 text-xs text-slate-500"}>
+            {orcamentoInvalido ? "Digite um valor válido, como 3000 ou 3.000,00. O limite ainda não foi aplicado." : "Ex.: 3.000,00. Com um limite, produtos sem preço ficam ocultos."}
+          </p>
+        </div>
+        <button type="button" onClick={limparFiltros} disabled={!orcamento && !categoria && !marca && ordem === "recentes"} className="rounded-lg bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-700 hover:bg-blue-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:opacity-50">Limpar filtros</button>
       </div>
 
       <p role="status" aria-live="polite" className="mb-5 text-sm text-slate-500">Exibindo {visiveis.length} de {produtos.length} produto(s).</p>
