@@ -30,7 +30,7 @@ export default function Header() {
         </Link>
 
         {/* BUSCA DESKTOP */}
-        <div className="hidden w-full max-w-md xl:block">
+        <div className="hidden min-w-0 w-full max-w-md xl:block">
           <SearchBar />
         </div>
 

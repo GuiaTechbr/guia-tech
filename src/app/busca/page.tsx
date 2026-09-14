@@ -1,19 +1,22 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import CatalogProducts from "@/components/CatalogProducts";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import prisma from "@/lib/prisma";
 
+export const metadata: Metadata = { title: "Buscar produtos", description: "Busque produtos por nome, marca ou categoria no Guia Tech.", robots: { index: false, follow: true } };
+
 type Props = {
   searchParams: Promise<{
-    q?: string;
+    q?: string | string[];
   }>;
 };
 
 export default async function BuscaPage({ searchParams }: Props) {
   const { q } = await searchParams;
 
-  const termo = q?.trim() || "";
+  const termo = typeof q === "string" ? q.trim() : "";
 
   const produtos = termo
     ? await prisma.produto.findMany({

@@ -43,15 +43,11 @@ export default function Footer() {
             </h3>
 
             <div className="mt-4 flex flex-col gap-3 text-sm">
-              <span className="text-slate-500">
-                Reviews
-              </span>
+              <Link href="/favoritos" className="transition hover:text-blue-400">Meus favoritos</Link>
 
-              <span className="text-slate-500">
-                Comparativos
-              </span>
+              <Link href="/comparar" className="transition hover:text-blue-400">Comparar produtos</Link>
 
-              <span className="text-slate-500">
+              <span className="text-slate-400">
                 Blog
               </span>
             </div>
@@ -63,15 +59,15 @@ export default function Footer() {
             </h3>
 
             <div className="mt-4 flex flex-col gap-3 text-sm">
-              <span className="text-slate-500">
+              <span className="text-slate-400">
                 Sobre
               </span>
 
-              <span className="text-slate-500">
+              <span className="text-slate-400">
                 Política de Privacidade
               </span>
 
-              <span className="text-slate-500">
+              <span className="text-slate-400">
                 Termos de Uso
               </span>
             </div>
@@ -79,12 +75,12 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 border-t border-slate-800 pt-6">
-          <p className="text-xs leading-5 text-slate-500">
+          <p className="text-xs leading-5 text-slate-400">
             O Guia Tech pode receber comissão por compras realizadas através
             de links de afiliados, sem custo adicional para você.
           </p>
 
-          <p className="mt-3 text-xs text-slate-600">
+          <p className="mt-3 text-xs text-slate-400">
             © 2026 Guia Tech. Todos os direitos reservados.
           </p>
         </div>

@@ -1,8 +1,16 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
 import CatalogProducts from "@/components/CatalogProducts";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+
+export const metadata: Metadata = {
+  title: "Ofertas de tecnologia",
+  description: "Explore ofertas de tecnologia e filtre produtos por categoria, marca e orçamento no Guia Tech.",
+  alternates: { canonical: "/ofertas" },
+  openGraph: { title: "Ofertas de tecnologia", description: "Explore ofertas de tecnologia e filtre produtos por categoria, marca e orçamento no Guia Tech.", url: "/ofertas", siteName: "Guia Tech", locale: "pt_BR", type: "website" },
+};
 
 export default async function OfertasPage() {
   const produtos = await prisma.produto.findMany({

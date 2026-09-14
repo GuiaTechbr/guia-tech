@@ -29,12 +29,14 @@ export default function ComparisonBar() {
   const compararHref = `/comparar?ids=${ids.join(",")}`;
 
   return (
+    <>
+      <div aria-hidden="true" className="h-40 sm:h-28" />
     <div
       aria-live="polite"
-      className="fixed bottom-4 left-1/2 z-50 w-[calc(100%-2rem)] max-w-2xl -translate-x-1/2"
+      className={`fixed ${pathname.startsWith("/produtos/") ? "bottom-36 lg:bottom-4" : "bottom-4"} left-1/2 z-50 w-[calc(100%-2rem)] max-w-2xl -translate-x-1/2`}
     >
-      <div className="flex items-center gap-3 rounded-2xl border border-blue-200 bg-slate-950/95 p-3 text-white shadow-2xl backdrop-blur-md sm:p-4">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-600">
+      <div className="grid grid-cols-[1fr_auto] items-center gap-3 rounded-2xl sm:flex border border-blue-200 bg-slate-950/95 p-3 text-white shadow-2xl backdrop-blur-md sm:p-4">
+        <div className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-600 sm:flex">
           <GitCompareArrows
             aria-hidden="true"
             size={20}
@@ -66,19 +68,20 @@ export default function ComparisonBar() {
         {podeComparar ? (
           <Link
             href={compararHref}
-            className="shrink-0 rounded-xl bg-blue-600 px-3 py-2.5 text-xs font-bold text-white transition hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 sm:px-5 sm:text-sm"
+            className="col-span-2 text-center shrink-0 rounded-xl bg-blue-600 px-3 py-2.5 text-xs font-bold text-white transition hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 sm:px-5 sm:text-sm"
           >
             Comparar agora
           </Link>
         ) : (
           <div
             aria-disabled="true"
-            className="shrink-0 cursor-not-allowed rounded-xl bg-slate-700 px-3 py-2.5 text-xs font-bold text-slate-300 sm:px-5 sm:text-sm"
+            className="col-span-2 text-center shrink-0 cursor-not-allowed rounded-xl bg-slate-700 px-3 py-2.5 text-xs font-bold text-slate-300 sm:px-5 sm:text-sm"
           >
             Selecione mais 1
           </div>
         )}
       </div>
     </div>
+    </>
   );
 }

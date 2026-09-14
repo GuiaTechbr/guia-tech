@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { GitCompareArrows } from "lucide-react";
 
@@ -22,6 +23,13 @@ const secoes = [
       "Explore opções para trabalhar, estudar e se divertir.",
   },
 ];
+
+export const metadata: Metadata = {
+  title: { absolute: "Guia Tech | Produtos, ofertas e comparações" },
+  description: "Explore produtos de tecnologia, confira características e compare opções para escolher melhor.",
+  alternates: { canonical: "/" },
+  openGraph: { title: "Guia Tech | Produtos, ofertas e comparações", description: "Explore produtos de tecnologia, confira características e compare opções para escolher melhor.", url: "/", siteName: "Guia Tech", locale: "pt_BR", type: "website" },
+};
 
 export default async function Home() {
   const [contagens, grupos] = await Promise.all([

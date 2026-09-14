@@ -26,7 +26,7 @@ export default function SearchBar() {
     >
       <div className="flex overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-300 focus-within:border-blue-300 focus-within:shadow-[0_8px_22px_rgba(37,99,235,0.10)] focus-within:ring-2 focus-within:ring-blue-100">
 
-        <div className="flex flex-1 items-center">
+        <div className="flex min-w-0 flex-1 items-center">
           <div className="pl-4 text-slate-400">
             <svg
               width="18"
@@ -63,7 +63,7 @@ export default function SearchBar() {
 
       </div>
 
-      <p className="mt-2 text-center text-xs text-slate-400">
+      <p className="mt-2 text-center text-xs text-slate-500">
         Ex.: iPhone, Samsung, notebook, Smart TV...
       </p>
     </form>

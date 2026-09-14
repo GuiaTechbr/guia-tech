@@ -16,7 +16,7 @@ export async function generateMetadata({
 }: Props): Promise<Metadata> {
   const { nome } = await params;
 
-  const categoria = decodeURIComponent(nome);
+  const categoria = nome;
 
   const quantidade = await prisma.produto.count({
     where: {
@@ -32,9 +32,14 @@ export async function generateMetadata({
       : `Explore a categoria ${categoria} no Guia Tech e acompanhe novas recomendações, ofertas e produtos.`;
 
   return {
+    alternates: { canonical: `/categoria/${encodeURIComponent(categoria)}` },
+    robots: quantidade > 0 ? { index: true, follow: true } : { index: false, follow: true },
     title: categoria,
     description,
     openGraph: {
+      url: `/categoria/${encodeURIComponent(categoria)}`,
+      siteName: "Guia Tech",
+      locale: "pt_BR",
       title: categoria,
       description,
       type: "website",
@@ -45,7 +50,7 @@ export async function generateMetadata({
 export default async function CategoriaPage({ params }: Props) {
   const { nome } = await params;
 
-  const categoria = decodeURIComponent(nome);
+  const categoria = nome;
 
   const produtos = await prisma.produto.findMany({
     where: {

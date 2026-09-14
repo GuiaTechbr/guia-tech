@@ -1,3 +1,4 @@
+import { productSchema, safeJsonLd } from "@/lib/product-schema";
 import { cache } from "react";
 import { notFound } from "next/navigation";
 import { parseProductId } from "@/lib/product-id";
@@ -111,6 +112,7 @@ export default async function ProdutoPage({
 
   return (
     <div className={produto.linkAfiliado ? "pb-36 lg:pb-0" : ""}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(productSchema(produto)) }} />
       <Header />
 
       <main className="min-h-screen bg-slate-50">
