@@ -34,3 +34,24 @@ Base da revisão: 86ce88c. Trabalho exclusivamente local; sem push ou publicaç�
 - A revisão de acessibilidade foi focada nos componentes citados, não uma certificação completa WCAG.
 
 Referências: [Google — Product](https://developers.google.com/search/docs/appearance/structured-data/product-snippet), [Google — noindex](https://developers.google.com/search/docs/crawling-indexing/block-indexing) e documentação do Next.js instalada no projeto.
+
+## Revisão final em modo de produção — 14/09/2026
+
+Versão de código testada: af8966d. Build completo repetido após o último ajuste visual: aprovado. Servidor de produção local usado na porta 3001.
+
+- Início, ofertas, categoria, produto, favoritos, comparação, busca, robots e sitemap: HTTP 200.
+- Busca, favoritos e comparação: noindex presente no HTML.
+- Produto: URL canônica pública e JSON-LD presentes.
+- Códigos inválidos e produtos ausentes: mensagem adequada e noindex.
+- Admin sem cookie e com cookie inválido: redirecionamento para login.
+- POST, PUT e DELETE de produtos sem autenticação: HTTP 401. As solicitações de teste estavam vazias; nenhum produto foi alterado.
+- Consulta pública dos produtos: HTTP 200.
+
+Esta revisão local não testa a persistência do SQLite na infraestrutura da Vercel. O banco continua em prisma/dev.db, sem migração nesta etapa.
+
+## Continuação do cronograma
+
+1. Autorizar o envio desta versão ao GitHub. Até essa autorização, não fazer push.
+2. Após o envio, acompanhar o deploy da Vercel e conferir as páginas públicas, robots e sitemap.
+3. Validar uma página pública no Google Rich Results Test e submeter o sitemap no Search Console com acesso autorizado.
+4. Acompanhar a indexação e planejar a expansão do catálogo e o banco persistente do Admin.
