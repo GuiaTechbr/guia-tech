@@ -21,6 +21,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
 
+  verification: {
+    google: "TASj_Z-u2uVfQtFJL-VZQnQB6uwfrCYMR6VhbXBuTLE",
+  },
+
   title: {
     default:
       "Guia Tech | Tecnologia, Ofertas e Análises",
