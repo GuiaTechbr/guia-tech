@@ -19,7 +19,14 @@ const descricoesCategoria = new Map<string, string>([
     "Casa Inteligente",
     "Explore dispositivos para casa inteligente, compare recursos e confira compatibilidade, conectividade e ofertas selecionadas no Guia Tech.",
   ],
-]);
+  [
+"Wearables",
+"Compare smartwatches, pulseiras inteligentes e outros dispositivos vestíveis. Confira recursos, compatibilidade, autonomia e ofertas selecionadas no Guia Tech.",
+  ],
+  [
+"TV e Streaming",
+"Explore dispositivos de streaming e acessórios para TV, compare recursos, compatibilidade e conectividade e confira ofertas selecionadas no Guia Tech.",
+],]);
 
 export function descricaoDaCategoria(categoria: string, quantidade: number): string {
   const personalizada = descricoesCategoria.get(categoria);

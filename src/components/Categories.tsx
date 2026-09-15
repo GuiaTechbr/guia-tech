@@ -27,6 +27,16 @@ const categorias = [
     url: "Casa Inteligente",
     imagem: "/categorias/casa-inteligente.jpg",
   },
+  {
+    nome: "Wearables",
+    url: "Wearables",
+    imagem: "/categorias/wearables.jpg",
+  },
+  {
+    nome: "TV e Streaming",
+    url: "TV e Streaming",
+    imagem: "/categorias/tv-streaming.jpg",
+  },
 ];
 
 export default function Categories({ quantidades = {} }: { quantidades?: Record<string, number> }) {
