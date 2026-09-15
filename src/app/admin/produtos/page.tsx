@@ -78,6 +78,9 @@ export default function AdminProdutosPage() {
   const [formulario, setFormulario] =
     useState<Formulario>(formularioInicial);
 
+  const [formularioSalvo, setFormularioSalvo] = useState<Formulario>(formularioInicial);
+  const alteracoesPendentes = JSON.stringify(formulario) !== JSON.stringify(formularioSalvo);
+
   const [editandoId, setEditandoId] = useState<number | null>(null);
   const [carregando, setCarregando] = useState(true);
   const [salvando, setSalvando] = useState(false);
@@ -129,6 +132,22 @@ export default function AdminProdutosPage() {
     carregarProdutos();
   }, []);
 
+  useEffect(() => {
+    if (!alteracoesPendentes) return;
+    function avisarAntesDeSair(event: BeforeUnloadEvent) {
+      event.preventDefault();
+      event.returnValue = "";
+    }
+    window.addEventListener("beforeunload", avisarAntesDeSair);
+    return () => window.removeEventListener("beforeunload", avisarAntesDeSair);
+  }, [alteracoesPendentes]);
+
+  function confirmarDescarte() {
+    return !alteracoesPendentes || window.confirm(
+      "Há alterações não salvas. Deseja descartá-las e continuar?"
+    );
+  }
+
   function alterarCampo(
     campo: keyof Formulario,
     valor: string
@@ -140,9 +159,10 @@ export default function AdminProdutosPage() {
   }
 
   function editarProduto(produto: Produto) {
+    if (salvando || !confirmarDescarte()) return;
     setEditandoId(produto.id);
 
-    setFormulario({
+    const proximoFormulario: Formulario = {
       nome: produto.nome,
       marca: produto.marca,
       categoria: produto.categoria,
@@ -157,7 +177,9 @@ export default function AdminProdutosPage() {
       fichaTecnica: produto.fichaTecnica || "",
       pontosPositivos: produto.pontosPositivos || "",
       pontosAtencao: produto.pontosAtencao || "",
-    });
+    };
+    setFormulario(proximoFormulario);
+    setFormularioSalvo(proximoFormulario);
 
     window.scrollTo({
       top: 0,
@@ -166,8 +188,10 @@ export default function AdminProdutosPage() {
   }
 
   function cancelarEdicao() {
+    if (salvando || !confirmarDescarte()) return;
     setEditandoId(null);
     setFormulario(formularioInicial);
+      setFormularioSalvo(formularioInicial);
     setMensagem("");
   }
 
@@ -205,6 +229,7 @@ export default function AdminProdutosPage() {
 
       setEditandoId(null);
       setFormulario(formularioInicial);
+      setFormularioSalvo(formularioInicial);
 
       await carregarProdutos();
     } catch (error) {
@@ -221,6 +246,7 @@ export default function AdminProdutosPage() {
   }
 
   async function excluirProduto(id: number) {
+    if (salvando) return;
     const confirmar = window.confirm(
       "Tem certeza que deseja excluir este produto?"
     );
@@ -249,7 +275,9 @@ export default function AdminProdutosPage() {
       setMensagem("Produto excluído com sucesso!");
 
       if (editandoId === id) {
-        cancelarEdicao();
+        setEditandoId(null);
+        setFormulario(formularioInicial);
+        setFormularioSalvo(formularioInicial);
       }
 
       await carregarProdutos();
@@ -270,6 +298,10 @@ export default function AdminProdutosPage() {
         <div className="mb-8">
           <Link
             href="/admin"
+            onClick={(event) => {
+              if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+              if (salvando || !confirmarDescarte()) event.preventDefault();
+            }}
             className="text-sm font-medium text-slate-600 hover:text-blue-700"
           >
             ← Voltar para o painel
@@ -334,6 +366,11 @@ export default function AdminProdutosPage() {
             )}
           </div>
 
+{alteracoesPendentes && (
+  <p role="status" className="mb-5 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-900">
+    Você tem alterações não salvas. Use o botão de salvar para concluir.
+  </p>
+)}
 <form onSubmit={salvarProduto} aria-busy={salvando}>
   <fieldset disabled={salvando} className="min-w-0 space-y-5 disabled:opacity-70">
     <legend className="sr-only">Informações do produto</legend>
@@ -343,21 +380,42 @@ export default function AdminProdutosPage() {
       <div><h3 id="secao-01" className="scroll-mt-28 font-bold text-slate-900">Identificação</h3><p className="mt-1 text-sm leading-6 text-slate-500">Campos com * são obrigatórios.</p></div>
     </div>
     <div className="grid gap-5 md:grid-cols-2">            <div>
-              <label htmlFor="nome" className="mb-2 block text-sm font-semibold text-slate-700">
+              <label
+                htmlFor="nome"
+                className="mb-2 block text-sm font-semibold text-slate-700"
+              >
                 Nome *
               </label>
 
               <input
                 id="nome"
                 name="nome"
+                type="text"
                 required
                 value={formulario.nome}
                 onChange={(event) =>
                   alterarCampo("nome", event.target.value)
                 }
-                className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                placeholder="Samsung Galaxy S25 Ultra"
+                placeholder="Ex.: Apple iPhone 18 Pro Max 1 TB"
+                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
               />
+
+              <div className="mt-3 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">
+                <p className="text-sm font-semibold text-blue-900">
+                  Como preencher o nome
+                </p>
+
+                <p className="mt-1 text-sm leading-6 text-blue-800">
+                  Não inclua a cor quando ela for apenas uma variação da mesma oferta.
+                  Mantenha informações como armazenamento, memória, tamanho ou configuração
+                  quando elas realmente diferenciarem o produto.
+                </p>
+
+                <p className="mt-2 text-xs leading-5 text-blue-700">
+                  Exemplo: use “Apple iPhone 18 Pro Max 1 TB” em vez de
+                  “Apple iPhone 18 Pro Max 1 TB — Prateado”.
+                </p>
+              </div>
             </div>            <div>
               <label htmlFor="marca" className="mb-2 block text-sm font-semibold text-slate-700">
                 Marca *

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { cache } from "react";
+import { descricaoDaCategoria } from "@/lib/category-description";
 
 import CatalogProducts from "@/components/CatalogProducts";
 import Footer from "@/components/Footer";
@@ -15,35 +17,20 @@ type Props = {
   }>;
 };
 
-const descricoesCategoria: Record<string, string> = {
-  Smartphone:
-    "Compare smartphones, confira especificações, pontos positivos, pontos de atenção e ofertas selecionadas para encontrar o celular ideal para você.",
-
-  Notebook:
-    "Compare notebooks para trabalho, estudos e uso pessoal, confira especificações, pontos positivos, pontos de atenção e ofertas selecionadas.",
-};
-
-function descricaoDaCategoria(
-  categoria: string,
-  quantidade: number
-) {
-  const personalizada =
-    descricoesCategoria[categoria];
-
-  if (personalizada) {
-    return personalizada;
-  }
-
-  if (quantidade > 0) {
-    return `Explore ${quantidade} ${
-      quantidade === 1
-        ? "produto selecionado"
-        : "produtos selecionados"
-    } na categoria ${categoria}. Compare informações, características e ofertas no Guia Tech.`;
-  }
-
-  return `Explore a categoria ${categoria} no Guia Tech e acompanhe novas recomendações, comparações e ofertas.`;
-}
+const carregarCategoria = cache(async (categoria: string) =>
+  prisma.produto.findMany({
+    where: { categoria },
+    orderBy: [{ criadoEm: "desc" }, { id: "desc" }],
+    select: {
+      id: true,
+      nome: true,
+      marca: true,
+      categoria: true,
+      preco: true,
+      imagem: true,
+    },
+  })
+);
 
 export async function generateMetadata({
   params,
@@ -52,12 +39,8 @@ export async function generateMetadata({
 
   const categoria = nome;
 
-  const quantidade =
-    await prisma.produto.count({
-      where: {
-        categoria,
-      },
-    });
+  const produtos = await carregarCategoria(categoria);
+  const quantidade = produtos.length;
 
   const description =
     descricaoDaCategoria(
@@ -107,21 +90,7 @@ export default async function CategoriaPage({
 
   const categoria = nome;
 
-  const produtos =
-    await prisma.produto.findMany({
-      where: {
-        categoria,
-      },
-
-      orderBy: [
-        {
-          criadoEm: "desc",
-        },
-        {
-          id: "desc",
-        },
-      ],
-    });
+  const produtos = await carregarCategoria(categoria);
 
   const quantidade = produtos.length;
 
@@ -218,7 +187,7 @@ export default async function CategoriaPage({
         <section className="border-b border-slate-200 bg-white">
           <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
             <nav
-              aria-label="Breadcrumb"
+              aria-label="Localização na página"
               className="flex flex-wrap items-center gap-2 text-sm"
             >
               <Link

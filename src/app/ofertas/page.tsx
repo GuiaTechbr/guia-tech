@@ -122,7 +122,7 @@ export default async function OfertasPage() {
         <section className="border-b border-blue-100 bg-gradient-to-br from-blue-50 via-white to-slate-50">
           <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
             <nav
-              aria-label="Breadcrumb"
+              aria-label="Localização na página"
               className="flex flex-wrap items-center gap-2 text-sm"
             >
               <Link
