@@ -37,6 +37,7 @@ export default function ProductCard({
           {produto.imagem ? (
             <Image
               src={produto.imagem}
+                                                unoptimized={produto.imagem.startsWith("https://m.media-amazon.com/")}
               alt={produto.nome}
               width={350}
               height={350}
