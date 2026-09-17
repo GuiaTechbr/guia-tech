@@ -26,9 +26,18 @@ const secoes = [
 
 export const metadata: Metadata = {
   title: { absolute: "Guia Tech | Produtos, ofertas e comparações" },
-  description: "Explore produtos de tecnologia, confira características e compare opções para escolher melhor.",
+  description:
+    "Explore produtos de tecnologia, confira características e compare opções para escolher melhor.",
   alternates: { canonical: "/" },
-  openGraph: { title: "Guia Tech | Produtos, ofertas e comparações", description: "Explore produtos de tecnologia, confira características e compare opções para escolher melhor.", url: "/", siteName: "Guia Tech", locale: "pt_BR", type: "website" },
+  openGraph: {
+    title: "Guia Tech | Produtos, ofertas e comparações",
+    description:
+      "Explore produtos de tecnologia, confira características e compare opções para escolher melhor.",
+    url: "/",
+    siteName: "Guia Tech",
+    locale: "pt_BR",
+    type: "website",
+  },
 };
 
 export default async function Home() {
@@ -76,33 +85,33 @@ export default async function Home() {
       <Header />
 
       <main className="min-h-screen bg-slate-50">
-        <section className="border-b border-blue-100 bg-gradient-to-br from-blue-50 via-white to-slate-100 px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-16">
+        <section className="border-b border-blue-100 bg-gradient-to-br from-blue-50 via-white to-slate-100 px-4 py-6 sm:px-6 sm:py-14 lg:px-8 lg:py-16">
           <div className="mx-auto max-w-5xl text-center">
             <span className="inline-flex rounded-full border border-blue-200 bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-blue-700">
               Seu guia de tecnologia
             </span>
 
-            <h1 className="mx-auto mt-5 max-w-4xl text-3xl font-bold tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
+            <h1 className="mx-auto mt-3 max-w-4xl text-3xl font-bold tracking-tight text-slate-950 sm:mt-5 sm:text-5xl lg:text-6xl">
               Encontre a tecnologia certa para você.
             </h1>
 
-            <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
+            <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-600 sm:mt-5 sm:text-lg sm:leading-7">
               Explore produtos, compare especificações, confira os
               pontos positivos e de atenção e veja as ofertas nas
               lojas parceiras.
             </p>
 
-            <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap">
+            <div className="mt-5 flex flex-col justify-center gap-2 sm:mt-7 sm:flex-row sm:flex-wrap sm:gap-3">
               <Link
                 href="#destaques"
-                className="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                className="rounded-xl bg-blue-600 px-6 py-2.5 font-semibold text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 sm:py-3"
               >
                 Conhecer os destaques ↓
               </Link>
 
               <Link
                 href="/comparar"
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-blue-300 bg-white px-6 py-3 font-semibold text-blue-700 shadow-sm transition hover:border-blue-500 hover:bg-blue-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-blue-300 bg-white px-6 py-2.5 font-semibold text-blue-700 shadow-sm transition hover:border-blue-500 hover:bg-blue-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 sm:py-3"
               >
                 <GitCompareArrows
                   aria-hidden="true"
@@ -114,13 +123,13 @@ export default async function Home() {
 
               <Link
                 href="#categorias"
-                className="rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:border-blue-400 hover:text-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                className="rounded-xl border border-slate-300 bg-white px-6 py-2.5 font-semibold text-slate-700 transition hover:border-blue-400 hover:text-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 sm:py-3"
               >
                 Explorar categorias
               </Link>
             </div>
 
-            <p className="mt-5 text-sm text-slate-500">
+            <p className="mt-3 text-xs leading-5 text-slate-500 sm:mt-5 sm:text-sm">
               Informações do produto em um só lugar. Compare até
               3 modelos e compre diretamente na loja parceira.
             </p>
