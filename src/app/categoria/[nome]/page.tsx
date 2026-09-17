@@ -37,21 +37,14 @@ export async function generateMetadata({
 }: Props): Promise<Metadata> {
   const { nome } = await params;
 
-  const categoria = nome;
+  const categoria = decodeURIComponent(nome);
 
   const produtos = await carregarCategoria(categoria);
   const quantidade = produtos.length;
 
-  const description =
-    descricaoDaCategoria(
-      categoria,
-      quantidade
-    );
+  const description = descricaoDaCategoria(categoria, quantidade);
 
-  const canonical =
-    `/categoria/${encodeURIComponent(
-      categoria
-    )}`;
+  const canonical = `/categoria/${encodeURIComponent(categoria)}`;
 
   return {
     alternates: {
@@ -88,22 +81,17 @@ export default async function CategoriaPage({
 }: Props) {
   const { nome } = await params;
 
-  const categoria = nome;
+  const categoria = decodeURIComponent(nome);
 
   const produtos = await carregarCategoria(categoria);
 
   const quantidade = produtos.length;
 
-  const descricao =
-    descricaoDaCategoria(
-      categoria,
-      quantidade
-    );
+  const descricao = descricaoDaCategoria(categoria, quantidade);
 
-  const categoriaUrl =
-    `${SITE_URL}/categoria/${encodeURIComponent(
-      categoria
-    )}`;
+  const categoriaUrl = `${SITE_URL}/categoria/${encodeURIComponent(
+    categoria
+  )}`;
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -128,32 +116,23 @@ export default async function CategoriaPage({
   const itemListSchema =
     quantidade > 0
       ? {
-          "@context":
-            "https://schema.org",
+          "@context": "https://schema.org",
 
           "@type": "ItemList",
 
           name: `${categoria} no Guia Tech`,
 
-          numberOfItems:
-            quantidade,
+          numberOfItems: quantidade,
 
-          itemListElement:
-            produtos.map(
-              (produto, index) => ({
-                "@type":
-                  "ListItem",
+          itemListElement: produtos.map((produto, index) => ({
+            "@type": "ListItem",
 
-                position:
-                  index + 1,
+            position: index + 1,
 
-                url:
-                  `${SITE_URL}/produtos/${produto.id}`,
+            url: `${SITE_URL}/produtos/${produto.id}`,
 
-                name:
-                  produto.nome,
-              })
-            ),
+            name: produto.nome,
+          })),
         }
       : null;
 
@@ -162,10 +141,7 @@ export default async function CategoriaPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html:
-            safeJsonLd(
-              breadcrumbSchema
-            ),
+          __html: safeJsonLd(breadcrumbSchema),
         }}
       />
 
@@ -173,10 +149,7 @@ export default async function CategoriaPage({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html:
-              safeJsonLd(
-                itemListSchema
-              ),
+            __html: safeJsonLd(itemListSchema),
           }}
         />
       )}
@@ -272,10 +245,8 @@ export default async function CategoriaPage({
               </h2>
 
               <p className="mt-3 text-sm leading-6 text-slate-600 sm:text-base">
-                Estamos preparando novas
-                recomendações para esta categoria.
-                Enquanto isso, você pode explorar
-                outras áreas do Guia Tech.
+                Estamos preparando novas recomendações para esta categoria.
+                Enquanto isso, você pode explorar outras áreas do Guia Tech.
               </p>
 
               <Link
