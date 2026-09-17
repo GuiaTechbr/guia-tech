@@ -24,9 +24,14 @@ const descricoesCategoria = new Map<string, string>([
 "Compare smartwatches, pulseiras inteligentes e outros dispositivos vestíveis. Confira recursos, compatibilidade, autonomia e ofertas selecionadas no Guia Tech.",
   ],
   [
-"TV e Streaming",
-"Explore dispositivos de streaming e acessórios para TV, compare recursos, compatibilidade e conectividade e confira ofertas selecionadas no Guia Tech.",
-],]);
+  "TV e Streaming",
+  "Explore dispositivos de streaming e acessórios para TV, compare recursos, compatibilidade e conectividade e confira ofertas selecionadas no Guia Tech.",
+],
+[
+  "Acessórios",
+  "Encontre fones de ouvido, mouses, teclados, carregadores, armazenamento e outros acessórios de tecnologia. Compare recursos e confira ofertas selecionadas no Guia Tech.",
+],
+]);
 
 export function descricaoDaCategoria(categoria: string, quantidade: number): string {
   const personalizada = descricoesCategoria.get(categoria);

@@ -46,7 +46,7 @@ const formularioInicial: Formulario = {
   pontosAtencao: "",
 };
 
-const categoriasPadrao = ["Smartphone", "Notebook", "Smart TV", "Games", "Casa Inteligente", "Wearables", "TV e Streaming"];
+const categoriasPadrao = ["Smartphone", "Notebook", "Smart TV", "Games", "Casa Inteligente", "Wearables", "TV e Streaming", "Acessórios"];
 
 function normalizarBusca(texto: string) {
   return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("pt-BR").trim();

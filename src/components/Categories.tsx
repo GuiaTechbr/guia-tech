@@ -5,43 +5,55 @@ const categorias = [
   {
     nome: "Smartphones",
     url: "Smartphone",
-    imagem: "/categorias/smartphone.jpg",
+    imagem: "/categorias/smartphone-2026.jpg",
   },
   {
     nome: "Notebooks",
     url: "Notebook",
-    imagem: "/categorias/notebook.jpg",
+    imagem: "/categorias/notebook-2026.jpg",
   },
   {
     nome: "Smart TVs",
     url: "Smart TV",
-    imagem: "/categorias/smartv.jpg",
+    imagem: "/categorias/smartv-2026.jpg",
   },
   {
     nome: "Games",
     url: "Games",
-    imagem: "/categorias/games.jpg",
+    imagem: "/categorias/games-2026.jpg",
   },
   {
     nome: "Casa Inteligente",
     url: "Casa Inteligente",
-    imagem: "/categorias/casa-inteligente.jpg",
+    imagem: "/categorias/casa-inteligente-2026.jpg",
   },
   {
     nome: "Wearables",
     url: "Wearables",
-    imagem: "/categorias/wearables.jpg",
+    imagem: "/categorias/wearables-2026.jpg",
   },
   {
     nome: "TV e Streaming",
     url: "TV e Streaming",
-    imagem: "/categorias/tv-streaming.jpg",
+    imagem: "/categorias/tv-streaming-2026.jpg",
+  },
+  {
+    nome: "Acessórios",
+    url: "Acessórios",
+    imagem: "/categorias/acessorios.jpg",
   },
 ];
 
-export default function Categories({ quantidades = {} }: { quantidades?: Record<string, number> }) {
+export default function Categories({
+  quantidades = {},
+}: {
+  quantidades?: Record<string, number>;
+}) {
   return (
-    <section id="categorias" className="scroll-mt-6 px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
+    <section
+      id="categorias"
+      className="scroll-mt-6 px-4 py-10 sm:px-6 sm:py-12 lg:px-8"
+    >
       <div className="mx-auto max-w-7xl">
         <div className="mb-7 flex items-end justify-between gap-4">
           <div>
@@ -85,7 +97,11 @@ export default function Categories({ quantidades = {} }: { quantidades?: Record<
 
                 <div className="mt-1 flex items-center justify-between">
                   <span className="text-xs text-slate-500">
-                    {quantidades[categoria.url] ? `${quantidades[categoria.url]} produto${quantidades[categoria.url] === 1 ? "" : "s"}` : "Em breve"}
+                    {quantidades[categoria.url]
+                      ? `${quantidades[categoria.url]} produto${
+                          quantidades[categoria.url] === 1 ? "" : "s"
+                        }`
+                      : "Em breve"}
                   </span>
 
                   <span className="text-sm font-semibold text-blue-600 transition-transform duration-300 group-hover:translate-x-1">
