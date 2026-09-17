@@ -30,12 +30,12 @@ const categorias = [
   {
     nome: "Wearables",
     url: "Wearables",
-    imagem: "/categorias/wearables-2026.jpg",
+    imagem: "/categorias/wearables-2026-v2.jpg",
   },
   {
     nome: "TV e Streaming",
     url: "TV e Streaming",
-    imagem: "/categorias/tv-streaming-2026.jpg",
+    imagem: "/categorias/tv-streaming-2026-v2.jpg",
   },
   {
     nome: "Acessórios",
