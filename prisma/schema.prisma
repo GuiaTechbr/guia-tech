@@ -15,6 +15,7 @@ model Produto {
   preco           Float?
   imagem          String?
   linkAfiliado    String?
+  videoOficial    String?
 
   destaques       String?
   fichaTecnica    String?

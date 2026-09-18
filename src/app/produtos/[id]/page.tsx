@@ -53,6 +53,57 @@ function transformarEmLista(texto: string | null) {
     .filter(Boolean);
 }
 
+function obterYoutubeId(url: string | null) {
+  if (!url) {
+    return null;
+  }
+
+  try {
+    const endereco = new URL(url.trim());
+    const host = endereco.hostname
+      .replace(/^www\./, "")
+      .toLowerCase();
+
+    let videoId: string | null = null;
+
+    if (host === "youtu.be") {
+      videoId =
+        endereco.pathname.split("/").filter(Boolean)[0] ||
+        null;
+    }
+
+    if (
+      host === "youtube.com" ||
+      host === "m.youtube.com"
+    ) {
+      if (endereco.pathname === "/watch") {
+        videoId = endereco.searchParams.get("v");
+      } else {
+        const partes = endereco.pathname
+          .split("/")
+          .filter(Boolean);
+
+        if (
+          ["embed", "shorts", "live"].includes(partes[0])
+        ) {
+          videoId = partes[1] || null;
+        }
+      }
+    }
+
+    if (
+      videoId &&
+      /^[A-Za-z0-9_-]{11}$/.test(videoId)
+    ) {
+      return videoId;
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+}
+
 export async function generateMetadata({
   params,
 }: Props): Promise<Metadata> {
@@ -99,6 +150,10 @@ export default async function ProdutoPage({
   const { id } = await params;
 
   const produto = await carregarProduto(id);
+
+  const youtubeId = obterYoutubeId(
+    produto.videoOficial
+  );
 
   const produtosRelacionados =
     await prisma.produto.findMany({
@@ -198,7 +253,9 @@ export default async function ProdutoPage({
                 {produto.imagem ? (
                   <Image
                     src={produto.imagem}
-                                        unoptimized={produto.imagem.startsWith("https://m.media-amazon.com/")}
+                    unoptimized={produto.imagem.startsWith(
+                      "https://m.media-amazon.com/"
+                    )}
                     alt={produto.nome}
                     width={650}
                     height={650}
@@ -391,6 +448,47 @@ export default async function ProdutoPage({
             </div>
           </section>
 
+          {youtubeId && (
+            <section
+              aria-labelledby="video-oficial"
+              className="mt-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+            >
+              <div className="mb-6">
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-600">
+                  Vídeo oficial
+                </p>
+
+                <h2
+                  id="video-oficial"
+                  className="mt-2 scroll-mt-6 text-2xl font-bold text-slate-950"
+                >
+                  Veja o produto em ação
+                </h2>
+
+                <p className="mt-2 text-sm leading-6 text-slate-500">
+                  Confira o vídeo oficial do fabricante para
+                  conhecer melhor o produto.
+                </p>
+              </div>
+
+              <div className="aspect-video overflow-hidden rounded-2xl bg-slate-950">
+                <iframe
+                  src={`https://www.youtube-nocookie.com/embed/${youtubeId}`}
+                  title={`Vídeo oficial: ${produto.nome}`}
+                  className="h-full w-full"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+
+              <p className="mt-3 text-xs text-slate-500">
+                Vídeo oficial do fabricante.
+              </p>
+            </section>
+          )}
+
           {(produto.descricao ||
             possuiConteudoExtra) && (
             <nav
@@ -534,8 +632,7 @@ export default async function ProdutoPage({
                 </div>
               )}
 
-              {fichaTecnica.length >
-                0 && (
+              {fichaTecnica.length > 0 && (
                 <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
                   <div className="mb-6">
                     <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-600">
@@ -591,13 +688,10 @@ export default async function ProdutoPage({
                 </div>
               )}
 
-              {(pontosPositivos.length >
-                0 ||
-                pontosAtencao.length >
-                  0) && (
+              {(pontosPositivos.length > 0 ||
+                pontosAtencao.length > 0) && (
                 <div className="grid gap-6 lg:grid-cols-2">
-                  {pontosPositivos.length >
-                    0 && (
+                  {pontosPositivos.length > 0 && (
                     <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
                       <p className="text-xs font-bold uppercase tracking-[0.18em] text-green-600">
                         O que se destaca
@@ -617,9 +711,7 @@ export default async function ProdutoPage({
                             index
                           ) => (
                             <div
-                              key={
-                                index
-                              }
+                              key={index}
                               className="flex items-start gap-3"
                             >
                               <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-green-50 text-green-600">
@@ -648,8 +740,7 @@ export default async function ProdutoPage({
                     </div>
                   )}
 
-                  {pontosAtencao.length >
-                    0 && (
+                  {pontosAtencao.length > 0 && (
                     <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
                       <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-600">
                         Antes de comprar
@@ -669,9 +760,7 @@ export default async function ProdutoPage({
                             index
                           ) => (
                             <div
-                              key={
-                                index
-                              }
+                              key={index}
                               className="flex items-start gap-3"
                             >
                               <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-amber-50 text-amber-600">
@@ -706,8 +795,7 @@ export default async function ProdutoPage({
             </section>
           )}
 
-          {produtosRelacionados.length >
-            0 && (
+          {produtosRelacionados.length > 0 && (
             <section
               aria-labelledby="produtos-relacionados"
               className="mt-12 border-t border-slate-200 pt-8"
@@ -748,22 +836,18 @@ export default async function ProdutoPage({
                 {produtosRelacionados.map(
                   (relacionado) => (
                     <Link
-                      key={
-                        relacionado.id
-                      }
+                      key={relacionado.id}
                       href={`/produtos/${relacionado.id}`}
                       className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:border-blue-300 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                     >
                       <div className="flex h-52 items-center justify-center bg-slate-100 p-5">
                         {relacionado.imagem ? (
                           <Image
-                            src={
-                              relacionado.imagem
-                            }
-                            alt={
-                              relacionado.nome
-                            }
-                            unoptimized={relacionado.imagem.startsWith("https://m.media-amazon.com/")}
+                            src={relacionado.imagem}
+                            alt={relacionado.nome}
+                            unoptimized={relacionado.imagem.startsWith(
+                              "https://m.media-amazon.com/"
+                            )}
                             width={320}
                             height={220}
                             sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
@@ -771,43 +855,34 @@ export default async function ProdutoPage({
                           />
                         ) : (
                           <span className="text-sm text-slate-500">
-                            Sem imagem
-                            disponível
+                            Sem imagem disponível
                           </span>
                         )}
                       </div>
 
                       <div className="flex flex-1 flex-col p-5">
                         <p className="text-xs font-semibold text-slate-500">
-                          {
-                            relacionado.marca
-                          }
+                          {relacionado.marca}
                         </p>
 
                         <h3 className="mt-2 break-words text-lg font-bold leading-6 text-slate-900 group-hover:text-blue-700">
-                          {
-                            relacionado.nome
-                          }
+                          {relacionado.nome}
                         </h3>
 
                         <div className="mt-auto pt-5">
                           <p className="text-xs text-slate-500">
-                            {relacionado.preco !==
-                            null
+                            {relacionado.preco !== null
                               ? "Preço encontrado"
                               : "Preço"}
                           </p>
 
                           <p className="mt-1 text-xl font-bold text-slate-900">
-                            {relacionado.preco !==
-                            null
+                            {relacionado.preco !== null
                               ? relacionado.preco.toLocaleString(
                                   "pt-BR",
                                   {
-                                    style:
-                                      "currency",
-                                    currency:
-                                      "BRL",
+                                    style: "currency",
+                                    currency: "BRL",
                                   }
                                 )
                               : "Consulte na loja"}
@@ -848,10 +923,8 @@ export default async function ProdutoPage({
                   ? produto.preco.toLocaleString(
                       "pt-BR",
                       {
-                        style:
-                          "currency",
-                        currency:
-                          "BRL",
+                        style: "currency",
+                        currency: "BRL",
                       }
                     )
                   : "Consulte na loja"}
@@ -859,9 +932,7 @@ export default async function ProdutoPage({
             </div>
 
             <a
-              href={
-                produto.linkAfiliado
-              }
+              href={produto.linkAfiliado}
               target="_blank"
               rel="noopener noreferrer sponsored"
               className="shrink-0 rounded-xl bg-blue-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
@@ -873,16 +944,14 @@ export default async function ProdutoPage({
 
               <span className="sr-only">
                 {" "}
-                na Amazon (abre em nova
-                aba)
+                na Amazon (abre em nova aba)
               </span>
             </a>
           </div>
 
           <p className="mx-auto mt-2 max-w-3xl text-xs text-slate-500">
-            Preço sujeito a alteração. Link
-            de afiliado. Cores e variações
-            podem mudar conforme a oferta da
+            Preço sujeito a alteração. Link de afiliado.
+            Cores e variações podem mudar conforme a oferta da
             loja.
           </p>
         </aside>

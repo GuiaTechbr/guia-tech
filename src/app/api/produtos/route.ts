@@ -48,7 +48,8 @@ export async function POST(request: Request) {
             : null,
 
         imagem: body.imagem || null,
-        linkAfiliado: body.linkAfiliado || null,
+linkAfiliado: body.linkAfiliado || null,
+videoOficial: body.videoOficial || null,
       },
     });
 
@@ -101,7 +102,8 @@ export async function PUT(request: Request) {
             : null,
 
         imagem: body.imagem || null,
-        linkAfiliado: body.linkAfiliado || null,
+linkAfiliado: body.linkAfiliado || null,
+videoOficial: body.videoOficial || null,
       },
     });
 
