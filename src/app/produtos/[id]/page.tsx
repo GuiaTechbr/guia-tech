@@ -253,9 +253,7 @@ export default async function ProdutoPage({
                 {produto.imagem ? (
                   <Image
                     src={produto.imagem}
-                    unoptimized={produto.imagem.startsWith(
-                      "https://m.media-amazon.com/"
-                    )}
+                    unoptimized
                     alt={produto.nome}
                     width={650}
                     height={650}
@@ -845,9 +843,7 @@ export default async function ProdutoPage({
                           <Image
                             src={relacionado.imagem}
                             alt={relacionado.nome}
-                            unoptimized={relacionado.imagem.startsWith(
-                              "https://m.media-amazon.com/"
-                            )}
+                            unoptimized
                             width={320}
                             height={220}
                             sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
