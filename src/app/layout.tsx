@@ -34,10 +34,10 @@ export const metadata: Metadata = {
   description:
     "Encontre ofertas, análises, comparativos e recomendações de smartphones, notebooks, Smart TVs, games e tecnologia.",
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/logo-guiatech.png",
-  },
+  icon: "/icon.png",
+  shortcut: "/icon.png",
+  apple: "/icon.png",
+},
 
   openGraph: {
     type: "website",
