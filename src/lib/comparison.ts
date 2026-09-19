@@ -64,10 +64,10 @@ function save(ids: number[]) {
 
 export function useComparison() {
   const raw = useSyncExternalStore(
-    subscribe,
-    snapshot,
-    () => ""
-  );
+  subscribe,
+  snapshot,
+  () => "[]"
+);
 
   return {
     ids: parse(raw),

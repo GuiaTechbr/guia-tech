@@ -20,7 +20,7 @@ function parse(raw: string): number[] {
   } catch { return []; }
 }
 export function useFavorites() {
-  const raw = useSyncExternalStore(subscribe, snapshot, () => "");
+  const raw = useSyncExternalStore(subscribe, snapshot, () => "[]");
   return { ids: parse(raw), ready: raw !== "" };
 }
 export function toggleFavorite(id: number) {
