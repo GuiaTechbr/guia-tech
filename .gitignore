@@ -42,3 +42,9 @@ next-env.d.ts
 
 /src/generated/prisma
 .env 
+
+# Cópias privadas do banco e arquivos transitórios do SQLite
+/backups/
+*.db-wal
+*.db-shm
+*.db-journal
