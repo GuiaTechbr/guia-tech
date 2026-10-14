@@ -9,6 +9,9 @@ https://guia-tech.vercel.app/produtos/55
 Amazfit Active 2 Premium Round 44mm AMOLED 1,32" com GPS
 https://guia-tech.vercel.app/produtos/131
 
+Amazfit Bip 5 46mm GPS Tela 1,91 polegadas Chamadas Bluetooth Preto
+https://guia-tech.vercel.app/produtos/162
+
 Amazfit Bip 6 GPS AMOLED 1,97 polegadas
 https://guia-tech.vercel.app/produtos/119
 
@@ -90,6 +93,9 @@ https://guia-tech.vercel.app/produtos/11
 Combo Teclado e Mouse sem fio Logitech MK270 ABNT2
 https://guia-tech.vercel.app/produtos/27
 
+Console PlayStation 5 Slim Edição Digital 1TB
+https://guia-tech.vercel.app/produtos/152
+
 Controle 8BitDo Ultimate 2C Wireless para Windows e Android
 https://guia-tech.vercel.app/produtos/71
 
@@ -101,6 +107,9 @@ https://guia-tech.vercel.app/produtos/47
 
 Controle sem fio PlayStation DualSense para PS5 CFI-ZCT2W
 https://guia-tech.vercel.app/produtos/148
+
+Controle sem fio Xbox Astral Purple
+https://guia-tech.vercel.app/produtos/157
 
 Câmera Externa TP-Link Tapo C320WS 2K QHD 4MP
 https://guia-tech.vercel.app/produtos/69
@@ -186,6 +195,15 @@ https://guia-tech.vercel.app/produtos/36
 Lâmpada Inteligente Wi‑Fi TP-Link Tapo L530E Multicolorida
 https://guia-tech.vercel.app/produtos/41
 
+Meta Quest 3S 128GB Óculos de Realidade Mista
+https://guia-tech.vercel.app/produtos/159
+
+Microsoft Xbox Series S 512GB All-Digital Robot White
+https://guia-tech.vercel.app/produtos/153
+
+Motorola Edge 70 Fusion 5G 256GB 8GB RAM + RAM Boost
+https://guia-tech.vercel.app/produtos/155
+
 Motorola Moto G77 5G 256GB 8GB RAM
 https://guia-tech.vercel.app/produtos/117
 
@@ -213,6 +231,9 @@ https://guia-tech.vercel.app/produtos/28
 Mousepad Gamer HyperX Pulsefire Mat M 360 × 300 mm
 https://guia-tech.vercel.app/produtos/66
 
+Nintendo Switch 2 256GB com Joy-Con 2
+https://guia-tech.vercel.app/produtos/151
+
 Nintendo Switch OLED com Super Mario Bros. Wonder e 3 meses de Nintendo Switch Online
 https://guia-tech.vercel.app/produtos/149
 
@@ -231,8 +252,14 @@ https://guia-tech.vercel.app/produtos/130
 Notebook Dell 15 15-I1300-A30P Intel Core i5-1334U 8GB 512GB SSD 15,6" Full HD 120Hz Windows 11
 https://guia-tech.vercel.app/produtos/80
 
+Notebook Gamer Acer Nitro V 15 ANV15-52-51E4 Core i5 16GB 512GB RTX 4050 Windows 11
+https://guia-tech.vercel.app/produtos/161
+
 Notebook Gamer Dell Alienware 15 DA15-C5210H-A10 Core 5 210H 8GB 512GB RTX 3050 6GB 165Hz
 https://guia-tech.vercel.app/produtos/138
+
+Notebook Gamer Lenovo LOQ 15IRX9 i5-13450HX 8GB 512GB RTX 3050 6GB Linux 15,6" 144Hz
+https://guia-tech.vercel.app/produtos/156
 
 Notebook Lenovo IdeaPad Slim 3 15AMN8 Ryzen 5 7520U 8GB 512GB SSD 15,6" Full HD Windows 11
 https://guia-tech.vercel.app/produtos/82
@@ -248,6 +275,9 @@ https://guia-tech.vercel.app/produtos/72
 
 Pen Drive Kingston DataTraveler Exodia M 64GB USB 3.2
 https://guia-tech.vercel.app/produtos/24
+
+PlayStation Portal Remote Player para PS5
+https://guia-tech.vercel.app/produtos/154
 
 Power Bank Anker Nano 10.000mAh 45W com cabo USB-C retrátil de 70cm
 https://guia-tech.vercel.app/produtos/110
@@ -417,11 +447,17 @@ https://guia-tech.vercel.app/produtos/22
 Tomada Inteligente Wi-Fi TP-Link Tapo P110
 https://guia-tech.vercel.app/produtos/16
 
+Volante Logitech G923 TRUEFORCE com Pedais para PS5, PS4 e PC
+https://guia-tech.vercel.app/produtos/158
+
 WAP Spot Cleaner W2 Extratora e Higienizadora Portátil 1600W
 https://guia-tech.vercel.app/produtos/76
 
 Webcam Logitech C270 HD 720p
 https://guia-tech.vercel.app/produtos/31
+
+Xiaomi Redmi Note 14 4G 256GB 8GB RAM Preto
+https://guia-tech.vercel.app/produtos/160
 
 Xiaomi Redmi Watch 5 Active
 https://guia-tech.vercel.app/produtos/38
