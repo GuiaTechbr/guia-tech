@@ -48,3 +48,10 @@ next-env.d.ts
 *.db-wal
 *.db-shm
 *.db-journal
+
+.vercel
+.env*
+/prisma/dev.db
+/src/app/favicon-backup.ico
+/teste-site.html
+/scripts/migrar-produtos-turso.cjs
