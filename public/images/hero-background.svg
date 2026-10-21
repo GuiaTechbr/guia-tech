@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1672" height="395" viewBox="0 0 1672 395" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="base" x1="0" y1="0" x2="1" y2=".6"><stop stop-color="#d6e8ff"/><stop offset=".27" stop-color="#f6fbff"/><stop offset=".55" stop-color="#e1f0ff"/><stop offset="1" stop-color="#9ed0ff"/></linearGradient>
+    <linearGradient id="wash" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#edf8ff" stop-opacity=".2"/><stop offset=".55" stop-color="#fff" stop-opacity=".76"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <linearGradient id="pill" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#e5f6ff" stop-opacity=".1"/><stop offset="1" stop-color="#bce4fc" stop-opacity=".8"/></linearGradient>
+  </defs>
+  <path fill="url(#base)" d="M0 0h1672v395H0z"/>
+  <path d="M141 0H415L0 395V139Z" fill="#fff" opacity=".34"/>
+  <path d="M141 0 0 139" fill="none" stroke="#fff" stroke-width="1.2" opacity=".95"/>
+  <path d="M356 0h429L365 395H0Z" fill="url(#wash)"/>
+  <path d="M893 0c-59 80-170 67-210 157-39 87-58 104-147 176l-72 62h187c81-80 127-154 204-213 63-49 140-99 192-182Z" fill="#fff" opacity=".39"/>
+  <path d="m690 395 410-395h48L744 395Z" fill="#fff" opacity=".25"/>
+  <path d="M-52 318 38 224a39 39 0 0 1 55 55L-26 395H-52Z" fill="url(#pill)"/>
+  <path d="m13 117 24-18c11-8 40 0 31 13l-22 22c-7 9-46 1-37-9Z" fill="#bad7ff" opacity=".57"/>
+  <path d="M0 371c172-51 342-4 513 24H0Z" fill="#fff" opacity=".13"/>
+</svg>
