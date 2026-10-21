@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import HomeHero from "@/components/HomeHero";
+import HomeHighlights from "@/components/HomeHighlights";
 
 import ProductCard from "@/components/ProductCard";
 import Header from "@/components/Header";
@@ -86,6 +87,8 @@ export default async function Home() {
 
       <main className="min-h-screen bg-slate-50">
         <HomeHero />
+
+        <HomeHighlights />
 
         <Categories quantidades={quantidades} />
 
