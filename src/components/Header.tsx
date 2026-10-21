@@ -1,190 +1,33 @@
 "use client";
-
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { Heart, Menu, Tag, UserRound, X } from "lucide-react";
 import SearchBar from "@/components/SearchBar";
+import styles from "./Top.module.css";
 
+const links = [["Início", "/"], ["Smartphones", "/categoria/Smartphone"], ["Notebooks", "/categoria/Notebook"], ["Smart TVs", "/categoria/Smart%20TV"], ["Games", "/categoria/Games"]];
 export default function Header() {
   const [menuAberto, setMenuAberto] = useState(false);
-
-  const fecharMenu = () => {
-    setMenuAberto(false);
-  };
-
+  const pathname = usePathname();
+  const fecharMenu = () => setMenuAberto(false);
   return (
-    <header
-      className="border-b border-blue-100 bg-cover bg-center shadow-sm"
-      style={{ backgroundImage: "url('/banner-tech.jpg')" }}
-    >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 sm:gap-4 px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
-
-        {/* LOGO */}
-        <Link href="/" className="shrink-0 group" onClick={fecharMenu}>
-          <p className="text-2xl font-bold tracking-tight text-blue-700 transition-colors duration-300 group-hover:text-blue-800 sm:text-3xl">
-            Guia Tech
-          </p>
-
-          <p className="mt-0.5 hidden text-xs text-slate-500 sm:block sm:text-sm">
-            Tecnologia, ofertas e análises
-          </p>
-        </Link>
-
-        {/* BUSCA DESKTOP */}
-        <div className="hidden min-w-0 w-full max-w-md xl:block">
-          <SearchBar />
+    <header className={styles.header}>
+      <div className={styles.headerInner}>
+        <Link href="/" className={styles.logo} onClick={fecharMenu}><strong>Guia Tech</strong><span>Tecnologia, ofertas e análises</span></Link>
+        <div className={styles.desktopSearch}><SearchBar /></div>
+        <nav className={styles.desktopNav} aria-label="Menu principal">
+          {links.map(([label, href]) => <Link key={href} href={href} aria-current={pathname === decodeURIComponent(href) ? "page" : undefined}>{label}</Link>)}
+          <Link href="/ofertas" className={styles.offer}><Tag size={17} aria-hidden="true" />Ofertas</Link>
+        </nav>
+        <div className={styles.headerActions}>
+          <Link href="/favoritos" className={styles.favorites}><Heart size={19} aria-hidden="true" /><span>Favoritos</span></Link>
+          <Link href="/admin" className={styles.account} aria-label="Acessar administração"><UserRound size={19} aria-hidden="true" /></Link>
+          <button type="button" className={styles.menuToggle} onClick={() => setMenuAberto(!menuAberto)} aria-label={menuAberto ? "Fechar menu" : "Abrir menu"} aria-expanded={menuAberto} aria-controls="menu-mobile">{menuAberto ? <X size={22} /> : <Menu size={22} />}</button>
         </div>
-
-        {/* MENU DESKTOP */}
-        <nav className="hidden xl:block">
-          <ul className="flex items-center gap-4 text-sm font-medium text-slate-700 lg:gap-5">
-
-            <li>
-              <Link
-                href="/"
-                className="transition-colors duration-300 hover:text-blue-700"
-              >
-                Início
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                href="/categoria/Smartphone"
-                className="transition-colors duration-300 hover:text-blue-700"
-              >
-                Smartphones
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                href="/categoria/Notebook"
-                className="transition-colors duration-300 hover:text-blue-700"
-              >
-                Notebooks
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                href="/categoria/Smart%20TV"
-                className="transition-colors duration-300 hover:text-blue-700"
-              >
-                Smart TVs
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                href="/categoria/Games"
-                className="transition-colors duration-300 hover:text-blue-700"
-              >
-                Games
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                href="/ofertas"
-                className="rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-[0_8px_20px_rgba(37,99,235,0.18)]"
-              >
-                Ofertas
-              </Link>
-            </li>
-
-          </ul>
-        </nav>
-
-        <Link href="/favoritos" className="shrink-0 rounded-lg border border-blue-200 bg-white/90 px-3 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50">Favoritos</Link>
-
-        {/* BOTÃO MENU MOBILE */}
-        <button
-          type="button"
-          onClick={() => setMenuAberto(!menuAberto)}
-          className="rounded-lg border border-blue-200 bg-white/80 p-2 text-blue-700 shadow-sm transition hover:bg-blue-50 xl:hidden"
-          aria-label={menuAberto ? "Fechar menu" : "Abrir menu"}
-          aria-expanded={menuAberto}
-        >
-          <span className="text-2xl leading-none">
-            {menuAberto ? "×" : "☰"}
-          </span>
-        </button>
-
       </div>
-
-      {/* BUSCA MOBILE */}
-      <div className="px-4 pb-4 xl:hidden">
-        <SearchBar />
-      </div>
-
-      {/* MENU MOBILE */}
-      {menuAberto && (
-        <nav className="border-t border-blue-100 bg-white/95 backdrop-blur xl:hidden">
-          <ul className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
-
-            <li>
-              <Link
-                href="/"
-                onClick={fecharMenu}
-                className="block border-b border-slate-100 py-3 font-medium text-slate-700 transition hover:text-blue-700"
-              >
-                Início
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                href="/categoria/Smartphone"
-                onClick={fecharMenu}
-                className="block border-b border-slate-100 py-3 font-medium text-slate-700 transition hover:text-blue-700"
-              >
-                Smartphones
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                href="/categoria/Notebook"
-                onClick={fecharMenu}
-                className="block border-b border-slate-100 py-3 font-medium text-slate-700 transition hover:text-blue-700"
-              >
-                Notebooks
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                href="/categoria/Smart%20TV"
-                onClick={fecharMenu}
-                className="block border-b border-slate-100 py-3 font-medium text-slate-700 transition hover:text-blue-700"
-              >
-                Smart TVs
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                href="/categoria/Games"
-                onClick={fecharMenu}
-                className="block border-b border-slate-100 py-3 font-medium text-slate-700 transition hover:text-blue-700"
-              >
-                Games
-              </Link>
-            </li>
-
-            <li className="pt-3">
-              <Link
-                href="/ofertas"
-                onClick={fecharMenu}
-                className="block rounded-lg bg-blue-600 px-4 py-3 text-center font-semibold text-white shadow-sm transition hover:bg-blue-700"
-              >
-                Ofertas
-              </Link>
-            </li>
-
-          </ul>
-        </nav>
-      )}
+      <div className={styles.mobileSearch}><SearchBar /></div>
+      {menuAberto && <nav id="menu-mobile" className={styles.mobileNav} aria-label="Menu principal móvel" onKeyDown={(event) => { if (event.key === "Escape") fecharMenu(); }}>{links.map(([label, href]) => <Link key={href} href={href} onClick={fecharMenu}>{label}</Link>)}<Link href="/ofertas" onClick={fecharMenu}>Ofertas</Link></nav>}
     </header>
   );
 }
