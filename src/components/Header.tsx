@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Heart, Menu, Tag, UserRound, X } from "lucide-react";
+import { Heart, Menu, Tag, X } from "lucide-react";
 import SearchBar from "@/components/SearchBar";
 import styles from "./Top.module.css";
 
@@ -22,7 +22,6 @@ export default function Header() {
         </nav>
         <div className={styles.headerActions}>
           <Link href="/favoritos" className={styles.favorites}><Heart size={19} aria-hidden="true" /><span>Favoritos</span></Link>
-          <Link href="/admin" className={styles.account} aria-label="Acessar administração"><UserRound size={19} aria-hidden="true" /></Link>
           <button type="button" className={styles.menuToggle} onClick={() => setMenuAberto(!menuAberto)} aria-label={menuAberto ? "Fechar menu" : "Abrir menu"} aria-expanded={menuAberto} aria-controls="menu-mobile">{menuAberto ? <X size={22} /> : <Menu size={22} />}</button>
         </div>
       </div>
@@ -31,3 +30,4 @@ export default function Header() {
     </header>
   );
 }
+
