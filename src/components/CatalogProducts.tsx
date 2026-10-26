@@ -12,7 +12,7 @@ type ProdutoCatalogo = {
   imagem: string | null;
 };
 
-export default function CatalogProducts({ produtos, filtrarCategoria = false }: { produtos: ProdutoCatalogo[]; filtrarCategoria?: boolean }) {
+export default function CatalogProducts({ produtos, filtrarCategoria = false, mostrarQuantidade = true }: { produtos: ProdutoCatalogo[]; filtrarCategoria?: boolean; mostrarQuantidade?: boolean }) {
   const [orcamento, setOrcamento] = useState("");
   const valorNormalizado = orcamento.trim().replace(/\s/g, "");
   const formatoValido = /^(?:\d+(?:[.,]\d{1,2})?|\d{1,3}(?:\.\d{3})+(?:,\d{1,2})?)$/.test(valorNormalizado);
@@ -84,7 +84,7 @@ export default function CatalogProducts({ produtos, filtrarCategoria = false }: 
         <button type="button" onClick={limparFiltros} disabled={!orcamento && !categoria && !marca && ordem === "recentes"} className="rounded-lg bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-700 hover:bg-blue-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:opacity-50">Limpar filtros</button>
       </div>
 
-      <p role="status" aria-live="polite" className="mb-5 text-sm text-slate-500">Exibindo {visiveis.length} de {produtos.length} produto(s).</p>
+      {mostrarQuantidade && <p role="status" aria-live="polite" className="mb-5 text-sm text-slate-500">Exibindo {visiveis.length} de {produtos.length} produto(s).</p>}
       {visiveis.length > 0 ? (
         <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3">
           {visiveis.map((produto) => <ProductCard key={produto.id} produto={produto} layout="grid" />)}

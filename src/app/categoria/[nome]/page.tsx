@@ -1,9 +1,12 @@
+import CategoryHero from "@/components/CategoryHero";
+import styles from "@/components/CategoryDesign.module.css";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { cache } from "react";
 import { descricaoDaCategoria } from "@/lib/category-description";
 
 import CatalogProducts from "@/components/CatalogProducts";
+import CategoryComparison from "@/components/CategoryComparison";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 
@@ -28,6 +31,7 @@ const carregarCategoria = cache(async (categoria: string) =>
       categoria: true,
       preco: true,
       imagem: true,
+      fichaTecnica: true,
     },
   })
 );
@@ -156,63 +160,11 @@ export default async function CategoriaPage({
 
       <Header />
 
-      <main className="min-h-screen bg-slate-50">
-        <section className="border-b border-slate-200 bg-white">
-          <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-            <nav
-              aria-label="Localização na página"
-              className="flex flex-wrap items-center gap-2 text-sm"
-            >
-              <Link
-                href="/"
-                className="font-medium text-slate-500 transition-colors hover:text-blue-600"
-              >
-                Início
-              </Link>
-
-              <span
-                aria-hidden="true"
-                className="text-slate-300"
-              >
-                ›
-              </span>
-
-              <span
-                aria-current="page"
-                className="font-semibold text-slate-700"
-              >
-                {categoria}
-              </span>
-            </nav>
-
-            <div className="mt-7 max-w-3xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-600">
-                Categoria
-              </p>
-
-              <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
-                {categoria}
-              </h1>
-
-              <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">
-                {quantidade === 0
-                  ? "Ainda não há produtos cadastrados nesta categoria. Novas seleções serão adicionadas em breve."
-                  : descricao}
-              </p>
-
-              {quantidade > 0 && (
-                <p className="mt-3 text-sm font-medium text-slate-500">
-                  {quantidade}{" "}
-                  {quantidade === 1
-                    ? "produto disponível"
-                    : "produtos disponíveis"}
-                </p>
-              )}
-            </div>
-          </div>
-        </section>
+      <main className={styles.page}>
+        <CategoryHero categoria={categoria} quantidade={quantidade} descricao={descricao} />
 
         <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+          <CategoryComparison categoria={categoria} produtos={produtos} />
           {quantidade === 0 ? (
             <div className="mx-auto max-w-2xl rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm sm:p-12">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-blue-50 text-blue-600">
@@ -257,7 +209,7 @@ export default async function CategoriaPage({
               </Link>
             </div>
           ) : (
-            <CatalogProducts
+            <CatalogProducts mostrarQuantidade={false}
               key={categoria}
               produtos={produtos.map(
                 ({

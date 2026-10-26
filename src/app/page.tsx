@@ -42,15 +42,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const [contagens, grupos] = await Promise.all([
-    prisma.produto.groupBy({
-      by: ["categoria"],
-      _count: {
-        _all: true,
-      },
-    }),
-
-    Promise.all(
+  const grupos = await Promise.all(
       secoes.map(async (secao) => ({
         ...secao,
 
@@ -71,14 +63,6 @@ export default async function Home() {
           ],
         }),
       }))
-    ),
-  ]);
-
-  const quantidades = Object.fromEntries(
-    contagens.map((item) => [
-      item.categoria,
-      item._count._all,
-    ])
   );
 
   return (
@@ -90,7 +74,7 @@ export default async function Home() {
 
         <HomeHighlights />
 
-        <Categories quantidades={quantidades} />
+        <Categories />
 
         <FeaturedProducts />
 
@@ -121,11 +105,7 @@ export default async function Home() {
                     )}`}
                     className="w-fit rounded-lg border border-blue-200 px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                   >
-                    Ver todos (
-                    {quantidades[
-                      grupo.categoria
-                    ] ?? 0}
-                    ) →
+                    Ver todos →
                   </Link>
                 </div>
 
@@ -149,3 +129,4 @@ export default async function Home() {
     </>
   );
 }
+

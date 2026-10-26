@@ -44,11 +44,7 @@ const categorias = [
   },
 ];
 
-export default function Categories({
-  quantidades = {},
-}: {
-  quantidades?: Record<string, number>;
-}) {
+export default function Categories() {
   return (
     <section
       id="categorias"
@@ -95,15 +91,7 @@ export default function Categories({
                   {categoria.nome}
                 </h3>
 
-                <div className="mt-1 flex items-center justify-between">
-                  <span className="text-xs text-slate-500">
-                    {quantidades[categoria.url]
-                      ? `${quantidades[categoria.url]} produto${
-                          quantidades[categoria.url] === 1 ? "" : "s"
-                        }`
-                      : "Em breve"}
-                  </span>
-
+                <div className="mt-1 flex items-center justify-end">
                   <span className="text-sm font-semibold text-blue-600 transition-transform duration-300 group-hover:translate-x-1">
                     →
                   </span>
