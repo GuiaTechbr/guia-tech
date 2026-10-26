@@ -1,3 +1,4 @@
+import { APPLIANCES } from "@/lib/appliances";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./CategoryDesign.module.css";
@@ -19,7 +20,8 @@ export default function CategoryHero({ categoria, quantidade, descricao }: {
   const arte = artes[categoria];
   const nome = arte?.nome ?? categoria;
   return (
-    <section className={styles.hero}>
+    <section className={styles.hero} data-category={categoria === APPLIANCES ? "eletro" : undefined}>
+      {categoria === APPLIANCES && <div className={styles.applianceArt} aria-hidden="true"><Image src="/categorias/eletrodomesticos.png" alt="" width={640} height={400} priority /></div>}
       {arte && <div className={styles.art} data-art={arte.arquivo} aria-hidden="true">
         {/* Exibe somente a composição do banner aprovado. O texto é conteúdo real da página. */}
         <Image src={`/categorias/aprovadas/${arte.arquivo}.png`} alt="" width={1672} height={941} priority unoptimized />
@@ -37,4 +39,3 @@ export default function CategoryHero({ categoria, quantidade, descricao }: {
     </section>
   );
 }
-

@@ -9,6 +9,7 @@ import prisma from "@/lib/prisma";
 function atualizarCatalogo() {
   revalidatePath("/");
   revalidatePath("/ofertas");
+  revalidatePath("/categorias/eletrodomesticos");
   revalidatePath("/busca");
   revalidatePath("/favoritos");
   revalidatePath("/comparar");

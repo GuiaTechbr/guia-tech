@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import styles from "./CategoryDesign.module.css";
+import { APPLIANCES, grupoEletro } from "@/lib/appliances";
 
 type Produto = {
   id: number; nome: string; marca: string; categoria: string;
@@ -24,17 +25,24 @@ export default function CategoryComparison({ categoria, produtos }: {
   categoria: string; produtos: Produto[];
 }) {
   // Preserva a seleção e a ordem existentes na consulta da categoria.
-  const selecionados = produtos.filter(produto => produto.categoria === categoria).slice(0, 3);
+  const grupos = new Map<string, Produto[]>();
+  if (categoria === APPLIANCES) produtos.forEach(produto => {
+    const grupo = grupoEletro(produto);
+    if (grupo) grupos.set(grupo, [...(grupos.get(grupo) ?? []), produto]);
+  });
+  const selecionados = categoria === APPLIANCES
+    ? (Array.from(grupos.values()).find(grupo => grupo.length >= 2) ?? []).slice(0, 3)
+    : produtos.filter(produto => produto.categoria === categoria).slice(0, 3);
   const podeComparar = selecionados.length >= 2;
   return (
-    <section aria-labelledby="comparacao-categoria-titulo" className={styles.comparison}>
+    <section aria-labelledby="comparacao-categoria-titulo" className={styles.comparison} data-eletro-empty={categoria === APPLIANCES && selecionados.length === 0 ? "true" : undefined}>
       <div className={styles.copy}>
         <p className={styles.badge}>COMPARADOR GUIA TECH</p>
         <h2 id="comparacao-categoria-titulo">Compare {nomes[categoria] ?? categoria} lado a lado e faça a melhor escolha.</h2>
-        <p className={styles.comparisonDescription}>Analise especificações, veja as diferenças e encontre o modelo ideal para o seu uso.</p>
+        <p className={styles.comparisonDescription}>{categoria === APPLIANCES ? "Compare modelos do mesmo tipo usando capacidade, consumo, dimensões e outros dados cadastrados. Escolha sua subcategoria nos filtros abaixo." : "Analise especificações, veja as diferenças e encontre o modelo ideal para o seu uso."}</p>
         {podeComparar ? <Link href={`/comparar?ids=${selecionados.map(produto => produto.id).join(",")}`} prefetch={false} className={styles.button}>Comparar agora <ArrowRight size={22} aria-hidden="true" /></Link>
           : <button disabled className={styles.button}>Comparar agora <ArrowRight size={22} aria-hidden="true" /></button>}
-        {selecionados.length < 3 && <p className={styles.availability}>{podeComparar ? "Esta categoria tem dois produtos cadastrados. Você já pode comparar os dois lado a lado." : "A comparação ficará disponível quando houver pelo menos dois produtos cadastrados nesta categoria."}</p>}
+        {selecionados.length < 3 && <p className={styles.availability}>{categoria === APPLIANCES ? "A comparação requer ao menos dois modelos com a mesma subcategoria e o mesmo tipo de produto cadastrados." : podeComparar ? "Esta categoria tem dois produtos cadastrados. Você já pode comparar os dois lado a lado." : "A comparação ficará disponível quando houver pelo menos dois produtos cadastrados nesta categoria."}</p>}
       </div>
       {selecionados.length > 0 && <div className={styles.products}>
         {selecionados.map((produto, index) => {
@@ -53,5 +61,3 @@ export default function CategoryComparison({ categoria, produtos }: {
     </section>
   );
 }
-
-

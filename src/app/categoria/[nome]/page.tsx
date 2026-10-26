@@ -1,3 +1,4 @@
+import { APPLIANCES, caminhoCategoria } from "@/lib/appliances";
 import CategoryHero from "@/components/CategoryHero";
 import styles from "@/components/CategoryDesign.module.css";
 import type { Metadata } from "next";
@@ -48,7 +49,7 @@ export async function generateMetadata({
 
   const description = descricaoDaCategoria(categoria, quantidade);
 
-  const canonical = `/categoria/${encodeURIComponent(categoria)}`;
+  const canonical = caminhoCategoria(categoria);
 
   return {
     alternates: {
@@ -93,9 +94,7 @@ export default async function CategoriaPage({
 
   const descricao = descricaoDaCategoria(categoria, quantidade);
 
-  const categoriaUrl = `${SITE_URL}/categoria/${encodeURIComponent(
-    categoria
-  )}`;
+  const categoriaUrl = SITE_URL + caminhoCategoria(categoria);
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -165,7 +164,7 @@ export default async function CategoriaPage({
 
         <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
           <CategoryComparison categoria={categoria} produtos={produtos} />
-          {quantidade === 0 ? (
+          {categoria === APPLIANCES ? <CatalogProducts produtos={produtos} eletrodomesticos /> : quantidade === 0 ? (
             <div className="mx-auto max-w-2xl rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm sm:p-12">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-blue-50 text-blue-600">
                 <svg

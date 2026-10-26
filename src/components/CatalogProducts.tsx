@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { subcategoriasEletro, campoEletro, fichaEletro, filtrarEletro } from "@/lib/appliances";
 import ProductCard from "@/components/ProductCard";
 
 type ProdutoCatalogo = {
@@ -10,9 +11,19 @@ type ProdutoCatalogo = {
   categoria: string;
   preco: number | null;
   imagem: string | null;
+  fichaTecnica?: string | null;
 };
 
-export default function CatalogProducts({ produtos, filtrarCategoria = false, mostrarQuantidade = true }: { produtos: ProdutoCatalogo[]; filtrarCategoria?: boolean; mostrarQuantidade?: boolean }) {
+export default function CatalogProducts({ produtos, filtrarCategoria = false, mostrarQuantidade = true, eletrodomesticos = false }: { produtos: ProdutoCatalogo[]; filtrarCategoria?: boolean; mostrarQuantidade?: boolean; eletrodomesticos?: boolean }) {
+  const [subcategoria, setSubcategoria] = useState("");
+  const [busca, setBusca] = useState("");
+  const [tecnica, setTecnica] = useState("");
+  const [minimo, setMinimo] = useState("");
+  const subcategorias = Array.from(new Set([...subcategoriasEletro, ...produtos.map(p => campoEletro(p.fichaTecnica, "Subcategoria")).filter(Boolean)]));
+  const caracteristicas = new Map<string, string>();
+  if (eletrodomesticos) produtos.filter(p => !subcategoria || campoEletro(p.fichaTecnica, "Subcategoria") === subcategoria).forEach(p => fichaEletro(p.fichaTecnica).forEach((campo, chave) => {
+    if (!["marca", "nome", "modelo", "categoria", "subcategoria", "tipo de produto"].includes(chave)) caracteristicas.set(JSON.stringify([chave, campo.valor]), campo.titulo + ": " + campo.valor);
+  }));
   const [orcamento, setOrcamento] = useState("");
   const valorNormalizado = orcamento.trim().replace(/\s/g, "");
   const formatoValido = /^(?:\d+(?:[.,]\d{1,2})?|\d{1,3}(?:\.\d{3})+(?:,\d{1,2})?)$/.test(valorNormalizado);
@@ -25,7 +36,8 @@ export default function CatalogProducts({ produtos, filtrarCategoria = false, mo
   const [marca, setMarca] = useState("");
   const [ordem, setOrdem] = useState("recentes");
   const marcas = Array.from(new Set(produtos.map((produto) => produto.marca))).sort((a, b) => a.localeCompare(b, "pt-BR"));
-  const visiveis = produtos.filter((produto) => (!marca || produto.marca === marca) && (!filtrarCategoria || !categoria || produto.categoria === categoria) && (limite === null || (produto.preco !== null && produto.preco <= limite)));
+  const filtrados = !eletrodomesticos ? produtos : filtrarEletro(produtos, { subcategoria, busca, minimo, tecnica });
+  const visiveis = filtrados.filter((produto) => (!marca || produto.marca === marca) && (!filtrarCategoria || !categoria || produto.categoria === categoria) && (limite === null || (produto.preco !== null && produto.preco <= limite)));
 
   if (ordem === "nome") {
     visiveis.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR") || a.id - b.id);
@@ -40,6 +52,7 @@ export default function CatalogProducts({ produtos, filtrarCategoria = false, mo
   }
 
   function limparFiltros() {
+    setSubcategoria(""); setBusca(""); setTecnica(""); setMinimo("");
     setOrcamento("");
     setCategoria("");
     setMarca("");
@@ -49,6 +62,12 @@ export default function CatalogProducts({ produtos, filtrarCategoria = false, mo
   return (
     <div>
       <div className="mb-6 grid gap-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 md:grid-cols-2 md:items-end">
+        {eletrodomesticos && <>
+          <div><label htmlFor="eletro-busca" className="mb-2 block text-sm font-semibold text-slate-700">Buscar nesta categoria</label><input id="eletro-busca" value={busca} onChange={e => setBusca(e.target.value)} placeholder="Nome ou marca" className="w-full rounded-lg border border-slate-300 bg-white px-3 py-3 text-sm" /></div>
+          <div><label htmlFor="eletro-subcategoria" className="mb-2 block text-sm font-semibold text-slate-700">Subcategoria</label><select id="eletro-subcategoria" value={subcategoria} onChange={e => { setSubcategoria(e.target.value); setTecnica(""); }} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-3 text-sm"><option value="">Todas as subcategorias</option>{subcategorias.map(s => <option key={s}>{s}</option>)}</select></div>
+          <div><label htmlFor="eletro-minimo" className="mb-2 block text-sm font-semibold text-slate-700">Preço mínimo (R$)</label><input id="eletro-minimo" type="number" min="0" step="0.01" value={minimo} onChange={e => setMinimo(e.target.value)} placeholder="Sem mínimo" className="w-full rounded-lg border border-slate-300 bg-white px-3 py-3 text-sm" /></div>
+          {caracteristicas.size > 0 && <div><label htmlFor="eletro-tecnica" className="mb-2 block text-sm font-semibold text-slate-700">Características técnicas</label><select id="eletro-tecnica" value={tecnica} onChange={e => setTecnica(e.target.value)} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-3 text-sm"><option value="">Todas as características</option>{Array.from(caracteristicas).map(([valor, titulo]) => <option key={valor} value={valor}>{titulo}</option>)}</select></div>}
+        </>}
         {filtrarCategoria && (
           <div>
             <label htmlFor="catalogo-categoria" className="mb-2 block text-sm font-semibold text-slate-700">Categoria</label>
@@ -81,7 +100,7 @@ export default function CatalogProducts({ produtos, filtrarCategoria = false, mo
             {orcamentoInvalido ? "Digite um valor válido, como 3000 ou 3.000,00. O limite ainda não foi aplicado." : "Ex.: 3.000,00. Com um limite, produtos sem preço ficam ocultos."}
           </p>
         </div>
-        <button type="button" onClick={limparFiltros} disabled={!orcamento && !categoria && !marca && ordem === "recentes"} className="rounded-lg bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-700 hover:bg-blue-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:opacity-50">Limpar filtros</button>
+        <button type="button" onClick={limparFiltros} disabled={!subcategoria && !busca && !tecnica && !minimo && !orcamento && !categoria && !marca && ordem === "recentes"} className="rounded-lg bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-700 hover:bg-blue-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:opacity-50">Limpar filtros</button>
       </div>
 
       {mostrarQuantidade && <p role="status" aria-live="polite" className="mb-5 text-sm text-slate-500">Exibindo {visiveis.length} de {produtos.length} produto(s).</p>}
@@ -91,7 +110,7 @@ export default function CatalogProducts({ produtos, filtrarCategoria = false, mo
         </div>
       ) : (
         <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center">
-          <p className="font-semibold text-slate-900">Nenhum produto encontrado com estes filtros.</p>
+          <p className="font-semibold text-slate-900">{eletrodomesticos && produtos.length === 0 ? "Ainda não há eletrodomésticos cadastrados. Novas seleções serão adicionadas em breve." : "Nenhum produto encontrado com estes filtros."}</p>
           <button type="button" onClick={limparFiltros} className="mt-4 rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-700">Mostrar todos os produtos</button>
         </div>
       )}

@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
+import { APPLIANCES, subcategoriasEletro, campoFormularioEletro, atualizarCampoEletro } from "@/lib/appliances";
 
 type Produto = {
   id: number;
@@ -58,6 +59,7 @@ const categoriasPadrao = [
   "Wearables",
   "TV e Streaming",
   "Acessórios",
+  APPLIANCES,
 ];
 
 function normalizarBusca(texto: string) {
@@ -662,6 +664,19 @@ export default function AdminProdutosPage() {
                     </p>
                   </div>
                 </div>
+                {formulario.categoria === APPLIANCES && <div className="mt-5 grid gap-5 md:grid-cols-2">
+                  <div>
+                    <label htmlFor="subcategoria" className="mb-2 block text-sm font-semibold text-slate-700">Subcategoria *</label>
+                    <input id="subcategoria" list="subcategorias-eletro" required maxLength={120} value={campoFormularioEletro(formulario.fichaTecnica, "Subcategoria")} onChange={event => alterarCampo("fichaTecnica", atualizarCampoEletro(formulario.fichaTecnica, "Subcategoria", event.target.value))} className="w-full rounded-lg border border-slate-300 px-4 py-3" />
+                    <datalist id="subcategorias-eletro">{subcategoriasEletro.map(nome => <option key={nome} value={nome} />)}</datalist>
+                    <p className="mt-2 text-xs text-slate-500">Selecione uma sugestão ou informe uma nova subcategoria.</p>
+                  </div>
+                  <div>
+                    <label htmlFor="tipo-eletro" className="mb-2 block text-sm font-semibold text-slate-700">Tipo de produto *</label>
+                    <input id="tipo-eletro" required maxLength={120} value={campoFormularioEletro(formulario.fichaTecnica, "Tipo de produto")} onChange={event => alterarCampo("fichaTecnica", atualizarCampoEletro(formulario.fichaTecnica, "Tipo de produto", event.target.value))} placeholder="Ex.: Geladeira, Freezer, Cooktop, Air Fryer" className="w-full rounded-lg border border-slate-300 px-4 py-3" />
+                    <p className="mt-2 text-xs text-slate-500">Use o mesmo tipo para modelos comparáveis. Na ficha técnica, registre apenas características conhecidas no formato Campo: valor, como Capacidade: 400 L, Degelo: Frost Free, Inverter: Sim, Potência: 1500 W ou Capacidade: 12000 BTU/h.</p>
+                  </div>
+                </div>}
               </section>
 
               <section

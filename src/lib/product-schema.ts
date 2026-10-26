@@ -1,3 +1,4 @@
+import { caminhoCategoria } from "@/lib/appliances";
 import { SITE_URL } from "@/lib/site";
 
 type Produto = {
@@ -62,9 +63,7 @@ export function productSchema(produto: Produto) {
 
 export function breadcrumbSchema(produto: Produto) {
   const categoriaUrl =
-    SITE_URL +
-    "/categoria/" +
-    encodeURIComponent(produto.categoria);
+    SITE_URL + caminhoCategoria(produto.categoria);
 
   const produtoUrl =
     SITE_URL +

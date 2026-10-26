@@ -7,6 +7,7 @@ import { ArrowRight, Battery, Camera, CheckCircle2, CircleDollarSign, Cpu, HardD
 import ComparisonProductSearch from "./ComparisonProductSearch";
 import { normalizarBusca, type ProdutoComparacao, type ProdutoIndice } from "@/lib/comparison-products";
 import styles from "./ProductComparison.module.css";
+import { APPLIANCES, eletrosCompativeis, fichaEletro } from "@/lib/appliances";
 
 function linhas(texto: string | null) {
   return texto?.split("\n").map(linha => linha.trim()).filter(Boolean) ?? [];
@@ -88,10 +89,13 @@ export default function ProductComparison({ produtos, initialIds, initialProduto
     window.history.replaceState(null, "", url.pathname + url.search + url.hash);
   }
   const selecionados = selecionadosIndice.flatMap(produto => dados[produto.id] ? [dados[produto.id]] : []);
-  const fichas = selecionados.map(produto => especificacoes(produto.fichaTecnica));
+  const temEletro = selecionados.some(produto => produto.categoria === APPLIANCES);
+  const compativeis = eletrosCompativeis(selecionados);
+  const fichas = selecionados.map(produto => produto.categoria === APPLIANCES ? fichaEletro(produto.fichaTecnica) : especificacoes(produto.fichaTecnica));
   const campos = new Map<string, string>();
   fichas.forEach(ficha => ficha.forEach((campo, chave) => campos.set(chave, campo.titulo)));
   function linha(titulo: string, valores: ReactNode[], comparaveis = valores.map(String), chave = titulo) {
+    if (temEletro && comparaveis.every(valor => !valor.trim())) return null;
     const normalizados = comparaveis.map(valor => valor.trim().replace(/\s+/g, " ").toLocaleLowerCase("pt-BR"));
     if (apenasDiferencas && normalizados.length > 1 && new Set(normalizados).size === 1) return null;
     const Icone = icone(titulo);
@@ -104,7 +108,7 @@ export default function ProductComparison({ produtos, initialIds, initialProduto
     linha("Marca", selecionados.map(produto => produto.marca)),
     linha("Categoria", selecionados.map(produto => produto.categoria)),
     linha("Preço encontrado", selecionados.map(produto => produto.preco === null ? "Consulte na loja" : produto.preco.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }))),
-    ...Array.from(campos).filter(([chave]) => !(["marca", "categoria"].includes(chave) && fichas.every((ficha, index) => normalizarBusca(ficha.get(chave)?.valor ?? "") === normalizarBusca(chave === "marca" ? selecionados[index].marca : selecionados[index].categoria)))).map(([chave, titulo]) => linha(titulo, fichas.map(ficha => ficha.get(chave)?.valor || "Não informado"), undefined, `ficha:${chave}`)),
+    ...Array.from(campos).filter(([chave]) => temEletro ? !["marca", "categoria", "nome", "preco", "preço", "preço encontrado"].includes(chave) : !(["marca", "categoria"].includes(chave) && fichas.every((ficha, index) => normalizarBusca(ficha.get(chave)?.valor ?? "") === normalizarBusca(chave === "marca" ? selecionados[index].marca : selecionados[index].categoria)))).map(([chave, titulo]) => linha(titulo, fichas.map(ficha => ficha.get(chave)?.valor || "Não informado"), undefined, `ficha:${chave}`)),
     linha("Pontos positivos", selecionados.map(produto => lista(produto.pontosPositivos)), selecionados.map(produto => linhas(produto.pontosPositivos).join("\n"))),
     linha("Pontos de atenção", selecionados.map(produto => lista(produto.pontosAtencao)), selecionados.map(produto => linhas(produto.pontosAtencao).join("\n"))),
   ];
@@ -118,7 +122,8 @@ export default function ProductComparison({ produtos, initialIds, initialProduto
     <p role="status" className={styles.status}>{selecionadosIndice.length} de 3 produtos selecionados. {selecionadosIndice.length < 2 ? "Escolha pelo menos dois para comparar." : "No celular, deslize a tabela para ver todas as colunas."}</p>
     {faltantes && !erro && <p role="status" className={styles.loading}>Carregando informações dos produtos selecionados…</p>}
     {erro && <div role="alert" className={styles.error}>{erro} <button type="button" onClick={() => { setErro(""); setTentativa(atual => atual + 1); }}>Tentar novamente</button></div>}
-    {selecionadosIndice.length >= 2 && !faltantes && <>
+    {!faltantes && selecionadosIndice.length >= 2 && !compativeis && <p role="alert" className={styles.warning}>Escolha eletrodomésticos da mesma subcategoria e do mesmo tipo de produto. Subcategoria e tipo precisam estar informados no cadastro para comparar. Remova os itens incompatíveis nos seletores acima.</p>}
+    {selecionadosIndice.length >= 2 && !faltantes && compativeis && <>
       <label className={styles.differences}>
         <input type="checkbox" checked={apenasDiferencas} onChange={event => setApenasDiferencas(event.target.checked)} />Mostrar apenas diferenças
       </label>
@@ -143,4 +148,3 @@ export default function ProductComparison({ produtos, initialIds, initialProduto
     {produtos.length < 2 && <p className={styles.note}>Ainda não há produtos suficientes no catálogo para comparar. <Link href="/ofertas">Explorar ofertas</Link></p>}
   </>;
 }
-
