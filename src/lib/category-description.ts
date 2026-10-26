@@ -1,4 +1,5 @@
 const descricoesCategoria = new Map<string, string>([
+  ["Eletrodomésticos", "Explore eletrodomésticos para sua casa. Filtre por subcategoria, marca, preço e características cadastradas e compare modelos do mesmo tipo."],
   [
     "Smartphone",
     "Compare smartphones, confira especificações, pontos positivos, pontos de atenção e ofertas selecionadas para encontrar o celular ideal para você.",

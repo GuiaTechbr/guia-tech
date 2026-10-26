@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { APPLIANCES, caminhoCategoria } from "@/lib/appliances";
 
 const categorias = [
   {
@@ -42,6 +43,7 @@ const categorias = [
     url: "Acessórios",
     imagem: "/categorias/acessorios.jpg",
   },
+  { nome: APPLIANCES, url: APPLIANCES, imagem: "/categorias/eletrodomesticos.png" },
 ];
 
 export default function Categories() {
@@ -71,7 +73,7 @@ export default function Categories() {
           {categorias.map((categoria) => (
             <Link
               key={categoria.nome}
-              href={`/categoria/${encodeURIComponent(categoria.url)}`}
+              href={caminhoCategoria(categoria.url)}
               className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_12px_30px_rgba(37,99,235,0.14)] sm:w-auto sm:p-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
             >
               <div className="relative flex flex-1 items-center justify-center overflow-hidden rounded-xl bg-slate-50 p-3">
