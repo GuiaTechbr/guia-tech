@@ -75,8 +75,16 @@
  .art::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(232,244,255,.65),transparent 10%); pointer-events:none; }
 }
 
-.applianceArt { position:absolute; z-index:1; right:max(24px,calc((100% - 1220px)/2)); top:10px; bottom:10px; width:43%; display:flex; align-items:center; justify-content:center; }
-.applianceArt img { width:100%; height:100%; object-fit:contain; }
 .comparison[data-eletro-empty="true"] { grid-template-columns:1fr; padding:26px; }
 .comparison[data-eletro-empty="true"] .copy { max-width:850px; }
-@media(max-width:640px) { .applianceArt { top:auto; bottom:8px; right:8%; width:84%; height:180px; } }
+
+/* O cenário usa a camada de arte e o degradê compartilhados das categorias. */
+.art[data-art="eletrodomesticos"] { inset:0 0 0 auto; width:64%; height:100%; aspect-ratio:auto; }
+.art[data-art="eletrodomesticos"] img { inset:0; width:100%; height:100%; object-fit:cover; object-position:center 30%; }
+@media(max-width:640px) {
+ .art[data-art="eletrodomesticos"] { top:auto; width:100%; height:190px; }
+ .art[data-art="eletrodomesticos"] img { object-position:center; }
+}
+@media(min-width:641px) and (max-width:1000px) {
+ .art[data-art="eletrodomesticos"] { width:76%; }
+}

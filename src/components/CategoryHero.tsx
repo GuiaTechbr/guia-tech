@@ -12,6 +12,7 @@ const artes: Record<string, { nome: string; arquivo: string }> = {
   Wearables: { nome: "Wearables", arquivo: "wearables" },
   "TV e Streaming": { nome: "TV e Streaming", arquivo: "streaming" },
   "Acessórios": { nome: "Acessórios", arquivo: "acessorios" },
+  [APPLIANCES]: { nome: APPLIANCES, arquivo: "eletrodomesticos" },
 };
 
 export default function CategoryHero({ categoria, quantidade, descricao }: {
@@ -21,10 +22,12 @@ export default function CategoryHero({ categoria, quantidade, descricao }: {
   const nome = arte?.nome ?? categoria;
   return (
     <section className={styles.hero} data-category={categoria === APPLIANCES ? "eletro" : undefined}>
-      {categoria === APPLIANCES && <div className={styles.applianceArt} aria-hidden="true"><Image src="/categorias/eletrodomesticos.png" alt="" width={640} height={400} priority /></div>}
       {arte && <div className={styles.art} data-art={arte.arquivo} aria-hidden="true">
         {/* Exibe somente a composição do banner aprovado. O texto é conteúdo real da página. */}
-        <Image src={`/categorias/aprovadas/${arte.arquivo}.png`} alt="" width={1672} height={941} priority unoptimized />
+        <picture>
+          {categoria === APPLIANCES && <source media="(max-width:640px)" srcSet="/categorias/eletrodomesticos-ambiente-mobile.webp" />}
+        <Image src={categoria === APPLIANCES ? "/categorias/eletrodomesticos-ambiente.webp" : `/categorias/aprovadas/${arte.arquivo}.png`} alt="" width={categoria === APPLIANCES ? 2171 : 1672} height={categoria === APPLIANCES ? 724 : 941} priority unoptimized />
+        </picture>
       </div>}
       <div className={styles.heroInner}>
         <nav aria-label="Localização na página" className={styles.breadcrumb}>
