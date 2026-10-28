@@ -108,9 +108,9 @@ export default async function Home() {
       <main className="min-h-screen bg-slate-50">
         <HomeHero />
 
-        <Categories />
-
         <HomeHighlights />
+
+        <Categories />
 
         <FeaturedProducts />
 
