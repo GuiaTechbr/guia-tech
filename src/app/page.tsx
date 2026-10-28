@@ -9,8 +9,34 @@ import Categories from "@/components/Categories";
 import FeaturedProducts from "@/components/FeaturedProducts";
 import Footer from "@/components/Footer";
 import prisma from "@/lib/prisma";
+import { caminhoCategoria } from "@/lib/appliances";
 
 const secoes = [
+  {
+    categoria: "Casa Inteligente",
+    titulo: "Casa Inteligente",
+    descricao: "Explore automação, segurança e dispositivos conectados para sua casa.",
+  },
+  {
+    categoria: "Wearables",
+    titulo: "Wearables",
+    descricao: "Compare relógios e pulseiras para acompanhar sua rotina.",
+  },
+  {
+    categoria: "TV e Streaming",
+    titulo: "TV e Streaming",
+    descricao: "Conheça equipamentos de áudio e streaming para seu entretenimento.",
+  },
+  {
+    categoria: "Acessórios",
+    titulo: "Acessórios",
+    descricao: "Encontre fones, cases e complementos para seus dispositivos.",
+  },
+  {
+    categoria: "Eletrodomésticos",
+    titulo: "Eletrodomésticos",
+    descricao: "Compare soluções para a cozinha, a limpeza e o cuidado com a casa.",
+  },
   {
     categoria: "Smartphone",
     titulo: "Smartphones",
@@ -22,6 +48,16 @@ const secoes = [
     titulo: "Notebooks",
     descricao:
       "Explore opções para trabalhar, estudar e se divertir.",
+  },
+  {
+    categoria: "Smart TV",
+    titulo: "Smart TVs",
+    descricao: "Compare telas, recursos e tamanhos para escolher sua próxima TV.",
+  },
+  {
+    categoria: "Games",
+    titulo: "Games",
+    descricao: "Explore jogos, consoles e componentes para seu setup.",
   },
 ];
 
@@ -72,9 +108,9 @@ export default async function Home() {
       <main className="min-h-screen bg-slate-50">
         <HomeHero />
 
-        <HomeHighlights />
-
         <Categories />
+
+        <HomeHighlights />
 
         <FeaturedProducts />
 
@@ -100,12 +136,10 @@ export default async function Home() {
                   </div>
 
                   <Link
-                    href={`/categoria/${encodeURIComponent(
-                      grupo.categoria
-                    )}`}
+                    href={caminhoCategoria(grupo.categoria)}
                     className="w-fit rounded-lg border border-blue-200 px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                   >
-                    Ver todos →
+                    Ver todos em {grupo.titulo} →
                   </Link>
                 </div>
 
@@ -129,4 +163,3 @@ export default async function Home() {
     </>
   );
 }
-

@@ -7,50 +7,59 @@ const categorias = [
     nome: "Smartphones",
     url: "Smartphone",
     imagem: "/categorias/smartphone-2026.jpg",
+    descricao: "Câmeras, desempenho e bateria para o seu dia a dia.",
   },
   {
     nome: "Notebooks",
     url: "Notebook",
     imagem: "/categorias/notebook-2026.jpg",
+    descricao: "Opções para estudar, trabalhar e jogar.",
   },
   {
     nome: "Smart TVs",
     url: "Smart TV",
     imagem: "/categorias/smartv-2026.jpg",
+    descricao: "Telas e recursos para filmes, séries e jogos.",
   },
   {
     nome: "Games",
     url: "Games",
     imagem: "/categorias/games-2026.jpg",
+    descricao: "Jogos, consoles e componentes para seu setup.",
   },
   {
     nome: "Casa Inteligente",
     url: "Casa Inteligente",
     imagem: "/categorias/casa-inteligente-2026.jpg",
+    descricao: "Automação, segurança e dispositivos conectados.",
   },
   {
     nome: "Wearables",
     url: "Wearables",
     imagem: "/categorias/wearables-2026-v2.jpg",
+    descricao: "Relógios e pulseiras para acompanhar sua rotina.",
   },
   {
     nome: "TV e Streaming",
     url: "TV e Streaming",
     imagem: "/categorias/tv-streaming-2026-v2.jpg",
+    descricao: "Áudio e streaming para seu entretenimento.",
   },
   {
     nome: "Acessórios",
     url: "Acessórios",
     imagem: "/categorias/acessorios.jpg",
+    descricao: "Fones, cases e complementos para seus dispositivos.",
   },
-  { nome: APPLIANCES, url: APPLIANCES, imagem: "/categorias/eletrodomesticos.png" },
+  { nome: APPLIANCES, url: APPLIANCES, imagem: "/categorias/eletrodomesticos.png", descricao: "Soluções para a cozinha, a limpeza e o cuidado com a casa." },
 ];
 
 export default function Categories() {
   return (
     <section
       id="categorias"
-      className="scroll-mt-6 px-4 py-10 sm:px-6 sm:py-12 lg:px-8"
+      aria-labelledby="categorias-title"
+      className="scroll-mt-6 border-b border-slate-200 bg-slate-50 px-4 py-10 sm:px-6 sm:py-12 lg:px-8"
     >
       <div className="mx-auto max-w-7xl">
         <div className="mb-7 flex items-end justify-between gap-4">
@@ -59,8 +68,8 @@ export default function Categories() {
               Explore
             </span>
 
-            <h2 className="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-              Categorias
+            <h2 id="categorias-title" className="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+              Explore todas as categorias
             </h2>
 
             <p className="mt-2 max-w-xl text-sm leading-6 text-slate-500 sm:text-base">
@@ -69,7 +78,7 @@ export default function Categories() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5">
           {categorias.map((categoria) => (
             <Link
               key={categoria.nome}
@@ -92,6 +101,8 @@ export default function Categories() {
                 <h3 className="font-semibold text-slate-900 transition-colors duration-300 group-hover:text-blue-700">
                   {categoria.nome}
                 </h3>
+
+                <p className="mt-2 text-sm leading-6 text-slate-600">{categoria.descricao}</p>
 
                 <div className="mt-1 flex items-center justify-end">
                   <span className="text-sm font-semibold text-blue-600 transition-transform duration-300 group-hover:translate-x-1">
