@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ChevronRight, Percent } from "lucide-react";
+import { ArrowRight, Percent } from "lucide-react";
 import prisma from "@/lib/prisma";
 import styles from "./HomeHighlights.module.css";
 
@@ -9,12 +9,6 @@ function ReferenceArt({ x, y, width, height, className = "" }: { x: number; y: n
   return <div aria-hidden="true" className={`${styles.art} ${className}`} style={{ aspectRatio: `${width}/${height}`, maxWidth: `${width}px` }}><Image src="/images/topo-guiatech-aprovado.png" alt="" width={1672} height={941} sizes="1672px" className={styles.artImage} style={{ width: `${1672 / width * 100}%`, left: `${-x / width * 100}%`, top: `${-y / height * 100}%` }} /></div>;
 }
 
-const highlights = [
-  { tag: "Smartphones", title: "Melhores smartphones", description: "Compare desempenho, câmeras e custo-benefício.", category: "Smartphone", x: 275, width: 120, tone: "blue" },
-  { tag: "Notebooks", title: "Notebooks para trabalho e estudo", description: "Opções para todos os perfis e orçamentos.", category: "Notebook", x: 625, width: 165, tone: "green" },
-  { tag: "Smart TVs", title: "As melhores Smart TVs", description: "Imagem, som e recursos inteligentes.", category: "Smart TV", x: 1035, width: 170, tone: "orange" },
-  { tag: "Games", title: "Consoles e acessórios", description: "Tudo para sua experiência gamer.", category: "Games", x: 1420, width: 145, tone: "purple" },
-];
 const stores = [
   { name: "amazon", x: 319, width: 76 },
   { name: "Magazine Luiza", x: 430, width: 106 },
@@ -32,15 +26,8 @@ export default async function HomeHighlights() {
   return <section className={styles.section} aria-labelledby="home-highlights-title">
     <div className={styles.inner}>
       <div className={styles.heading}>
-        <div><h2 id="home-highlights-title">Em destaque no Guia Tech</h2><p>Explore produtos e compare opções para fazer a melhor escolha.</p></div>
+        <div><h2 id="home-highlights-title">Compare e encontre ofertas</h2><p>Explore produtos de todas as categorias para fazer a melhor escolha.</p></div>
         <Link href="#destaques">Ver todos os destaques <ArrowRight size={15} aria-hidden="true" /></Link>
-      </div>
-      <div className={styles.cards}>
-        {highlights.map(item => <Link href={`/categoria/${encodeURIComponent(item.category)}`} key={item.category} className={`${styles.card} ${styles[item.tone]}`}>
-          <div className={styles.cardCopy}><span className={styles.badge}>{item.tag}</span><h3>{item.title}</h3><p>{item.description}</p></div>
-          <ReferenceArt x={item.x} y={515} width={item.width} height={125} className={styles.cardArt} />
-          <span className={styles.circle}><ChevronRight size={20} aria-hidden="true" /></span>
-        </Link>)}
       </div>
       <div className={styles.stores} aria-label="Lojas de tecnologia">
         <p>Encontre tecnologia nas principais lojas:</p>
@@ -61,4 +48,3 @@ export default async function HomeHighlights() {
     </div>
   </section>;
 }
-
