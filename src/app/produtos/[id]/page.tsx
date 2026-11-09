@@ -209,7 +209,7 @@ export default async function ProdutoPage({
   return (
     <div
       className={
-        produto.linkAfiliado
+        (produto.linkAfiliado || produto.linkShopee)
           ? "pb-36 lg:pb-0"
           : ""
       }
@@ -308,7 +308,7 @@ export default async function ProdutoPage({
                   className="mt-7 scroll-mt-6 border-y border-slate-100 py-6"
                 >
                   <p className="text-sm font-medium text-slate-500">
-                    Preço encontrado
+                    Preço de referência Amazon
                   </p>
 
                   {produto.preco !== null ? (
@@ -343,7 +343,7 @@ export default async function ProdutoPage({
                   </div>
                 </div>
 
-                <div className="mt-8">
+                <div className="mt-8 space-y-3">
                   {produto.linkAfiliado ? (
                     <a
                       href={produto.linkAfiliado}
@@ -356,7 +356,14 @@ export default async function ProdutoPage({
                         →
                       </span>
                     </a>
-                  ) : (
+                  ) : null}
+                  {produto.linkShopee && (
+                    <a href={produto.linkShopee} target="_blank" rel="noopener noreferrer sponsored"
+                      className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#ee4d2d] px-6 py-4 text-center text-base font-bold text-white shadow-sm transition hover:bg-[#d73c1e] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ee4d2d] sm:text-lg">
+                      Ver oferta na Shopee <span aria-hidden="true">→</span>
+                    </a>
+                  )}
+                  {!produto.linkAfiliado && !produto.linkShopee && (
                     <div className="rounded-xl bg-slate-100 px-6 py-4 text-center text-sm font-semibold text-slate-500">
                       Oferta indisponível no momento
                     </div>
@@ -868,7 +875,7 @@ export default async function ProdutoPage({
                         <div className="mt-auto pt-5">
                           <p className="text-xs text-slate-500">
                             {relacionado.preco !== null
-                              ? "Preço encontrado"
+                              ? "Preço de referência Amazon"
                               : "Preço"}
                           </p>
 
@@ -903,46 +910,31 @@ export default async function ProdutoPage({
 
       <Footer />
 
-      {produto.linkAfiliado && (
+      {(produto.linkAfiliado || produto.linkShopee) && (
         <aside
           aria-label="Acesso rápido à oferta"
           className="fixed inset-x-0 bottom-0 z-40 border-t border-blue-100 bg-white px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-4px_20px_rgba(15,23,42,0.08)] lg:hidden"
         >
-          <div className="mx-auto flex max-w-3xl items-center justify-between gap-3">
-            <div className="min-w-0">
-              <p className="text-xs text-slate-500">
-                Preço encontrado
-              </p>
-
-              <p className="text-base font-bold text-slate-900 sm:text-xl">
-                {produto.preco !== null
-                  ? produto.preco.toLocaleString(
-                      "pt-BR",
-                      {
-                        style: "currency",
-                        currency: "BRL",
-                      }
-                    )
-                  : "Consulte na loja"}
-              </p>
+          <div className="mx-auto max-w-3xl">
+            <p className="mb-2 text-xs text-slate-500">
+              {produto.preco !== null
+                ? `Referência Amazon: ${produto.preco.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`
+                : "Consulte o preço nas lojas"}
+            </p>
+            <div className={`grid gap-2 ${produto.linkAfiliado && produto.linkShopee ? "grid-cols-2" : "grid-cols-1"}`}>
+              {produto.linkAfiliado && (
+                <a href={produto.linkAfiliado} target="_blank" rel="noopener noreferrer sponsored"
+                  className="rounded-xl bg-blue-600 px-3 py-3 text-center text-sm font-bold text-white transition hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                  Ver na Amazon <span aria-hidden="true">→</span><span className="sr-only"> (abre em nova aba)</span>
+                </a>
+              )}
+              {produto.linkShopee && (
+                <a href={produto.linkShopee} target="_blank" rel="noopener noreferrer sponsored"
+                  className="rounded-xl bg-[#ee4d2d] px-3 py-3 text-center text-sm font-bold text-white transition hover:bg-[#d73c1e] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ee4d2d]">
+                  Ver na Shopee <span aria-hidden="true">→</span><span className="sr-only"> (abre em nova aba)</span>
+                </a>
+              )}
             </div>
-
-            <a
-              href={produto.linkAfiliado}
-              target="_blank"
-              rel="noopener noreferrer sponsored"
-              className="shrink-0 rounded-xl bg-blue-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-            >
-              Ver oferta{" "}
-              <span aria-hidden="true">
-                →
-              </span>
-
-              <span className="sr-only">
-                {" "}
-                na Amazon (abre em nova aba)
-              </span>
-            </a>
           </div>
 
           <p className="mx-auto mt-2 max-w-3xl text-xs text-slate-500">

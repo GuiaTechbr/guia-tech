@@ -13,6 +13,7 @@ type Produto = {
   preco: number | null;
   imagem: string | null;
   linkAfiliado: string | null;
+  linkShopee: string | null;
   videoOficial: string | null;
   destaques: string | null;
   fichaTecnica: string | null;
@@ -28,6 +29,7 @@ type Formulario = {
   preco: string;
   imagem: string;
   linkAfiliado: string;
+  linkShopee: string;
   videoOficial: string;
   destaques: string;
   fichaTecnica: string;
@@ -43,6 +45,7 @@ const formularioInicial: Formulario = {
   preco: "",
   imagem: "",
   linkAfiliado: "",
+  linkShopee: "",
   videoOficial: "",
   destaques: "",
   fichaTecnica: "",
@@ -245,6 +248,7 @@ export default function AdminProdutosPage() {
           : "",
       imagem: produto.imagem || "",
       linkAfiliado: produto.linkAfiliado || "",
+      linkShopee: produto.linkShopee || "",
       videoOficial: produto.videoOficial || "",
       destaques: produto.destaques || "",
       fichaTecnica: produto.fichaTecnica || "",
@@ -970,7 +974,7 @@ export default function AdminProdutosPage() {
                       htmlFor="preco"
                       className="mb-2 block text-sm font-semibold text-slate-700"
                     >
-                      Preço (R$)
+                      Preço de referência Amazon (R$)
                     </label>
 
                     <input
@@ -1012,6 +1016,18 @@ export default function AdminProdutosPage() {
                       className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                       placeholder="https://www.amazon.com.br/..."
                     />
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <label htmlFor="linkShopee" className="mb-2 block text-sm font-semibold text-slate-700">
+                      Link de afiliado / Shopee
+                    </label>
+                    <input id="linkShopee" name="linkShopee" type="url"
+                      value={formulario.linkShopee}
+                      onChange={(event) => alterarCampo("linkShopee", event.target.value)}
+                      className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+                      placeholder="https://s.shopee.com.br/..." />
+                    <p className="mt-1 text-sm text-slate-500">Use o link gerado na sua conta de afiliados para o mesmo modelo e versão. Deixe vazio se não houver oferta correspondente.</p>
                   </div>
 
                   <div className="md:col-span-2">
