@@ -56,6 +56,13 @@ export const produtoInput = z.object({
   preco,
   imagem: linkOpcional("Imagem", true),
   linkAfiliado: linkOpcional("Link de afiliado"),
+  linkShopee: textoOpcional("Link Shopee", 8192).refine((valor) => {
+    if (valor === null) return true;
+    if (!urlWeb(valor)) return false;
+    const url = new URL(valor);
+    return url.protocol === "https:" && !url.port &&
+      ["shopee.com.br", "www.shopee.com.br", "s.shopee.com.br", "shope.ee"].includes(url.hostname);
+  }, "Link Shopee: use um endereço HTTPS oficial da Shopee.").optional(),
   videoOficial: linkOpcional("Vídeo oficial"),
 });
 
