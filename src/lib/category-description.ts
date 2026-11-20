@@ -34,6 +34,10 @@ const descricoesCategoria = new Map<string, string>([
 ],
 ]);
 
+export function categoriaEditorial(categoria: string): boolean {
+  return descricoesCategoria.has(categoria);
+}
+
 export function descricaoDaCategoria(categoria: string, quantidade: number): string {
   const personalizada = descricoesCategoria.get(categoria);
   if (personalizada) return personalizada;

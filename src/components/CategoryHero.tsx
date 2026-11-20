@@ -1,4 +1,4 @@
-import { APPLIANCES } from "@/lib/appliances";
+import { APPLIANCES, caminhoCategoria } from "@/lib/appliances";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./CategoryDesign.module.css";
@@ -15,8 +15,8 @@ const artes: Record<string, { nome: string; arquivo: string }> = {
   [APPLIANCES]: { nome: APPLIANCES, arquivo: "eletrodomesticos" },
 };
 
-export default function CategoryHero({ categoria, quantidade, descricao }: {
-  categoria: string; quantidade: number; descricao: string;
+export default function CategoryHero({ categoria, quantidade, descricao, subcategoria }: {
+  categoria: string; quantidade: number; descricao: string; subcategoria?: string;
 }) {
   const arte = artes[categoria];
   const nome = arte?.nome ?? categoria;
@@ -31,11 +31,13 @@ export default function CategoryHero({ categoria, quantidade, descricao }: {
       </div>}
       <div className={styles.heroInner}>
         <nav aria-label="Localização na página" className={styles.breadcrumb}>
-          <Link href="/">Início</Link><span aria-hidden="true">›</span><span aria-current="page">{nome}</span>
+          <Link href="/">Início</Link><span aria-hidden="true">›</span>
+          {subcategoria && <><Link href={caminhoCategoria(categoria)}>{nome}</Link><span aria-hidden="true">›</span></>}
+          <span aria-current="page">{subcategoria ?? nome}</span>
         </nav>
         <div className={styles.intro}>
           <p className={styles.eyebrow}>Categoria</p>
-          <h1>{nome}</h1>
+          <h1>{subcategoria ?? nome}</h1>
           <p className={styles.description}>{quantidade === 0 ? "Ainda não há produtos cadastrados nesta categoria. Novas seleções serão adicionadas em breve." : descricao}</p>
         </div>
       </div>
