@@ -53,7 +53,7 @@ export async function generateMetadata({
 }: Props): Promise<Metadata> {
   const { nome } = await params;
 
-  const categoria = nome;
+  const categoria = decodeURIComponent(nome);
 
   const query = (await searchParams) ?? {};
   const group = categoria === ACCESSORIES && typeof query.subcategoria === "string"
@@ -103,7 +103,7 @@ export default async function CategoriaPage({
 }: Props) {
   const { nome } = await params;
 
-  const categoria = nome;
+  const categoria = decodeURIComponent(nome);
 
   const query = (await searchParams) ?? {};
   const slug = categoria === ACCESSORIES ? query.subcategoria ?? "" : "";
