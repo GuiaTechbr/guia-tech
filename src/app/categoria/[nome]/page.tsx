@@ -31,6 +31,14 @@ function descreverSelecao(categoria: string, quantidade: number, grupo?: string)
     : descricaoDaCategoria(categoria, quantidade);
 }
 
+function decodificarCategoria(nome: string) {
+  try {
+    return decodeURIComponent(nome);
+  } catch {
+    return nome;
+  }
+}
+
 const carregarCategoria = cache(async (categoria: string) =>
   prisma.produto.findMany({
     where: { categoria },
@@ -53,7 +61,7 @@ export async function generateMetadata({
 }: Props): Promise<Metadata> {
   const { nome } = await params;
 
-  const categoria = decodeURIComponent(nome);
+  const categoria = decodificarCategoria(nome);
 
   const query = (await searchParams) ?? {};
   const group = categoria === ACCESSORIES && typeof query.subcategoria === "string"
@@ -103,7 +111,7 @@ export default async function CategoriaPage({
 }: Props) {
   const { nome } = await params;
 
-  const categoria = decodeURIComponent(nome);
+  const categoria = decodificarCategoria(nome);
 
   const query = (await searchParams) ?? {};
   const slug = categoria === ACCESSORIES ? query.subcategoria ?? "" : "";
