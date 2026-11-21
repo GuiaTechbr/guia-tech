@@ -10,6 +10,18 @@ import FeaturedProducts from "@/components/FeaturedProducts";
 import Footer from "@/components/Footer";
 import prisma from "@/lib/prisma";
 import { caminhoCategoria } from "@/lib/appliances";
+import { safeJsonLd } from "@/lib/product-schema";
+import { SITE_URL } from "@/lib/site";
+
+const siteName = "GuiaTech";
+const homeTitle = `${siteName} | Produtos, ofertas e comparações`;
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: siteName,
+  alternateName: "Guia Tech",
+  url: new URL("/", SITE_URL).href,
+};
 
 const secoes = [
   {
@@ -62,16 +74,16 @@ const secoes = [
 ];
 
 export const metadata: Metadata = {
-  title: { absolute: "Guia Tech | Produtos, ofertas e comparações" },
+  title: { absolute: homeTitle },
   description:
     "Explore produtos de tecnologia, confira características e compare opções para escolher melhor.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Guia Tech | Produtos, ofertas e comparações",
+    title: homeTitle,
     description:
       "Explore produtos de tecnologia, confira características e compare opções para escolher melhor.",
     url: "/",
-    siteName: "Guia Tech",
+    siteName,
     locale: "pt_BR",
     type: "website",
   },
@@ -103,6 +115,7 @@ export default async function Home() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(websiteSchema) }} />
       <Header />
 
       <main className="min-h-screen bg-slate-50">
