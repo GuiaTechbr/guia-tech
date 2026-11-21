@@ -4,7 +4,7 @@ import styles from "@/components/CategoryDesign.module.css";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { cache } from "react";
-import { descricaoDaCategoria } from "@/lib/category-description";
+import { categoriaEditorial, descricaoDaCategoria } from "@/lib/category-description";
 
 import CatalogProducts from "@/components/CatalogProducts";
 import CategoryComparison from "@/components/CategoryComparison";
@@ -24,6 +24,20 @@ type Props = {
     nome: string;
   }>;
 };
+
+function descreverSelecao(categoria: string, quantidade: number, grupo?: string) {
+  return grupo
+    ? `Compare ${grupo.toLowerCase()} no Guia Tech. Confira modelos, marcas e preços.`
+    : descricaoDaCategoria(categoria, quantidade);
+}
+
+function decodificarCategoria(nome: string) {
+  try {
+    return decodeURIComponent(nome);
+  } catch {
+    return nome;
+  }
+}
 
 const carregarCategoria = cache(async (categoria: string) =>
   prisma.produto.findMany({
@@ -47,16 +61,17 @@ export async function generateMetadata({
 }: Props): Promise<Metadata> {
   const { nome } = await params;
 
-  const categoria = decodeURIComponent(nome);
+  const categoria = decodificarCategoria(nome);
 
   const query = (await searchParams) ?? {};
   const group = categoria === ACCESSORIES && typeof query.subcategoria === "string"
     ? accessoryGroups.find(g => g.slug === query.subcategoria) : undefined;
   const todos = await carregarCategoria(categoria);
+  if (!todos.length && !categoriaEditorial(categoria)) notFound();
   const produtos = group ? selectAccessories(todos, group.slug) : todos;
   const quantidade = produtos.length;
 
-  const description = group ? `Explore ${group.nome.toLowerCase()} no Guia Tech. Compare modelos e filtre por marca e preço.` : descricaoDaCategoria(categoria, quantidade);
+  const description = descreverSelecao(categoria, quantidade, group?.nome);
 
   const canonical = group ? accessoryPath(group.slug) : caminhoCategoria(categoria);
 
@@ -96,18 +111,19 @@ export default async function CategoriaPage({
 }: Props) {
   const { nome } = await params;
 
-  const categoria = decodeURIComponent(nome);
+  const categoria = decodificarCategoria(nome);
 
   const query = (await searchParams) ?? {};
   const slug = categoria === ACCESSORIES ? query.subcategoria ?? "" : "";
   const group = accessoryGroups.find(g => g.slug === slug);
   if (slug && !group) notFound();
   const todos = await carregarCategoria(categoria);
+  if (!todos.length && !categoriaEditorial(categoria)) notFound();
   const produtos = group ? selectAccessories(todos, group.slug) : todos;
 
   const quantidade = produtos.length;
 
-  const descricao = descricaoDaCategoria(categoria, quantidade);
+  const descricao = descreverSelecao(categoria, quantidade, group?.nome);
 
   const categoriaUrl = SITE_URL + caminhoCategoria(categoria);
 
@@ -176,12 +192,12 @@ export default async function CategoriaPage({
       <Header />
 
       <main className={styles.page}>
-        <CategoryHero categoria={categoria} quantidade={quantidade} descricao={descricao} />
+        <CategoryHero categoria={categoria} quantidade={quantidade} descricao={descricao} subcategoria={group?.nome} />
 
         <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
           {categoria === ACCESSORIES && <AccessoryNavigation produtos={todos} selecionada={group?.slug ?? ""} />}
           {categoria === ACCESSORIES && <div id="catalogo-acessorios" className="mb-6 scroll-mt-6">
-            <h2 className="text-2xl font-bold text-slate-900">{group?.nome ?? "Todos os acessórios"}</h2>
+            <h2 className="text-2xl font-bold text-slate-900">{group ? "Produtos desta seleção" : "Todos os acessórios"}</h2>
             <p className="mt-2 text-sm text-slate-600">{quantidade} produto(s) disponíveis nesta seleção.</p>
           </div>}
           <CategoryComparison categoria={categoria} produtos={produtos} />

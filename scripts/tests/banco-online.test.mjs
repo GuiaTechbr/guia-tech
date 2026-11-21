@@ -42,9 +42,9 @@ test("libSQL preserva todos os campos, datas antigas, IDs e sequências; confer�
   let local;
   let copia;
   try {
-    db.exec(`CREATE TABLE Produto (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, marca TEXT NOT NULL, categoria TEXT NOT NULL, descricao TEXT, preco REAL, imagem TEXT, linkAfiliado TEXT, videoOficial TEXT, destaques TEXT, fichaTecnica TEXT, pontosPositivos TEXT, pontosAtencao TEXT, criadoEm DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP);
+    db.exec(`CREATE TABLE Produto (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, marca TEXT NOT NULL, categoria TEXT NOT NULL, descricao TEXT, preco REAL, imagem TEXT, linkAfiliado TEXT, linkShopee TEXT, videoOficial TEXT, destaques TEXT, fichaTecnica TEXT, pontosPositivos TEXT, pontosAtencao TEXT, criadoEm DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP);
       CREATE TABLE Admin (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT NOT NULL UNIQUE, senhaHash TEXT NOT NULL, criadoEm DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP);`);
-    db.prepare("INSERT INTO Produto VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)").run(27, "Câmera de teste", "Marca", "Casa Inteligente", "Descrição", 123.45, "/produtos/teste.png", "https://example.com/oferta", "https://example.com/video", "Destaque", "Ficha", "Ponto positivo", "Atenção", 1750000000000);
+    db.prepare("INSERT INTO Produto VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)").run(27, "Câmera de teste", "Marca", "Casa Inteligente", "Descrição", 123.45, "/produtos/teste.png", "https://example.com/oferta", "https://example.com/shopee", "https://example.com/video", "Destaque", "Ficha", "Ponto positivo", "Atenção", 1750000000000);
     db.prepare("INSERT INTO Admin (id,email,senhaHash,criadoEm) VALUES (?,?,?,?)").run(4, "teste@example.invalid", "hash-ficticio", "2026-09-23T10:00:00.000+00:00");
     db.exec("UPDATE sqlite_sequence SET seq=99 WHERE name='Produto'");
     await db.backup(destino);

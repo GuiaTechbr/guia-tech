@@ -21,9 +21,9 @@ test("backup inclui WAL, preserva IDs e campos; cópia restaurada mantém CRUD a
   let prisma;
   try {
     db.pragma("journal_mode = WAL");
-    db.exec(`CREATE TABLE Produto (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, marca TEXT NOT NULL, categoria TEXT NOT NULL, descricao TEXT, preco REAL, imagem TEXT, linkAfiliado TEXT, videoOficial TEXT, destaques TEXT, fichaTecnica TEXT, pontosPositivos TEXT, pontosAtencao TEXT, criadoEm DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP);
+    db.exec(`CREATE TABLE Produto (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, marca TEXT NOT NULL, categoria TEXT NOT NULL, descricao TEXT, preco REAL, imagem TEXT, linkAfiliado TEXT, linkShopee TEXT, videoOficial TEXT, destaques TEXT, fichaTecnica TEXT, pontosPositivos TEXT, pontosAtencao TEXT, criadoEm DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP);
       CREATE TABLE Admin (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT NOT NULL UNIQUE, senhaHash TEXT NOT NULL, criadoEm DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP);`);
-    db.prepare("INSERT INTO Produto (id,nome,marca,categoria,preco,videoOficial,criadoEm) VALUES (?,?,?,?,?,?,?)").run(27,"Câmera de teste","Marca","Casa Inteligente",null,"https://example.com/video",1750000000000);
+    db.prepare("INSERT INTO Produto (id,nome,marca,categoria,preco,linkAfiliado,linkShopee,videoOficial,criadoEm) VALUES (?,?,?,?,?,?,?,?,?)").run(27,"Câmera de teste","Marca","Casa Inteligente",null,"https://example.com/amazon","https://example.com/shopee","https://example.com/video",1750000000000);
     db.prepare("INSERT INTO Admin (id,email,senhaHash) VALUES (?,?,?)").run(4,"teste@example.invalid","hash-ficticio");
     const backup = await createBackup(original, path.join(directory, "backups"));
     assert.equal(backup.produtos, 1);
@@ -37,6 +37,8 @@ test("backup inclui WAL, preserva IDs e campos; cópia restaurada mantém CRUD a
     assert.equal(product.criadoEm.getTime(), 1750000000000);
     assert.equal(product.videoOficial, "https://example.com/video");
     assert.equal(product.preco, null);
+    assert.equal(product.linkAfiliado, "https://example.com/amazon");
+    assert.equal(product.linkShopee, "https://example.com/shopee");
     const created = await prisma.produto.create({ data: { nome: "Novo", marca: "Marca", categoria: "Acessórios" } });
     assert.ok(created.id > 27);
     await prisma.produto.update({ where: { id: created.id }, data: { nome: "Atualizado" } });
